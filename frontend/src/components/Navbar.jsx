@@ -36,10 +36,10 @@ export default function Navbar() {
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-2.5">
                         <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-brand-600/40">
-                            LC
+                            CR
                         </div>
                         <span className="font-bold text-slate-100 hidden sm:block">
-                            Smart <span className="text-brand-400">Tracker</span>
+                            Code<span className="text-brand-400">Recall</span>
                         </span>
                     </Link>
 

@@ -1,7 +1,7 @@
 {
-  "name": "smart-leetcode-tracker-backend",
+  "name": "coderecall-backend",
   "version": "1.0.0",
-  "description": "Backend for Smart LeetCode Revision Tracker",
+  "description": "Backend for CodeRecall Tracker",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

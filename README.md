@@ -1,4 +1,4 @@
-# 🧠 Smart LeetCode Revision Tracker
+# 🧠 CodeRecall - LeetCode Revision Tracker
 
 A full-stack MERN application to track LeetCode problems and schedule revisions using the **SM-2 spaced repetition algorithm**.
 

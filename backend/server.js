@@ -19,7 +19,7 @@ app.use('/api/analytics', require('./routes/analyticsRoutes'));
 app.use('/api/algorithms', require('./routes/algorithmRoutes'));
 
 // Health check
-app.get('/', (req, res) => res.json({ message: '🚀 Smart LeetCode Tracker API running' }));
+app.get('/', (req, res) => res.json({ message: '🚀 CodeRecall API running' }));
 
 // 404 handler
 app.use((req, res) => {
