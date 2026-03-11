@@ -247,17 +247,30 @@ export default function Dashboard() {
                     {reminders.count > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {reminders.reminders.slice(0, 6).map((p) => (
-                                <Link 
-                                    to="/review" 
+                                <div 
                                     key={p._id}
                                     className="p-3 bg-brand-500/10 rounded-xl border border-brand-500/10 hover:border-brand-400/30 transition-all flex items-center justify-between group/item"
                                 >
-                                    <div className="min-w-0">
-                                        <p className="text-sm font-bold text-slate-200 truncate group-hover/item:text-brand-400">{p.title}</p>
+                                    <div className="min-w-0 pr-2">
+                                        <a 
+                                            href={p.leetcodeUrl} 
+                                            target="_blank" 
+                                            rel="noreferrer" 
+                                            className="text-sm font-bold text-slate-200 truncate hover:text-brand-400 transition-colors block"
+                                            title="Open on LeetCode"
+                                        >
+                                            {p.title}
+                                        </a>
                                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{p.difficulty}</p>
                                     </div>
-                                    <span className="text-xs">🔄</span>
-                                </Link>
+                                    <Link 
+                                        to="/review" 
+                                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-brand-500/10 hover:bg-brand-500/30 text-brand-400 transition-all border border-brand-500/20"
+                                        title="Revise now"
+                                    >
+                                        🔄
+                                    </Link>
+                                </div>
                             ))}
                             {reminders.count > 6 && (
                                 <Link to="/review" className="p-3 flex items-center justify-center text-xs font-bold text-brand-400 hover:bg-brand-500/5 rounded-xl border border-dashed border-brand-500/30">
@@ -359,7 +372,11 @@ export default function Dashboard() {
                             {stats?.recentProblems?.length > 0 ? (
                                 stats.recentProblems.map((p) => (
                                     <tr key={p._id} className="group hover:bg-brand-500/5 transition-colors">
-                                        <td className="py-4 px-4 text-slate-100 font-medium">{p.title}</td>
+                                        <td className="py-4 px-4 text-slate-100 font-medium">
+                                            <a href={p.leetcodeUrl} target="_blank" rel="noreferrer" className="hover:text-brand-400 transition-colors">
+                                                {p.title}
+                                            </a>
+                                        </td>
                                         <td className="py-4 px-4 text-slate-100 font-medium">
                                             <span className={
                                                 p.difficulty === 'Easy' ? 'badge-easy' :

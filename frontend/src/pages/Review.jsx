@@ -143,7 +143,11 @@ export default function Review() {
                     </div>
                 </div>
 
-                <h2 className="text-2xl font-bold text-slate-100 mb-4 leading-tight">{problem.title}</h2>
+                <h2 className="text-2xl font-bold text-slate-100 mb-4 leading-tight">
+                    <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="hover:text-brand-400 transition-colors">
+                        {problem.title}
+                    </a>
+                </h2>
 
                 {problem.leetcodeUrl && (
                     <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer"

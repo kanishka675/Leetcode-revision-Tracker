@@ -14,7 +14,11 @@ export default function ProblemCard({ problem, onDelete, onNotesClick, deleting,
                         }>
                             {problem.difficulty}
                         </span>
-                        <h3 className="font-semibold text-slate-100 text-base truncate">{problem.title}</h3>
+                        <h3 className="font-semibold text-slate-100 text-base truncate">
+                            <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="hover:text-brand-400 transition-colors">
+                                {problem.title}
+                            </a>
+                        </h3>
                         {problem.leetcodeUrl && (
                             <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer"
                                 className="text-brand-400 hover:text-brand-300 text-xs underline">

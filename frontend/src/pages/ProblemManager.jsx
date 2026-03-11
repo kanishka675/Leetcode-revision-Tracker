@@ -336,7 +336,9 @@ export default function ProblemManager() {
                                                         <span className="text-xs text-slate-500">#{p.revisionCount} reviews</span>
                                                     </div>
                                                     <h3 className="text-lg font-bold text-slate-100 group-hover:text-brand-400 transition-colors truncate">
-                                                        {p.title}
+                                                        <a href={p.leetcodeUrl} target="_blank" rel="noreferrer" className="hover:underline">
+                                                            {p.title}
+                                                        </a>
                                                     </h3>
                                                     <div className="flex flex-wrap gap-2 mt-3">
                                                         {p.topics.map(t => <span key={t} className="topic-tag">{t}</span>)}
