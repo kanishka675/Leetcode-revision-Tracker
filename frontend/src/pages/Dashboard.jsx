@@ -185,7 +185,7 @@ export default function Dashboard() {
             {/* Greeting */}
             <motion.div variants={itemVariants} className="text-center sm:text-left">
                 <h1 className="text-4xl font-extrabold text-slate-100 tracking-tight">
-                    Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-indigo-400">{user?.name?.split(' ')[0]}</span>.
+                    Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-indigo-400">{user?.name?.split(' ')[0]}</span>
                 </h1>
                 <p className="text-slate-400 mt-2 text-lg">Here's your coding progress at a glance.</p>
             </motion.div>
