@@ -20,7 +20,7 @@ const algorithmSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ['array', 'graph', 'other'],
+        enum: ['array', 'graph', 'linked-list', 'algorithm', 'other'],
         default: 'array'
     },
     steps: [{

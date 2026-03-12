@@ -128,7 +128,7 @@ export default function Dashboard() {
             legend: {
                 position: 'bottom',
                 labels: {
-                    color: isDark ? '#94a3b8' : '#475569',
+                    color: isDark ? '#94a3b8' : '#334155',
                     font: { size: 12, family: 'Inter' },
                     padding: 20,
                     usePointStyle: true,
@@ -136,8 +136,8 @@ export default function Dashboard() {
             },
             tooltip: {
                 backgroundColor: isDark ? '#1e293b' : '#ffffff',
-                titleColor: isDark ? '#f1f5f9' : '#0f172a',
-                bodyColor: isDark ? '#94a3b8' : '#475569',
+                titleColor: isDark ? '#f1f5f9' : '#020617',
+                bodyColor: isDark ? '#94a3b8' : '#334155',
                 borderColor: isDark ? '#334155' : '#e2e8f0',
                 borderWidth: 1,
                 padding: 12,
@@ -153,11 +153,11 @@ export default function Dashboard() {
             y: {
                 beginAtZero: true,
                 grid: { color: isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(226, 232, 240, 0.8)' },
-                ticks: { color: isDark ? '#64748b' : '#94a3b8', stepSize: 1 },
+                ticks: { color: isDark ? '#64748b' : '#475569', stepSize: 1 },
             },
             x: {
                 grid: { display: false },
-                ticks: { color: isDark ? '#64748b' : '#94a3b8' },
+                ticks: { color: isDark ? '#64748b' : '#475569' },
             },
         },
     };

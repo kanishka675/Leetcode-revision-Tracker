@@ -51,7 +51,7 @@ export default function Navbar() {
                                 to={to}
                                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive(to)
                                         ? 'bg-brand-600/20 text-brand-400 border border-brand-500/30'
-                                        : 'text-slate-400 hover:text-slate-100 hover:bg-dark-700'
+                                        : 'text-slate-400 hover:text-brand-400 hover:bg-brand-500/10'
                                     }`}
                             >
                                 <span>{icon}</span>
@@ -103,7 +103,7 @@ export default function Navbar() {
                             onClick={() => setMenuOpen(false)}
                             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${isActive(to)
                                     ? 'bg-brand-600/20 text-brand-400'
-                                    : 'text-slate-400 hover:text-slate-100 hover:bg-dark-700'
+                                    : 'text-slate-400 hover:text-brand-400 hover:bg-brand-500/10'
                                 }`}
                         >
                             {icon} {label}

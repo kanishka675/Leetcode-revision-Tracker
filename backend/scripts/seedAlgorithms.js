@@ -78,6 +78,65 @@ const algorithms = [
             { label: 'Stack/Recursion', description: 'Visit a node and recursively visit each of its neighbors.' },
             { label: 'Backtrack', description: 'When a node has no unvisited neighbors, backtrack to the previous node.' }
         ]
+    },
+    {
+        name: 'fast-slow-pointers',
+        title: 'Fast & Slow Pointers',
+        explanation: 'Also known as the Tortoise and Hare algorithm, it uses two pointers moving at different speeds to detect cycles or find the middle of a data structure.',
+        exampleProblem: {
+            title: 'Linked List Cycle',
+            url: 'https://leetcode.com/problems/linked-list-cycle/'
+        },
+        type: 'linked-list',
+        steps: [
+            { label: 'Initialize', description: 'Set both slow and fast pointers to the head.' },
+            { label: 'Move', description: 'Move slow by 1 step and fast by 2 steps.' },
+            { label: 'Detect', description: 'If pointers meet, a cycle exists. If fast reaches the end, no cycle exists.' }
+        ]
+    },
+    {
+        name: 'cyclic-sort',
+        title: 'Cyclic Sort',
+        explanation: 'An efficient O(N) sort for arrays containing numbers in a given range (e.g., 1 to N), by placing each number at its correct index.',
+        exampleProblem: {
+            title: 'Missing Number',
+            url: 'https://leetcode.com/problems/missing-number/'
+        },
+        type: 'array',
+        steps: [
+            { label: 'Verify Position', description: 'Check if the number at the current index is in its correct place (val - 1).' },
+            { label: 'Swap', description: 'If not correct, swap it with the number at its target index.' },
+            { label: 'Iterate', description: 'Repeat until the current number is correct, then move to the next index.' }
+        ]
+    },
+    {
+        name: 'divide-conquer',
+        title: 'Divide & Conquer',
+        explanation: 'A paradigm that breaks a problem into smaller subproblems, solves them recursively, and combines the results (e.g., Merge Sort, Quick Sort).',
+        exampleProblem: {
+            title: 'Merge Sort',
+            url: 'https://leetcode.com/problems/sort-an-array/'
+        },
+        type: 'algorithm',
+        steps: [
+            { label: 'Divide', description: 'Break the problem into smaller subproblems of the same type.' },
+            { label: 'Conquer', description: 'Solve subproblems recursively (base case: trivial subproblem).' },
+            { label: 'Combine', description: 'Merge subproblem solutions to solve the original problem.' }
+        ]
+    },
+    {
+        name: 'prefix-sum',
+        title: 'Prefix Sum',
+        explanation: 'A technique that stores cumulative sums in an array to allow O(1) time complexity for range sum queries.',
+        exampleProblem: {
+            title: 'Range Sum Query',
+            url: 'https://leetcode.com/problems/range-sum-query-immutable/'
+        },
+        type: 'array',
+        steps: [
+            { label: 'Build', description: 'Create an array where each index i stores the sum of all elements up to i.' },
+            { label: 'Query', description: 'Sum of range [L, R] is prefix[R] - prefix[L-1].' }
+        ]
     }
 ];
 
