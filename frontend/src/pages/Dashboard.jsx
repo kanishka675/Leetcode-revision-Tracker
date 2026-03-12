@@ -46,9 +46,9 @@ export default function Dashboard() {
         const fetchStats = async () => {
             try {
                 const [dashboardRes, weeklyRes, reminderRes] = await Promise.all([
-                    api.get('/dashboard'),
-                    api.get('/analytics/weekly'),
-                    api.get('/problems/reminders')
+                    api.get('/api/dashboard'),
+                    api.get('/api/analytics/weekly'),
+                    api.get('/api/problems/reminders')
                 ]);
                 setStats(dashboardRes.data);
                 setWeeklyStats(weeklyRes.data);

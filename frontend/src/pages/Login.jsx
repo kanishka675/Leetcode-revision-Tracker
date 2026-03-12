@@ -16,7 +16,7 @@ export default function Login() {
         e.preventDefault();
         setLoading(true);
         try {
-            const { data } = await api.post('/auth/login', form);
+            const { data } = await api.post('/api/auth/login', form);
             login(data);
             toast.success(`Welcome back, ${data.name}! 👋`);
             navigate('/');

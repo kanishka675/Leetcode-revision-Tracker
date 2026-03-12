@@ -20,7 +20,7 @@ export default function Register() {
         }
         setLoading(true);
         try {
-            const { data } = await api.post('/auth/register', form);
+            const { data } = await api.post('/api/auth/register', form);
             login(data);
             toast.success(`Account created! Welcome, ${data.name}! 🎉`);
             navigate('/');

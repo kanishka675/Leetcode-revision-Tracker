@@ -40,7 +40,7 @@ export default function ProblemManager() {
             if (filters.topic) params.topic = filters.topic;
             if (filters.difficulty) params.difficulty = filters.difficulty;
             if (filters.search) params.search = filters.search;
-            const { data } = await api.get('/problems', { params });
+            const { data } = await api.get('/api/problems', { params });
             setProblems(data);
         } catch (err) {
             toast.error('Failed to fetch problems');
@@ -69,7 +69,7 @@ export default function ProblemManager() {
         if (form.topics.length === 0) return toast.error('Select at least one topic');
         setSubmitting(true);
         try {
-            await api.post('/problems', form);
+            await api.post('/api/problems', form);
             toast.success('Problem added! 🎉');
             setForm(defaultForm);
             setShowAddForm(false);
@@ -85,7 +85,7 @@ export default function ProblemManager() {
         if (!window.confirm('Delete this problem?')) return;
         setDeleting(id);
         try {
-            await api.delete(`/problems/${id}`);
+            await api.delete(`/api/problems/${id}`);
             setProblems((prev) => prev.filter((p) => p._id !== id));
             toast.success('Problem deleted');
         } catch {
@@ -97,7 +97,7 @@ export default function ProblemManager() {
 
     const handleQuickRevise = async (id) => {
         try {
-            await api.post(`/problems/${id}/revise`);
+            await api.post(`/api/problems/${id}/revise`);
             toast.success('Revision logged! 🔁');
             fetchProblems();
         } catch {

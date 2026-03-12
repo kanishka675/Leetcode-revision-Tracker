@@ -16,7 +16,7 @@ export default function AlgorithmsPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get('/algorithms')
+        api.get('/api/algorithms')
             .then(({ data }) => {
                 setAlgorithms(data);
                 if (data.length > 0) setSelectedAlg(data[0]);

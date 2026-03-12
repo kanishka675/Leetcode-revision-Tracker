@@ -19,7 +19,7 @@ export default function Review() {
     useEffect(() => {
         const fetchDue = async () => {
             try {
-                const { data } = await api.get('/problems/due');
+                const { data } = await api.get('/api/problems/due');
                 setDueProblems(data);
             } catch {
                 toast.error('Failed to load revision queue');
@@ -34,7 +34,7 @@ export default function Review() {
         const problem = dueProblems[current];
         setSubmitting(true);
         try {
-            await api.post(`/problems/${problem._id}/revise`);
+            await api.post(`/api/problems/${problem._id}/revise`);
             setReviewed((r) => r + 1);
             toast.success('Revision logged! next session scheduled.');
             if (current + 1 >= dueProblems.length) {

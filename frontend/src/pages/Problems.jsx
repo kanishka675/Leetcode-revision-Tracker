@@ -30,7 +30,7 @@ export default function Problems() {
             if (filters.topic) params.topic = filters.topic;
             if (filters.difficulty) params.difficulty = filters.difficulty;
             if (filters.search) params.search = filters.search;
-            const { data } = await api.get('/problems', { params });
+            const { data } = await api.get('/api/problems', { params });
             setProblems(data);
         } catch (err) {
             toast.error('Failed to fetch problems');
@@ -48,7 +48,7 @@ export default function Problems() {
         if (!window.confirm('Delete this problem?')) return;
         setDeleting(id);
         try {
-            await api.delete(`/problems/${id}`);
+            await api.delete(`/api/problems/${id}`);
             setProblems((prev) => prev.filter((p) => p._id !== id));
             toast.success('Problem deleted');
         } catch {
