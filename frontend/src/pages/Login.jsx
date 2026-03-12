@@ -38,10 +38,10 @@ export default function Login() {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-600 rounded-2xl shadow-2xl shadow-brand-600/40 mb-4">
-                        <span className="text-2xl font-bold text-white">LC</span>
+                        <span className="text-2xl font-bold text-white">CR</span>
                     </div>
-                    <h1 className="text-3xl font-bold text-slate-100">Welcome back</h1>
-                    <p className="text-slate-400 mt-1">Sign in to your tracker</p>
+                    <h1 className="text-3xl font-bold text-slate-100">Code <span className="text-brand-400">Recall</span></h1>
+                    <p className="text-slate-400 mt-1">Sign in to your revision tracker</p>
                 </div>
 
                 {/* Card */}
