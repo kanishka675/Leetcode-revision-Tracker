@@ -9,6 +9,16 @@ import FastSlowPointerVisualizer from '../components/visualizers/FastSlowPointer
 import CyclicSortVisualizer from '../components/visualizers/CyclicSortVisualizer';
 import DivideAndConquerVisualizer from '../components/visualizers/DivideAndConquerVisualizer';
 import PrefixSumVisualizer from '../components/visualizers/PrefixSumVisualizer';
+import MonotonicStackVisualizer from '../components/visualizers/MonotonicStackVisualizer';
+import HeapVisualizer from '../components/visualizers/HeapVisualizer';
+import KadaneVisualizer from '../components/visualizers/KadaneVisualizer';
+import UnionFindVisualizer from '../components/visualizers/UnionFindVisualizer';
+import DPGridVisualizer from '../components/visualizers/DPGridVisualizer';
+import MergeIntervalsVisualizer from '../components/visualizers/MergeIntervalsVisualizer';
+import TopologicalSortVisualizer from '../components/visualizers/TopologicalSortVisualizer';
+import TrieVisualizer from '../components/visualizers/TrieVisualizer';
+import BitManipulationVisualizer from '../components/visualizers/BitManipulationVisualizer';
+import GreedyVisualizer from '../components/visualizers/GreedyVisualizer';
 
 export default function AlgorithmsPage() {
     const [algorithms, setAlgorithms] = useState([]);
@@ -37,6 +47,16 @@ export default function AlgorithmsPage() {
             case 'cyclic-sort': return <CyclicSortVisualizer />;
             case 'divide-conquer': return <DivideAndConquerVisualizer />;
             case 'prefix-sum': return <PrefixSumVisualizer />;
+            case 'monotonic-stack': return <MonotonicStackVisualizer />;
+            case 'heap-priority-queue': return <HeapVisualizer />;
+            case 'kadanes-algorithm': return <KadaneVisualizer />;
+            case 'union-find': return <UnionFindVisualizer />;
+            case 'dp-grid': return <DPGridVisualizer />;
+            case 'merge-intervals': return <MergeIntervalsVisualizer />;
+            case 'topological-sort': return <TopologicalSortVisualizer />;
+            case 'trie': return <TrieVisualizer />;
+            case 'bit-manipulation': return <BitManipulationVisualizer />;
+            case 'greedy': return <GreedyVisualizer />;
             default: return <div className="p-12 text-center text-slate-500 italic">Visualizer for {selectedAlg.title} coming soon...</div>;
         }
     };

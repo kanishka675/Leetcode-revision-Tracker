@@ -1,0 +1,120 @@
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export default function KadaneVisualizer() {
+    const [array] = useState([-2, 1, -3, 4, -1, 2, 1, -5, 4]);
+    const [index, setIndex] = useState(-1);
+    const [currentSum, setCurrentSum] = useState(0);
+    const [maxSum, setMaxSum] = useState(-Infinity);
+    const [status, setStatus] = useState('Wait');
+    const [bestRange, setBestRange] = useState([-1, -1]);
+    const [currentRange, setCurrentRange] = useState([-1, -1]);
+
+    const handleNext = () => {
+        if (status === 'Wait') {
+            setStatus('Running');
+            setIndex(0);
+            setCurrentSum(array[0]);
+            setMaxSum(array[0]);
+            setBestRange([0, 0]);
+            setCurrentRange([0, 0]);
+            return;
+        }
+
+        if (index >= array.length - 1) {
+            setStatus('Over');
+            return;
+        }
+
+        const nextIdx = index + 1;
+        const nextVal = array[nextIdx];
+        
+        // Kadane Logic: currentSum = max(nextVal, currentSum + nextVal)
+        let newCurrentSum;
+        let newCurrentRange;
+
+        if (currentSum + nextVal < nextVal) {
+            newCurrentSum = nextVal;
+            newCurrentRange = [nextIdx, nextIdx];
+        } else {
+            newCurrentSum = currentSum + nextVal;
+            newCurrentRange = [currentRange[0], nextIdx];
+        }
+
+        let newMaxSum = maxSum;
+        let newBestRange = bestRange;
+        if (newCurrentSum > maxSum) {
+            newMaxSum = newCurrentSum;
+            newBestRange = newCurrentRange;
+        }
+
+        setIndex(nextIdx);
+        setCurrentSum(newCurrentSum);
+        setMaxSum(newMaxSum);
+        setCurrentRange(newCurrentRange);
+        setBestRange(newBestRange);
+    };
+
+    const reset = () => {
+        setIndex(-1);
+        setCurrentSum(0);
+        setMaxSum(-Infinity);
+        setStatus('Wait');
+        setBestRange([-1, -1]);
+        setCurrentRange([-1, -1]);
+    };
+
+    return (
+        <div className="flex-1 flex flex-col items-center justify-center p-8 space-y-12">
+            <div className="text-center space-y-2">
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Maximum Subarray Sum Visualization</p>
+                <div className="flex gap-8 justify-center mt-4">
+                    <div className="text-center">
+                        <span className="text-[10px] uppercase font-black text-slate-500 block">Current Sum</span>
+                        <span className="text-3xl font-black text-brand-400">{status === 'Wait' ? '-' : currentSum}</span>
+                    </div>
+                    <div className="text-center">
+                        <span className="text-[10px] uppercase font-black text-slate-500 block">Global Max</span>
+                        <span className="text-3xl font-black text-indigo-400">{status === 'Wait' ? '-' : maxSum}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex gap-2 flex-wrap justify-center">
+                {array.map((val, i) => {
+                    const isInCurrent = i >= currentRange[0] && i <= currentRange[1];
+                    const isInBest = i >= bestRange[0] && i <= bestRange[1];
+                    const isProcessing = i === index;
+
+                    return (
+                        <motion.div
+                            key={i}
+                            animate={{
+                                scale: isProcessing ? 1.1 : 1,
+                                borderColor: isProcessing ? '#0ea5e9' : isInBest ? '#818cf8' : 'rgba(255,255,255,0.1)',
+                                backgroundColor: isProcessing ? 'rgba(14, 165, 233, 0.2)' : isInCurrent ? 'rgba(99, 102, 241, 0.2)' : 'rgba(31, 41, 55, 0.5)'
+                            }}
+                            className="w-12 h-12 rounded-xl border-2 flex items-center justify-center font-bold text-slate-200 relative overflow-hidden"
+                        >
+                            {val}
+                            {isInBest && status === 'Over' && (
+                                <div className="absolute inset-0 bg-brand-500/10 border border-brand-500/50" />
+                            )}
+                        </motion.div>
+                    );
+                })}
+            </div>
+
+            <div className="flex gap-4">
+                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
+                    {status === 'Wait' ? 'Start' : 'Next Step'}
+                </button>
+                <button onClick={reset} className="btn-secondary px-8">Reset</button>
+            </div>
+            
+            <div className="text-xs text-slate-500 italic max-w-sm text-center">
+                Blue highlight shows the current running subarray. Purple outline shows the best subarray found so far.
+            </div>
+        </div>
+    );
+}
