@@ -11,6 +11,8 @@ import ProblemManager from './pages/ProblemManager';
 import CalendarPage from './pages/Calendar';
 import AlgorithmsPage from './pages/Algorithms';
 
+<h1>DEPLOY TEST VERSION</h1>
+
 const PrivateRoute = ({ children }) => {
     const { user } = useAuth();
     return user ? children : <Navigate to="/login" replace />;
