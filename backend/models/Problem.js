@@ -76,6 +76,10 @@ const problemSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        leetcodeSlug: {
+            type: String,
+            trim: true,
+        },
     },
     { timestamps: true }
 );

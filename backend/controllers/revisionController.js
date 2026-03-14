@@ -1,5 +1,6 @@
 const Problem = require('../models/Problem');
 const { injectBug } = require('../utils/bugInjector');
+const { extractSlug, fetchSolutionFromGithub } = require('../utils/leetcodeService');
 const { calculateNextRevision } = require('../utils/spacedRepetition');
 
 // @desc  Get a debug session for a problem
@@ -75,7 +76,37 @@ const verifyFix = async (req, res) => {
     }
 };
 
+// @desc  Fetch and store solution from LeetCode Reference
+// @route POST /api/revision/fetch-solution/:id
+const fetchSolution = async (req, res) => {
+    try {
+        const problem = await Problem.findById(req.params.id);
+        if (!problem) return res.status(404).json({ message: 'Problem not found' });
+
+        if (!problem.leetcodeUrl) {
+            return res.status(400).json({ message: 'No LeetCode URL provided for this problem.' });
+        }
+
+        const slug = problem.leetcodeSlug || extractSlug(problem.leetcodeUrl);
+        if (!slug) return res.status(400).json({ message: 'Invalid LeetCode URL format.' });
+
+        const code = await fetchSolutionFromGithub(slug);
+        
+        if (code) {
+            problem.optimizedSolution = code;
+            problem.leetcodeSlug = slug;
+            await problem.save();
+            return res.json({ success: true, message: 'Solution fetched and saved!', code });
+        } else {
+            return res.status(404).json({ message: 'Could not find a public solution for this slug yet.' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getDebugSession,
-    verifyFix
+    verifyFix,
+    fetchSolution
 };
