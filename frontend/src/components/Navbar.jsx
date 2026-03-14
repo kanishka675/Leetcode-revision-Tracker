@@ -22,6 +22,7 @@ export default function Navbar() {
         { to: '/algorithms', label: 'Visualize', icon: '🔮' },
         { to: '/manage', label: 'Manage', icon: '📋' },
         { to: '/calendar', label: 'Calendar', icon: '📅' },
+        { to: '/debug', label: 'Debug', icon: '🐞' },
         { to: '/review', label: 'Review', icon: '🔁' },
         { to: '/add', label: 'Add', icon: '➕' },
     ];
