@@ -286,7 +286,27 @@ const allAlgorithms = [
 
     // --- Algorithm Concepts ---
     {
-        name: 'binary-search', title: 'Binary Search', category: 'Algorithm Concepts',
+        name: 'pair-sum', title: 'Pair Sum', category: 'Array Patterns',
+        explanation: 'Finds a pair of numbers in a sorted array that add up to a specific target sum using two pointers.',
+        exampleProblem: { title: 'Two Sum II', url: 'https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/' },
+        steps: [
+            { label: 'Initialize Pointers', description: 'Set left pointer at 0 and right pointer at n-1.' },
+            { label: 'Calculate Sum', description: 'Check sum = arr[left] + arr[right].' },
+            { label: 'Adjust Pointers', description: 'If sum < target, increment left. If sum > target, decrement right. If sum == target, found!' }
+        ]
+    },
+    {
+        name: 'rotate-array', title: 'Rotate Array', category: 'Array Patterns',
+        explanation: 'Rotates an array to the right by k steps using the triple-reverse optimal approach.',
+        exampleProblem: { title: 'Rotate Array', url: 'https://leetcode.com/problems/rotate-array/' },
+        steps: [
+            { label: 'Reverse All', description: 'Reverse the entire array.' },
+            { label: 'Reverse First K', description: 'Reverse the first k elements.' },
+            { label: 'Reverse Rest', description: 'Reverse the remaining n-k elements.' }
+        ]
+    },
+    {
+        name: 'binary-search', title: 'Binary Search', category: 'Array Patterns',
         explanation: 'Search algorithm that finds the position of a target value within a sorted array by halving the search space.',
         exampleProblem: { title: 'Binary Search', url: 'https://leetcode.com/problems/binary-search/' },
         steps: [

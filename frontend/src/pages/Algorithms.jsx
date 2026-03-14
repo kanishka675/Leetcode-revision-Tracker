@@ -31,6 +31,8 @@ import HeapSortVisualizer from '../components/visualizers/HeapSortVisualizer';
 import RabinKarpVisualizer from '../components/visualizers/RabinKarpVisualizer';
 import KMPVisualizer from '../components/visualizers/KMPVisualizer';
 import BinaryTreeTraversalVisualizer from '../components/visualizers/BinaryTreeTraversalVisualizer';
+import PairSumVisualizer from '../components/visualizers/PairSumVisualizer';
+import RotateArrayVisualizer from '../components/visualizers/RotateArrayVisualizer';
 import SegmentTreeVisualizer from '../components/visualizers/SegmentTreeVisualizer';
 import RecursionTreeVisualizer from '../components/visualizers/RecursionTreeVisualizer';
 
@@ -100,6 +102,8 @@ export default function AlgorithmsPage() {
             case 'rabin-karp': return <RabinKarpVisualizer />;
             case 'kmp': return <KMPVisualizer />;
             case 'binary-tree-traversal': return <BinaryTreeTraversalVisualizer />;
+            case 'pair-sum': return <PairSumVisualizer />;
+            case 'rotate-array': return <RotateArrayVisualizer />;
             case 'segment-tree': return <SegmentTreeVisualizer />;
             case 'recursion-tree': return <RecursionTreeVisualizer />;
             default: return <div className="p-12 text-center text-slate-500 italic">Visualizer for {selectedAlg.title} coming soon...</div>;

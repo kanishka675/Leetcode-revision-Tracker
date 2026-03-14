@@ -68,17 +68,9 @@ const problemSchema = new mongoose.Schema(
             type: Date,
             default: null,
         },
-        revisionAttempts: {
-            type: Number,
-            default: 0,
-        },
-        debugSolved: {
-            type: Boolean,
-            default: false,
-        },
-        leetcodeSlug: {
-            type: String,
-            trim: true,
+        lastReviewed: {
+            type: Date,
+            default: null,
         },
     },
     { timestamps: true }

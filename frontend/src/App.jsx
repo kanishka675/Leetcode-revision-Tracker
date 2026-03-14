@@ -10,10 +10,7 @@ import Review from './pages/Review';
 import ProblemManager from './pages/ProblemManager';
 import CalendarPage from './pages/Calendar';
 import AlgorithmsPage from './pages/Algorithms';
-import DebugRevision from './pages/DebugRevision'; // Added import
-import DebugList from './pages/DebugList';
 
-<h1>DEPLOY TEST VERSION</h1>
 
 const PrivateRoute = ({ children }) => {
     const { user } = useAuth();
@@ -43,8 +40,6 @@ export default function App() {
                     <Route path="/add" element={<PrivateRoute><AddProblem /></PrivateRoute>} />
                     <Route path="/edit/:id" element={<PrivateRoute><AddProblem /></PrivateRoute>} />
                     <Route path="/review" element={<PrivateRoute><Review /></PrivateRoute>} />
-                    <Route path="/debug" element={<PrivateRoute><DebugList /></PrivateRoute>} />
-                    <Route path="/debug/:id" element={<PrivateRoute><DebugRevision /></PrivateRoute>} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </main>
