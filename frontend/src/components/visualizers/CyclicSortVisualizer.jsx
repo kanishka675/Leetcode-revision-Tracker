@@ -18,21 +18,22 @@ export default function CyclicSortVisualizer() {
             return;
         }
 
+        if (status === 'Swapping') {
+            const newArr = [...array];
+            const correctIdx = swapIndices[1];
+            [newArr[i], newArr[correctIdx]] = [newArr[correctIdx], newArr[i]];
+            setArray(newArr);
+            setSwapIndices([]);
+            setStatus('Sorting');
+            return;
+        }
+
         const correctIdx = array[i] - 1;
 
         if (array[i] !== array[correctIdx]) {
             // Need to swap
             setSwapIndices([i, correctIdx]);
             setStatus('Swapping');
-            
-            // Execute swap
-            setTimeout(() => {
-                const newArr = [...array];
-                [newArr[i], newArr[correctIdx]] = [newArr[correctIdx], newArr[i]];
-                setArray(newArr);
-                setSwapIndices([]);
-                setStatus('Sorting');
-            }, 800);
         } else {
             // Already correct, move to next
             setI(prev => prev + 1);
@@ -92,7 +93,7 @@ export default function CyclicSortVisualizer() {
             <div className="flex gap-4">
                 <button 
                     onClick={handleNext} 
-                    disabled={status === 'Swapping' || status === 'Done'}
+                    disabled={status === 'Done'}
                     className="btn-primary px-8 shadow-brand-600/20"
                 >
                     {status === 'Wait' ? 'Start Sorting' : 'Next Step'}

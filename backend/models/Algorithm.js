@@ -18,10 +18,9 @@ const algorithmSchema = new mongoose.Schema({
         title: String,
         url: String
     },
-    type: {
+    category: {
         type: String,
-        enum: ['array', 'graph', 'linked-list', 'algorithm', 'other'],
-        default: 'array'
+        default: 'Other'
     },
     steps: [{
         label: String,

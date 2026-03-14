@@ -19,21 +19,52 @@ import TopologicalSortVisualizer from '../components/visualizers/TopologicalSort
 import TrieVisualizer from '../components/visualizers/TrieVisualizer';
 import BitManipulationVisualizer from '../components/visualizers/BitManipulationVisualizer';
 import GreedyVisualizer from '../components/visualizers/GreedyVisualizer';
+import HashMapVisualizer from '../components/visualizers/HashMapVisualizer';
+import HashSetVisualizer from '../components/visualizers/HashSetVisualizer';
+import MatrixTraversalVisualizer from '../components/visualizers/MatrixTraversalVisualizer';
+import BubbleSortVisualizer from '../components/visualizers/BubbleSortVisualizer';
+import SelectionSortVisualizer from '../components/visualizers/SelectionSortVisualizer';
+import InsertionSortVisualizer from '../components/visualizers/InsertionSortVisualizer';
+import MergeSortVisualizer from '../components/visualizers/MergeSortVisualizer';
+import QuickSortVisualizer from '../components/visualizers/QuickSortVisualizer';
+import HeapSortVisualizer from '../components/visualizers/HeapSortVisualizer';
+import RabinKarpVisualizer from '../components/visualizers/RabinKarpVisualizer';
+import KMPVisualizer from '../components/visualizers/KMPVisualizer';
+import BinaryTreeTraversalVisualizer from '../components/visualizers/BinaryTreeTraversalVisualizer';
+import SegmentTreeVisualizer from '../components/visualizers/SegmentTreeVisualizer';
+import RecursionTreeVisualizer from '../components/visualizers/RecursionTreeVisualizer';
 
 export default function AlgorithmsPage() {
     const [algorithms, setAlgorithms] = useState([]);
     const [selectedAlg, setSelectedAlg] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [expandedCategories, setExpandedCategories] = useState({});
 
     useEffect(() => {
         api.get('/api/algorithms')
             .then(({ data }) => {
                 setAlgorithms(data);
                 if (data.length > 0) setSelectedAlg(data[0]);
+                
+                // Expand the first category by default
+                if (data.length > 0) {
+                    setExpandedCategories({ [data[0].category]: true });
+                }
             })
             .catch(console.error)
             .finally(() => setLoading(false));
     }, []);
+
+    const groupedAlgorithms = algorithms.reduce((acc, curr) => {
+        const cat = curr.category || 'Other';
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(curr);
+        return acc;
+    }, {});
+
+    const toggleCategory = (cat) => {
+        setExpandedCategories(prev => ({ ...prev, [cat]: prev[cat] === undefined ? false : !prev[cat] }));
+    };
 
     const renderVisualizer = () => {
         if (!selectedAlg) return null;
@@ -57,6 +88,20 @@ export default function AlgorithmsPage() {
             case 'trie': return <TrieVisualizer />;
             case 'bit-manipulation': return <BitManipulationVisualizer />;
             case 'greedy': return <GreedyVisualizer />;
+            case 'hash-map': return <HashMapVisualizer />;
+            case 'hash-set': return <HashSetVisualizer />;
+            case 'matrix-traversal': return <MatrixTraversalVisualizer />;
+            case 'bubble-sort': return <BubbleSortVisualizer />;
+            case 'selection-sort': return <SelectionSortVisualizer />;
+            case 'insertion-sort': return <InsertionSortVisualizer />;
+            case 'merge-sort': return <MergeSortVisualizer />;
+            case 'quick-sort': return <QuickSortVisualizer />;
+            case 'heap-sort': return <HeapSortVisualizer />;
+            case 'rabin-karp': return <RabinKarpVisualizer />;
+            case 'kmp': return <KMPVisualizer />;
+            case 'binary-tree-traversal': return <BinaryTreeTraversalVisualizer />;
+            case 'segment-tree': return <SegmentTreeVisualizer />;
+            case 'recursion-tree': return <RecursionTreeVisualizer />;
             default: return <div className="p-12 text-center text-slate-500 italic">Visualizer for {selectedAlg.title} coming soon...</div>;
         }
     };
@@ -74,19 +119,41 @@ export default function AlgorithmsPage() {
             {/* Sidebar */}
             <div className="w-full sm:w-64 flex-shrink-0 flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2">
                 <h2 className="text-2xl font-black text-slate-100 uppercase tracking-tighter">Patterns</h2>
-                <div className="space-y-2">
-                    {algorithms.map((alg) => (
-                        <button
-                            key={alg.name}
-                            onClick={() => setSelectedAlg(alg)}
-                            className={`w-full text-left px-4 py-3 rounded-xl font-bold transition-all border ${
-                                selectedAlg?.name === alg.name
-                                    ? 'bg-brand-600/20 text-brand-400 border-brand-500/40 shadow-lg shadow-brand-600/10'
-                                    : 'text-slate-500 border-transparent hover:bg-brand-500/5 hover:text-slate-300'
-                            }`}
-                        >
-                            {alg.title}
-                        </button>
+                <div className="space-y-4">
+                    {Object.entries(groupedAlgorithms).map(([category, algs]) => (
+                        <div key={category} className="space-y-1">
+                            <button
+                                onClick={() => toggleCategory(category)}
+                                className="w-full flex justify-between items-center text-left px-2 py-2 text-sm font-black text-slate-400 uppercase tracking-widest hover:text-slate-200 transition-colors focus:outline-none"
+                            >
+                                <span>{category}</span>
+                                <span className={`transform transition-transform text-xs ${expandedCategories[category] !== false ? '' : '-rotate-90'}`}>▼</span>
+                            </button>
+                            <AnimatePresence>
+                                {expandedCategories[category] !== false && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        className="space-y-1 overflow-hidden ml-2 border-l-2 border-slate-800 pl-2"
+                                    >
+                                        {algs.map((alg) => (
+                                            <button
+                                                key={alg.name}
+                                                onClick={() => setSelectedAlg(alg)}
+                                                className={`w-full text-left px-4 py-2 text-sm rounded-lg font-bold transition-all border ${
+                                                    selectedAlg?.name === alg.name
+                                                        ? 'bg-brand-600/20 text-brand-400 border-brand-500/40 shadow-lg'
+                                                        : 'text-slate-500 border-transparent hover:bg-brand-500/5 hover:text-slate-300'
+                                                }`}
+                                            >
+                                                {alg.title}
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     ))}
                 </div>
             </div>
