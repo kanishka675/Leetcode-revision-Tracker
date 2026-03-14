@@ -107,7 +107,7 @@ export default function QuickSortVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Quick Sort</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
                 <p className="text-xs text-brand-500">Step: {currentStep + 1} / {steps.length}</p>
             </div>
 
@@ -125,23 +125,23 @@ export default function QuickSortVisualizer() {
                             <motion.div
                                 animate={{
                                     height: `${(val / 100) * 200}px`,
-                                    backgroundColor: isPlaced ? 'rgba(16, 185, 129, 0.6)' : 
-                                                     isPivot ? 'rgba(234, 179, 8, 0.8)' :
-                                                     isSwapping ? 'rgba(249, 115, 22, 0.8)' :
-                                                     isComparing ? 'rgba(239, 68, 68, 0.8)' : 
-                                                     isActive ? 'rgba(168, 85, 247, 0.4)' : 'rgba(14, 165, 233, 0.2)',
-                                    borderColor: isPlaced ? '#10b981' : isPivot ? '#eab308' : isSwapping ? '#f97316' : isComparing ? '#ef4444' : isActive ? '#a855f7' : 'rgba(14, 165, 233, 0.3)'
+                                    backgroundColor: isPlaced ? 'var(--viz-highlight-success)' : 
+                                                     isPivot ? 'var(--viz-highlight-warning)' :
+                                                     isSwapping ? 'var(--viz-highlight-compare)' :
+                                                     isComparing ? 'var(--viz-highlight-compare)' : 
+                                                     isActive ? 'var(--viz-highlight-active-bg)' : 'var(--viz-highlight-active-bg)',
+                                    borderColor: isPlaced ? 'var(--viz-highlight-success)' : isPivot ? 'var(--viz-highlight-warning)' : isSwapping ? 'var(--viz-highlight-compare)' : isComparing ? 'var(--viz-highlight-compare)' : isActive ? 'var(--viz-highlight-active)' : 'var(--viz-highlight-active-bg)'
                                 }}
                                 className="w-10 rounded-t-lg border-2 border-b-0 transition-colors duration-300"
                             />
                             <motion.div 
                                 className={`w-10 h-10 rounded-xl border flex items-center justify-center font-black transition-colors duration-300 ${
-                                    isPlaced ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400' : 
+                                    isPlaced ? 'bg-[var(--viz-highlight-success-bg)] border-[var(--viz-highlight-success)] text-[var(--viz-highlight-success)]' : 
                                     isPivot ? 'bg-yellow-500/20 border-yellow-500 text-yellow-500' :
                                     isSwapping ? 'bg-orange-500/20 border-orange-500 text-orange-400' :
-                                    isComparing ? 'bg-rose-500/20 border-rose-500 text-rose-400' : 
-                                    isActive ? 'bg-purple-500/20 border-purple-500 text-purple-400' :
-                                    'bg-slate-800 border-slate-600 text-slate-400'
+                                    isComparing ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-compare)] text-[var(--viz-highlight-compare)]' : 
+                                    isActive ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-active)] text-[var(--viz-highlight-active)]' :
+                                    'bg-[var(--viz-bg-inactive)] border-[var(--viz-border-inactive)] text-[var(--text-secondary)]'
                                 }`}
                             >
                                 {val}

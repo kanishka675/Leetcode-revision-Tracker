@@ -74,11 +74,11 @@ export default function CyclicSortVisualizer() {
                                 initial={false}
                                 animate={{
                                     scale: isSwapping ? 1.2 : isCurrent ? 1.1 : 1,
-                                    borderColor: isSwapping ? '#ef4444' : isCorrect ? '#10b981' : isCurrent ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
-                                    backgroundColor: isSwapping ? 'rgba(239, 68, 68, 0.1)' : isCurrent ? 'rgba(14, 165, 233, 0.1)' : 'rgba(255,255,255,0.02)'
+                                    borderColor: isSwapping ? 'var(--viz-highlight-compare)' : isCorrect ? 'var(--viz-highlight-success)' : isCurrent ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
+                                    backgroundColor: isSwapping ? 'rgba(239, 68, 68, 0.1)' : isCurrent ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                                 }}
                                 className={`w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black border-2 transition-colors duration-300 ${
-                                    isCorrect ? 'text-emerald-500' : isCurrent ? 'text-brand-400' : 'text-slate-600'
+                                    isCorrect ? 'text-emerald-500' : isCurrent ? 'text-[var(--viz-highlight-active)]' : 'text-slate-600'
                                 }`}
                             >
                                 {val}
@@ -102,8 +102,8 @@ export default function CyclicSortVisualizer() {
             </div>
 
             <div className="text-xs text-slate-500 flex gap-8">
-                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-brand-500/20 border border-brand-500" /> Current Pointer</div>
-                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-emerald-500/20 border border-emerald-500" /> Correct Position</div>
+                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[var(--viz-highlight-active-bg)] border border-[var(--viz-highlight-active)]" /> Current Pointer</div>
+                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[var(--viz-highlight-success-bg)] border border-[var(--viz-highlight-success)]" /> Correct Position</div>
                 <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500" /> Swapping</div>
             </div>
         </div>

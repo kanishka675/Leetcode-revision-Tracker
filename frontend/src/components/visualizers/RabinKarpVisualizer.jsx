@@ -112,19 +112,19 @@ export default function RabinKarpVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-hidden">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Rabin-Karp Algorithm</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
             </div>
 
             <div className="flex flex-col items-start gap-12 max-w-4xl w-full">
                 {/* Stats Panel */}
-                <div className="flex w-full justify-around bg-slate-800/50 p-4 rounded-xl border border-white/5">
+                <div className="flex w-full justify-around bg-[var(--viz-bg-inactive)]/50 p-4 rounded-xl border border-white/5">
                     <div className="flex flex-col items-center">
                         <span className="text-xs text-slate-500 tracking-wider">PATTERN HASH</span>
-                        <span className="text-2xl font-black text-brand-400">{status === 'Wait' ? '--' : pHash}</span>
+                        <span className="text-2xl font-black text-[var(--viz-highlight-active)]">{status === 'Wait' ? '--' : pHash}</span>
                     </div>
                     <div className="flex flex-col items-center">
                         <span className="text-xs text-slate-500 tracking-wider">WINDOW HASH</span>
-                        <span className="text-2xl font-black text-emerald-400">{status === 'Wait' ? '--' : tHash}</span>
+                        <span className="text-2xl font-black text-[var(--viz-highlight-success)]">{status === 'Wait' ? '--' : tHash}</span>
                     </div>
                 </div>
 
@@ -142,11 +142,11 @@ export default function RabinKarpVisualizer() {
                                     key={idx}
                                     animate={{
                                         y: isWindow ? -5 : 0,
-                                        backgroundColor: isMatch ? 'rgba(16, 185, 129, 0.4)' : 
-                                                         isWindow ? 'rgba(14, 165, 233, 0.3)' : 'rgba(31, 41, 55, 0.5)',
-                                        borderColor: isMatch ? '#10b981' : isWindow ? '#0ea5e9' : 'transparent'
+                                        backgroundColor: isMatch ? 'var(--viz-highlight-success-bg)' : 
+                                                         isWindow ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)',
+                                        borderColor: isMatch ? 'var(--viz-highlight-success)' : isWindow ? 'var(--viz-highlight-active)' : 'transparent'
                                     }}
-                                    className="w-10 h-10 sm:w-12 sm:h-12 border rounded flex items-center justify-center font-bold text-lg sm:text-xl text-slate-200"
+                                    className="w-10 h-10 sm:w-12 sm:h-12 border rounded flex items-center justify-center font-bold text-lg sm:text-xl text-[var(--text-primary)]"
                                 >
                                     {char}
                                 </motion.div>
@@ -162,7 +162,7 @@ export default function RabinKarpVisualizer() {
                         {pattern.split('').map((char, idx) => (
                             <div
                                 key={idx}
-                                className="w-10 h-10 sm:w-12 sm:h-12 border-2 border-brand-500 bg-brand-500/20 rounded flex items-center justify-center font-bold text-lg sm:text-xl text-brand-400 shadow-lg shadow-brand-500/20"
+                                className="w-10 h-10 sm:w-12 sm:h-12 border-2 border-[var(--viz-highlight-active)] bg-[var(--viz-highlight-active-bg)] rounded flex items-center justify-center font-bold text-lg sm:text-xl text-[var(--viz-highlight-active)] shadow-lg shadow-brand-500/20"
                             >
                                 {char}
                             </div>

@@ -71,7 +71,7 @@ export default function KadaneVisualizer() {
                 <div className="flex gap-8 justify-center mt-4">
                     <div className="text-center">
                         <span className="text-[10px] uppercase font-black text-slate-500 block">Current Sum</span>
-                        <span className="text-3xl font-black text-brand-400">{status === 'Wait' ? '-' : currentSum}</span>
+                        <span className="text-3xl font-black text-[var(--viz-highlight-active)]">{status === 'Wait' ? '-' : currentSum}</span>
                     </div>
                     <div className="text-center">
                         <span className="text-[10px] uppercase font-black text-slate-500 block">Global Max</span>
@@ -91,14 +91,14 @@ export default function KadaneVisualizer() {
                             key={i}
                             animate={{
                                 scale: isProcessing ? 1.1 : 1,
-                                borderColor: isProcessing ? '#0ea5e9' : isInBest ? '#818cf8' : 'rgba(255,255,255,0.1)',
-                                backgroundColor: isProcessing ? 'rgba(14, 165, 233, 0.2)' : isInCurrent ? 'rgba(99, 102, 241, 0.2)' : 'rgba(31, 41, 55, 0.5)'
+                                borderColor: isProcessing ? 'var(--viz-highlight-active)' : isInBest ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
+                                backgroundColor: isProcessing ? 'var(--viz-highlight-active-bg)' : isInCurrent ? 'rgba(99, 102, 241, 0.2)' : 'var(--viz-bg-inactive)'
                             }}
-                            className="w-12 h-12 rounded-xl border-2 flex items-center justify-center font-bold text-slate-200 relative overflow-hidden"
+                            className="w-12 h-12 rounded-xl border-2 flex items-center justify-center font-bold text-[var(--text-primary)] relative overflow-hidden"
                         >
                             {val}
                             {isInBest && status === 'Over' && (
-                                <div className="absolute inset-0 bg-brand-500/10 border border-brand-500/50" />
+                                <div className="absolute inset-0 bg-brand-500/10 border border-[var(--viz-highlight-active)]/50" />
                             )}
                         </motion.div>
                     );

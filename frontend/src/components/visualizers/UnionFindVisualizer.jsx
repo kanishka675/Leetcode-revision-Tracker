@@ -63,7 +63,7 @@ export default function UnionFindVisualizer() {
                             <motion.div
                                 animate={{
                                     scale: isActive ? 1.1 : 1,
-                                    borderColor: isActive ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
+                                    borderColor: isActive ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
                                     backgroundColor: `hsla(${root * 60}, 70%, 50%, 0.2)`
                                 }}
                                 className="w-16 h-16 rounded-2xl border-2 flex flex-col items-center justify-center shadow-lg"

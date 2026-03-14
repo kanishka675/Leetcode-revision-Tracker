@@ -106,7 +106,7 @@ export default function SelectionSortVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Selection Sort</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
             </div>
 
             <div className="flex items-end justify-center min-h-[250px] gap-2">
@@ -122,22 +122,22 @@ export default function SelectionSortVisualizer() {
                                 layout
                                 animate={{
                                     height: `${(val / 100) * 200}px`,
-                                    backgroundColor: isSorted ? 'rgba(16, 185, 129, 0.5)' : 
-                                                     isSwapping ? 'rgba(234, 179, 8, 0.8)' : 
-                                                     isMin ? 'rgba(239, 68, 68, 0.8)' : 
-                                                     isScanning ? 'rgba(168, 85, 247, 0.6)' : 'rgba(14, 165, 233, 0.4)',
-                                    borderColor: isSorted ? '#10b981' : isSwapping ? '#eab308' : isMin ? '#ef4444' : isScanning ? '#a855f7' : '#0ea5e9'
+                                    backgroundColor: isSorted ? 'var(--viz-highlight-success-bg)' : 
+                                                     isSwapping ? 'var(--viz-highlight-warning)' : 
+                                                     isMin ? 'var(--viz-highlight-compare)' : 
+                                                     isScanning ? 'var(--viz-highlight-active-bg)' : 'var(--viz-highlight-active-bg)',
+                                    borderColor: isSorted ? 'var(--viz-highlight-success)' : isSwapping ? 'var(--viz-highlight-warning)' : isMin ? 'var(--viz-highlight-compare)' : isScanning ? 'var(--viz-highlight-active)' : 'var(--viz-highlight-active)'
                                 }}
                                 className="w-10 rounded-t-lg border-2 border-b-0"
                             />
                             <motion.div 
                                 layout
                                 className={`w-10 h-10 rounded-xl border flex items-center justify-center font-black ${
-                                    isSorted ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400' : 
+                                    isSorted ? 'bg-[var(--viz-highlight-success-bg)] border-[var(--viz-highlight-success)] text-[var(--viz-highlight-success)]' : 
                                     isSwapping ? 'bg-yellow-500/20 border-yellow-500 text-yellow-500' :
-                                    isMin ? 'bg-rose-500/20 border-rose-500 text-rose-400' : 
-                                    isScanning ? 'bg-purple-500/20 border-purple-500 text-purple-400' :
-                                    'bg-slate-800 border-slate-600 text-slate-300'
+                                    isMin ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-compare)] text-[var(--viz-highlight-compare)]' : 
+                                    isScanning ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-active)] text-[var(--viz-highlight-active)]' :
+                                    'bg-[var(--viz-bg-inactive)] border-[var(--viz-border-inactive)] text-[var(--text-primary)]'
                                 }`}
                             >
                                 {val}

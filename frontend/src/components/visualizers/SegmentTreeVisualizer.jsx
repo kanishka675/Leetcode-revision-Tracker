@@ -130,7 +130,7 @@ export default function SegmentTreeVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-hidden">
             <div className="text-center space-y-2 mb-8">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Segment Tree (Sum Query)</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
                 <p className="text-xs text-brand-500">Step: {currentStep + 1} / {steps.length}</p>
             </div>
 
@@ -140,7 +140,7 @@ export default function SegmentTreeVisualizer() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">Input Array</span>
                     <div className="flex gap-2">
                         {input.map((val, idx) => (
-                            <div key={idx} className="w-12 h-12 border bg-slate-800 border-white/10 rounded flex items-center justify-center font-bold text-xl text-slate-300">
+                            <div key={idx} className="w-12 h-12 border bg-[var(--viz-bg-inactive)] border-white/10 rounded flex items-center justify-center font-bold text-xl text-[var(--text-primary)]">
                                 {val}
                             </div>
                         ))}
@@ -148,7 +148,7 @@ export default function SegmentTreeVisualizer() {
                 </div>
 
                 {/* Tree Array visualization as a Pyramid/Levels */}
-                <div className="w-full flex flex-col gap-6 items-center bg-slate-800/20 p-6 border border-white/5 rounded-2xl">
+                <div className="w-full flex flex-col gap-6 items-center bg-[var(--viz-bg-inactive)]/20 p-6 border border-white/5 rounded-2xl">
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">Segment Tree Array (Indices 1 to {tree.length - 1})</span>
                     
                     {/* Level 1: Root (index 1) */}
@@ -170,8 +170,8 @@ export default function SegmentTreeVisualizer() {
                 </div>
 
                 {queryState && (
-                    <div className="text-center p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
-                        <span className="text-emerald-400 font-bold uppercase tracking-widest text-xs">Accumulated Sum: {queryState.sum}</span>
+                    <div className="text-center p-4 bg-emerald-500/10 border border-[var(--viz-highlight-success)]/20 rounded-xl">
+                        <span className="text-[var(--viz-highlight-success)] font-bold uppercase tracking-widest text-xs">Accumulated Sum: {queryState.sum}</span>
                     </div>
                 )}
             </div>
@@ -192,21 +192,21 @@ function Node({ idx, val, currNode, childNodes, isBuilt, queryState }) {
     const isPointerL = queryState?.l === idx;
     const isPointerR = queryState?.r === idx;
 
-    let bgColor = 'rgba(31, 41, 55, 0.5)';
-    let borderColor = 'rgba(255,255,255,0.1)';
+    let bgColor = 'var(--viz-bg-inactive)';
+    let borderColor = 'var(--viz-border-inactive)';
     
     if (isProcessedInQuery) {
-        bgColor = 'rgba(16, 185, 129, 0.4)';
-        borderColor = '#10b981';
+        bgColor = 'var(--viz-highlight-success-bg)';
+        borderColor = 'var(--viz-highlight-success)';
     } else if (isPointerL || isPointerR) {
-        bgColor = 'rgba(234, 179, 8, 0.3)';
-        borderColor = '#eab308';
+        bgColor = 'var(--viz-highlight-warning-bg)';
+        borderColor = 'var(--viz-highlight-warning)';
     } else if (isCurrent) {
-        bgColor = isBuilt ? 'rgba(14, 165, 233, 0.5)' : 'rgba(239, 68, 68, 0.3)';
-        borderColor = isBuilt ? '#0ea5e9' : '#ef4444';
+        bgColor = isBuilt ? 'var(--viz-highlight-active)' : 'var(--viz-highlight-compare-bg)';
+        borderColor = isBuilt ? 'var(--viz-highlight-active)' : 'var(--viz-highlight-compare)';
     } else if (isChild) {
-        bgColor = 'rgba(168, 85, 247, 0.3)';
-        borderColor = '#a855f7';
+        bgColor = 'var(--viz-highlight-active-bg)';
+        borderColor = 'var(--viz-highlight-active)';
     }
 
     return (
@@ -217,7 +217,7 @@ function Node({ idx, val, currNode, childNodes, isBuilt, queryState }) {
                     backgroundColor: bgColor,
                     borderColor: borderColor
                 }}
-                className="w-14 h-14 border-2 rounded-xl flex items-center justify-center font-black text-xl text-slate-200 transition-colors shadow-lg"
+                className="w-14 h-14 border-2 rounded-xl flex items-center justify-center font-black text-xl text-[var(--text-primary)] transition-colors shadow-lg"
             >
                 {val === 0 && !isCurrent ? (
                     <span className="opacity-20 text-sm">Empty</span>

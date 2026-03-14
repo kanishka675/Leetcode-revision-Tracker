@@ -57,7 +57,7 @@ export default function HashSetVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Hash Set (Contains Duplicate)</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
             </div>
 
             <div className="flex flex-col md:flex-row gap-16 items-start justify-center w-full max-w-4xl">
@@ -73,12 +73,12 @@ export default function HashSetVisualizer() {
                                     <motion.div
                                         animate={{
                                             scale: isCurrent || (isDuplicate && i <= index) ? 1.1 : 1,
-                                            borderColor: isDuplicate && i <= index ? '#ef4444' : isCurrent ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
-                                            backgroundColor: isDuplicate && i <= index ? 'rgba(239, 68, 68, 0.2)' : isCurrent ? 'rgba(14, 165, 233, 0.2)' : 'rgba(31, 41, 55, 0.5)'
+                                            borderColor: isDuplicate && i <= index ? 'var(--viz-highlight-compare)' : isCurrent ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
+                                            backgroundColor: isDuplicate && i <= index ? 'var(--viz-highlight-compare-bg)' : isCurrent ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                                         }}
                                         className="w-14 h-14 rounded-2xl border-2 flex flex-col items-center justify-center shadow-lg"
                                     >
-                                        <span className="text-lg font-black text-slate-200">{val}</span>
+                                        <span className="text-lg font-black text-[var(--text-primary)]">{val}</span>
                                     </motion.div>
                                     <span className="text-[10px] font-bold text-slate-500">Idx: {i}</span>
                                 </div>
@@ -90,7 +90,7 @@ export default function HashSetVisualizer() {
                 {/* Hash Set View */}
                 <div className="flex flex-col items-center gap-4 min-w-[200px]">
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">Hash Set (Uniques)</span>
-                    <div className="w-full bg-slate-800/30 rounded-2xl border border-white/5 p-4 flex flex-wrap gap-2 justify-center min-h-[150px]">
+                    <div className="w-full bg-[var(--viz-bg-inactive)]/30 rounded-2xl border border-white/5 p-4 flex flex-wrap gap-2 justify-center min-h-[150px]">
                         <AnimatePresence>
                             {set.size === 0 && (
                                 <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="text-xs text-slate-500 italic text-center w-full py-8">
@@ -104,7 +104,7 @@ export default function HashSetVisualizer() {
                                     animate={{ opacity: 1, scale: 1 }}
                                     className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-black border-2 shadow-lg ${
                                         val === duplicateValue 
-                                        ? 'bg-rose-500/20 border-rose-500 text-rose-400' 
+                                        ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-compare)] text-[var(--viz-highlight-compare)]' 
                                         : 'bg-indigo-500/20 border-indigo-500/50 text-indigo-400'
                                     }`}
                                 >

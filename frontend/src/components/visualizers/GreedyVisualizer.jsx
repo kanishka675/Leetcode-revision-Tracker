@@ -76,11 +76,11 @@ export default function GreedyVisualizer() {
                 <div className="flex gap-8 justify-center mt-4">
                     <div className="text-center">
                         <span className="text-[10px] uppercase font-black text-slate-500 block">Weight</span>
-                        <span className="text-2xl font-black text-brand-400">{currentWeight} / {capacity}</span>
+                        <span className="text-2xl font-black text-[var(--viz-highlight-active)]">{currentWeight} / {capacity}</span>
                     </div>
                     <div className="text-center">
                         <span className="text-[10px] uppercase font-black text-slate-500 block">Value</span>
-                        <span className="text-2xl font-black text-emerald-400">${totalValue.toFixed(1)}</span>
+                        <span className="text-2xl font-black text-[var(--viz-highlight-success)]">${totalValue.toFixed(1)}</span>
                     </div>
                 </div>
             </div>
@@ -99,16 +99,16 @@ export default function GreedyVisualizer() {
                                     animate={{
                                         scale: isCurrent ? 1.1 : 1,
                                         opacity: isAdded ? 0.4 : 1,
-                                        borderColor: isCurrent ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
+                                        borderColor: isCurrent ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
                                     }}
-                                    className="p-3 rounded-xl border-2 bg-slate-800/50 flex flex-col items-center gap-1"
+                                    className="p-3 rounded-xl border-2 bg-[var(--viz-bg-inactive)]/50 flex flex-col items-center gap-1"
                                 >
-                                    <span className="text-xs font-black text-slate-200">${item.value}</span>
+                                    <span className="text-xs font-black text-[var(--text-primary)]">${item.value}</span>
                                     <span className="text-[10px] text-slate-500">{item.weight}kg</span>
-                                    <div className="w-full h-1 bg-brand-500/20 rounded-full mt-1 overflow-hidden">
+                                    <div className="w-full h-1 bg-[var(--viz-highlight-active-bg)] rounded-full mt-1 overflow-hidden">
                                         <div className="h-full bg-brand-500" style={{ width: `${(item.ratio / 6) * 100}%` }} />
                                     </div>
-                                    <span className="text-[8px] font-bold text-brand-400">Ratio: {item.ratio}</span>
+                                    <span className="text-[8px] font-bold text-[var(--viz-highlight-active)]">Ratio: {item.ratio}</span>
                                 </motion.div>
                             );
                         })}
@@ -118,7 +118,7 @@ export default function GreedyVisualizer() {
                 {/* Knapsack */}
                 <div className="flex flex-col items-center gap-4">
                     <span className="text-[10px] font-black uppercase text-slate-600">Knapsack</span>
-                    <div className="w-32 h-48 border-x-4 border-b-4 border-slate-700/50 rounded-b-2xl flex flex-col-reverse bg-slate-800/20 overflow-hidden relative">
+                    <div className="w-32 h-48 border-x-4 border-b-4 border-[var(--viz-border-inactive)]/50 rounded-b-2xl flex flex-col-reverse bg-[var(--viz-bg-inactive)]/20 overflow-hidden relative">
                         <AnimatePresence>
                             {bag.map((item, i) => (
                                 <motion.div
@@ -143,7 +143,7 @@ export default function GreedyVisualizer() {
             </div>
             
             <div className="text-[10px] text-slate-500 italic max-w-sm text-center">
-                Greedy Strategy: Always pick the item with the highest <code className="text-brand-400">Value / Weight</code> ratio first.
+                Greedy Strategy: Always pick the item with the highest <code className="text-[var(--viz-highlight-active)]">Value / Weight</code> ratio first.
             </div>
         </div>
     );

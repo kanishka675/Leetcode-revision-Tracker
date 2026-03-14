@@ -46,8 +46,8 @@ export default function BitManipulationVisualizer() {
                     <motion.div
                         key={i}
                         animate={{
-                            backgroundColor: bit === '1' ? `var(--color-${color}-500)` : 'rgba(31, 41, 55, 0.5)',
-                            borderColor: bit === '1' ? `var(--color-${color}-400)` : 'rgba(255,255,255,0.1)'
+                            backgroundColor: bit === '1' ? `var(--color-${color}-500)` : 'var(--viz-bg-inactive)',
+                            borderColor: bit === '1' ? `var(--color-${color}-400)` : 'var(--viz-border-inactive)'
                         }}
                         className={`w-10 h-10 rounded-lg border-2 flex items-center justify-center font-black text-white ${bit === '1' ? 'shadow-lg' : 'text-slate-600'}`}
                     >
@@ -68,7 +68,7 @@ export default function BitManipulationVisualizer() {
                             key={op}
                             onClick={() => runOp(op)}
                             className={`px-3 py-1 rounded-full text-[10px] font-black transition-all ${
-                                operation === op ? 'bg-brand-500 text-white' : 'bg-slate-800 text-slate-500 hover:text-slate-300'
+                                operation === op ? 'bg-brand-500 text-white' : 'bg-[var(--viz-bg-inactive)] text-slate-500 hover:text-[var(--text-primary)]'
                             }`}
                         >
                             {op}
@@ -81,7 +81,7 @@ export default function BitManipulationVisualizer() {
                 {renderBits(num1, 'Number 1')}
                 {operation !== 'LSHIFT' && operation !== 'RSHIFT' && renderBits(num2, 'Number 2')}
                 
-                <div className="h-px bg-slate-800 w-full relative">
+                <div className="h-px bg-[var(--viz-bg-inactive)] w-full relative">
                     <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 bg-slate-900 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">
                         {operation} result
                     </div>
@@ -97,10 +97,10 @@ export default function BitManipulationVisualizer() {
             
             <style dangerouslySetInnerHTML={{ __html: `
                 :root {
-                    --color-brand-500: #0ea5e9;
-                    --color-brand-400: #38bdf8;
-                    --color-indigo-500: #6366f1;
-                    --color-indigo-400: #818cf8;
+                    --color-brand-500: var(--viz-highlight-active);
+                    --color-brand-400: var(--viz-highlight-active);
+                    --color-indigo-500: var(--viz-highlight-active);
+                    --color-indigo-400: var(--viz-highlight-active);
                 }
             `}} />
         </div>

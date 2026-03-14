@@ -69,7 +69,7 @@ export default function TrieVisualizer() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold shadow-md ${
-                        node.isEnd ? 'bg-brand-500 border-brand-400 text-white' : 'bg-slate-800 border-slate-700 text-slate-300'
+                        node.isEnd ? 'bg-brand-500 border-brand-400 text-white' : 'bg-[var(--viz-bg-inactive)] border-[var(--viz-border-inactive)] text-[var(--text-primary)]'
                     }`}
                 >
                     {char}
@@ -90,7 +90,7 @@ export default function TrieVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8 space-y-12 overflow-auto custom-scrollbar">
             <div className="text-center space-y-2">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Prefix Tree Visualization</p>
-                <p className="text-sm font-medium text-slate-400">{message}</p>
+                <p className="text-sm font-medium text-[var(--text-secondary)]">{message}</p>
             </div>
 
             <div className="min-h-[250px] flex items-start justify-center p-4">

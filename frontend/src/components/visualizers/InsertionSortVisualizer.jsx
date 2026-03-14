@@ -106,7 +106,7 @@ export default function InsertionSortVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Insertion Sort</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
             </div>
 
             <div className="flex flex-col items-center gap-8">
@@ -119,7 +119,7 @@ export default function InsertionSortVisualizer() {
                                 initial={{ opacity: 0, scale: 0.5, y: -20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.5, y: -20 }}
-                                className="w-12 h-12 rounded-xl border-2 border-brand-500 bg-brand-500/20 text-brand-400 flex items-center justify-center font-black text-xl shadow-lg shadow-brand-500/20"
+                                className="w-12 h-12 rounded-xl border-2 border-[var(--viz-highlight-active)] bg-[var(--viz-highlight-active-bg)] text-[var(--viz-highlight-active)] flex items-center justify-center font-black text-xl shadow-lg shadow-brand-500/20"
                             >
                                 {key}
                             </motion.div>
@@ -143,23 +143,23 @@ export default function InsertionSortVisualizer() {
                                     animate={{
                                         height: isEmpty ? '20px' : `${(val / 100) * 200}px`,
                                         opacity: isEmpty ? 0.2 : 1,
-                                        backgroundColor: isFullySorted ? 'rgba(16, 185, 129, 0.5)' : 
-                                                         isNextPick ? 'rgba(234, 179, 8, 0.8)' : 
-                                                         isComparing ? 'rgba(239, 68, 68, 0.8)' : 
-                                                         isSortedArea ? 'rgba(16, 185, 129, 0.3)' : 'rgba(14, 165, 233, 0.2)',
-                                        borderColor: isFullySorted ? '#10b981' : isNextPick ? '#eab308' : isComparing ? '#ef4444' : isSortedArea ? 'rgba(16, 185, 129, 0.8)' : 'rgba(14, 165, 233, 0.5)'
+                                        backgroundColor: isFullySorted ? 'var(--viz-highlight-success-bg)' : 
+                                                         isNextPick ? 'var(--viz-highlight-warning)' : 
+                                                         isComparing ? 'var(--viz-highlight-compare)' : 
+                                                         isSortedArea ? 'rgba(16, 185, 129, 0.3)' : 'var(--viz-highlight-active-bg)',
+                                        borderColor: isFullySorted ? 'var(--viz-highlight-success)' : isNextPick ? 'var(--viz-highlight-warning)' : isComparing ? 'var(--viz-highlight-compare)' : isSortedArea ? 'var(--viz-highlight-success)' : 'var(--viz-highlight-active)'
                                     }}
                                     className="w-10 rounded-t-lg border-2 border-b-0"
                                 />
                                 <motion.div 
                                     layout
                                     className={`w-10 h-10 rounded-xl border flex items-center justify-center font-black ${
-                                        isEmpty ? 'bg-transparent border-dashed border-slate-600' :
-                                        isFullySorted ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400' : 
+                                        isEmpty ? 'bg-transparent border-dashed border-[var(--viz-border-inactive)]' :
+                                        isFullySorted ? 'bg-[var(--viz-highlight-success-bg)] border-[var(--viz-highlight-success)] text-[var(--viz-highlight-success)]' : 
                                         isNextPick ? 'bg-yellow-500/20 border-yellow-500 text-yellow-500' :
-                                        isComparing ? 'bg-rose-500/20 border-rose-500 text-rose-400' : 
-                                        isSortedArea ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-300' :
-                                        'bg-slate-800 border-slate-600 text-slate-300'
+                                        isComparing ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-compare)] text-[var(--viz-highlight-compare)]' : 
+                                        isSortedArea ? 'bg-emerald-500/10 border-[var(--viz-highlight-success)]/50 text-emerald-300' :
+                                        'bg-[var(--viz-bg-inactive)] border-[var(--viz-border-inactive)] text-[var(--text-primary)]'
                                     }`}
                                 >
                                     {val !== null ? val : ''}

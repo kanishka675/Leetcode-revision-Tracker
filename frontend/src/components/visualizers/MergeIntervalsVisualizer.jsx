@@ -55,7 +55,7 @@ export default function MergeIntervalsVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8 space-y-12">
             <div className="text-center space-y-2">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Merge Overlapping Intervals</p>
-                <p className="text-sm font-medium text-slate-400">
+                <p className="text-sm font-medium text-[var(--text-secondary)]">
                     {status === 'Wait' ? 'Sort by start time and merge overlaps' : 
                      status === 'Over' ? 'All intervals processed' : 
                      `Comparing interval [${intervals[currentIndex].start}, ${intervals[currentIndex].end}]`}
@@ -66,12 +66,12 @@ export default function MergeIntervalsVisualizer() {
                 {/* Input Intervals */}
                 <div className="space-y-2">
                     <span className="text-[10px] font-black uppercase text-slate-600">Initial Intervals</span>
-                    <div className="relative h-12 bg-slate-800/20 rounded-xl overflow-hidden border border-white/5">
+                    <div className="relative h-12 bg-[var(--viz-bg-inactive)]/20 rounded-xl overflow-hidden border border-white/5">
                         {intervals.map((interval, i) => (
                             <motion.div
                                 key={interval.id}
                                 animate={{
-                                    backgroundColor: i === currentIndex ? '#0ea5e9' : 'rgba(14, 165, 233, 0.3)',
+                                    backgroundColor: i === currentIndex ? 'var(--viz-highlight-active)' : 'var(--viz-highlight-active-bg)',
                                     opacity: i < currentIndex ? 0.3 : 1
                                 }}
                                 className="absolute h-6 top-3 rounded-md flex items-center justify-center text-[10px] font-bold text-white shadow-lg"
@@ -89,7 +89,7 @@ export default function MergeIntervalsVisualizer() {
                 {/* Merged Outcome */}
                 <div className="space-y-2">
                     <span className="text-[10px] font-black uppercase text-slate-600">Merged Intervals</span>
-                    <div className="relative h-12 bg-slate-800/20 rounded-xl overflow-hidden border border-white/5">
+                    <div className="relative h-12 bg-[var(--viz-bg-inactive)]/20 rounded-xl overflow-hidden border border-white/5">
                         <AnimatePresence>
                             {merged.map((interval, i) => (
                                 <motion.div

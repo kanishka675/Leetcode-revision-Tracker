@@ -110,7 +110,7 @@ export default function MergeSortVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Merge Sort</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
                 <p className="text-xs text-brand-500">Step: {currentStep + 1} / {steps.length}</p>
             </div>
 
@@ -125,19 +125,19 @@ export default function MergeSortVisualizer() {
                             <motion.div
                                 animate={{
                                     height: `${(val / 100) * 200}px`,
-                                    backgroundColor: isFullySorted ? 'rgba(16, 185, 129, 0.5)' : 
-                                                     isComparing ? 'rgba(239, 68, 68, 0.8)' : 
-                                                     isActive ? 'rgba(168, 85, 247, 0.4)' : 'rgba(14, 165, 233, 0.2)',
-                                    borderColor: isFullySorted ? '#10b981' : isComparing ? '#ef4444' : isActive ? '#a855f7' : 'rgba(14, 165, 233, 0.3)'
+                                    backgroundColor: isFullySorted ? 'var(--viz-highlight-success-bg)' : 
+                                                     isComparing ? 'var(--viz-highlight-compare)' : 
+                                                     isActive ? 'var(--viz-highlight-active-bg)' : 'var(--viz-highlight-active-bg)',
+                                    borderColor: isFullySorted ? 'var(--viz-highlight-success)' : isComparing ? 'var(--viz-highlight-compare)' : isActive ? 'var(--viz-highlight-active)' : 'var(--viz-highlight-active-bg)'
                                 }}
                                 className="w-10 rounded-t-lg border-2 border-b-0 transition-colors duration-300"
                             />
                             <motion.div 
                                 className={`w-10 h-10 rounded-xl border flex items-center justify-center font-black transition-colors duration-300 ${
-                                    isFullySorted ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400' : 
-                                    isComparing ? 'bg-rose-500/20 border-rose-500 text-rose-400' : 
-                                    isActive ? 'bg-purple-500/20 border-purple-500 text-purple-400' :
-                                    'bg-slate-800 border-slate-600 text-slate-400'
+                                    isFullySorted ? 'bg-[var(--viz-highlight-success-bg)] border-[var(--viz-highlight-success)] text-[var(--viz-highlight-success)]' : 
+                                    isComparing ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-compare)] text-[var(--viz-highlight-compare)]' : 
+                                    isActive ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-active)] text-[var(--viz-highlight-active)]' :
+                                    'bg-[var(--viz-bg-inactive)] border-[var(--viz-border-inactive)] text-[var(--text-secondary)]'
                                 }`}
                             >
                                 {val}

@@ -120,19 +120,19 @@ export default function RecursionTreeVisualizer() {
                     initial={{ opacity: 0, scale: 0.5, y: -20 }}
                     animate={{ 
                         opacity: 1, scale: isCurrent ? 1.1 : 1, y: 0,
-                        backgroundColor: isCurrent ? 'rgba(234, 179, 8, 0.4)' : hasReturned ? 'rgba(16, 185, 129, 0.4)' : 'rgba(14, 165, 233, 0.2)',
-                        borderColor: isCurrent ? '#facc15' : hasReturned ? '#10b981' : '#0ea5e9'
+                        backgroundColor: isCurrent ? 'var(--viz-highlight-warning-bg)' : hasReturned ? 'var(--viz-highlight-success-bg)' : 'var(--viz-highlight-active-bg)',
+                        borderColor: isCurrent ? 'var(--viz-highlight-warning)' : hasReturned ? 'var(--viz-highlight-success)' : 'var(--viz-highlight-active)'
                     }}
-                    className="w-20 h-20 rounded-2xl border-2 flex items-center justify-center font-black text-lg text-slate-200 shadow-xl relative z-10"
+                    className="w-20 h-20 rounded-2xl border-2 flex items-center justify-center font-black text-lg text-[var(--text-primary)] shadow-xl relative z-10"
                 >
                     <div className="flex flex-col items-center">
-                        <span className="text-[10px] text-slate-400">Fib({node.n})</span>
-                        {hasReturned && <span className="text-xl text-emerald-400">{returnValues[id]}</span>}
+                        <span className="text-[10px] text-[var(--text-secondary)]">Fib({node.n})</span>
+                        {hasReturned && <span className="text-xl text-[var(--viz-highlight-success)]">{returnValues[id]}</span>}
                     </div>
                 </motion.div>
                 
                 {children.length > 0 && (
-                    <div className="flex gap-8 sm:gap-16 pt-4 relative border-t-2 border-slate-700/50 mt-4 px-4 w-full justify-center">
+                    <div className="flex gap-8 sm:gap-16 pt-4 relative border-t-2 border-[var(--viz-border-inactive)]/50 mt-4 px-4 w-full justify-center">
                         {/* Lines connecting parent to children */}
                         {children.map(child => renderNode(child.id))}
                     </div>
@@ -145,7 +145,7 @@ export default function RecursionTreeVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-hidden">
             <div className="text-center space-y-2 mb-8">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Recursion Tree (Fibonacci)</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
                 <p className="text-xs text-brand-500">Step: {currentStep + 1} / {steps.length}</p>
             </div>
 

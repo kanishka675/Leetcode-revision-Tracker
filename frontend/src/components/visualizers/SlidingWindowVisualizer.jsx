@@ -60,11 +60,11 @@ export default function SlidingWindowVisualizer() {
                 <div className="flex gap-8 justify-center">
                     <div>
                         <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Current Sum</p>
-                        <p className="text-2xl font-black text-brand-400">{currentSum}</p>
+                        <p className="text-2xl font-black text-[var(--viz-highlight-active)]">{currentSum}</p>
                     </div>
                     <div>
                         <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Max Found</p>
-                        <p className="text-2xl font-black text-emerald-400">{maxSum}</p>
+                        <p className="text-2xl font-black text-[var(--viz-highlight-success)]">{maxSum}</p>
                     </div>
                 </div>
             </div>
@@ -76,12 +76,12 @@ export default function SlidingWindowVisualizer() {
                         <motion.div
                             key={i}
                             animate={{
-                                backgroundColor: inWindow ? 'rgba(14, 165, 233, 0.2)' : 'rgba(30, 41, 59, 0.5)',
-                                borderColor: inWindow ? '#0ea5e9' : 'rgba(255,255,255,0.05)',
+                                backgroundColor: inWindow ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)',
+                                borderColor: inWindow ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
                                 scale: inWindow ? 1.05 : 1
                             }}
                             className={`w-12 h-12 rounded-xl border flex items-center justify-center font-bold text-lg transition-colors ${
-                                inWindow ? 'text-brand-400' : 'text-slate-600'
+                                inWindow ? 'text-[var(--viz-highlight-active)]' : 'text-slate-600'
                             }`}
                         >
                             {val}

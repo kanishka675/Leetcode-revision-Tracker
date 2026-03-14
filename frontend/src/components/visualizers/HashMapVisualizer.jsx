@@ -57,7 +57,7 @@ export default function HashMapVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Hash Map (Two Sum)</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-16 items-start justify-center w-full max-w-4xl">
@@ -73,12 +73,12 @@ export default function HashMapVisualizer() {
                                     <motion.div
                                         animate={{
                                             scale: isCurrent || isFound ? 1.1 : 1,
-                                            borderColor: isFound ? '#10b981' : isCurrent ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
-                                            backgroundColor: isFound ? 'rgba(16, 185, 129, 0.2)' : isCurrent ? 'rgba(14, 165, 233, 0.2)' : 'rgba(31, 41, 55, 0.5)'
+                                            borderColor: isFound ? 'var(--viz-highlight-success)' : isCurrent ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
+                                            backgroundColor: isFound ? 'var(--viz-highlight-success-bg)' : isCurrent ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                                         }}
                                         className="w-14 h-14 rounded-2xl border-2 flex flex-col items-center justify-center shadow-lg"
                                     >
-                                        <span className="text-lg font-black text-slate-200">{val}</span>
+                                        <span className="text-lg font-black text-[var(--text-primary)]">{val}</span>
                                     </motion.div>
                                     <span className="text-[10px] font-bold text-slate-500">Idx: {i}</span>
                                 </div>
@@ -90,7 +90,7 @@ export default function HashMapVisualizer() {
                 {/* Hash Map View */}
                 <div className="flex flex-col items-center gap-4 min-w-[200px]">
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">Hash Map (Value → Index)</span>
-                    <div className="w-full bg-slate-800/30 rounded-2xl border border-white/5 p-4 flex flex-col gap-2 min-h-[150px]">
+                    <div className="w-full bg-[var(--viz-bg-inactive)]/30 rounded-2xl border border-white/5 p-4 flex flex-col gap-2 min-h-[150px]">
                         <AnimatePresence>
                             {Object.entries(map).length === 0 && (
                                 <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="text-xs text-slate-500 italic text-center py-8">
@@ -104,12 +104,12 @@ export default function HashMapVisualizer() {
                                     animate={{ opacity: 1, x: 0 }}
                                     className={`flex justify-between items-center px-4 py-2 rounded-xl text-sm font-bold border ${
                                         (foundIndices && foundIndices.includes(val)) 
-                                        ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' 
-                                        : 'bg-slate-900/50 border-white/5 text-slate-300'
+                                        ? 'bg-[var(--viz-highlight-success-bg)] border-[var(--viz-highlight-success)]/50 text-[var(--viz-highlight-success)]' 
+                                        : 'bg-slate-900/50 border-white/5 text-[var(--text-primary)]'
                                     }`}
                                 >
                                     <span>Val: {key}</span>
-                                    <span className="text-brand-400">Idx: {val}</span>
+                                    <span className="text-[var(--viz-highlight-active)]">Idx: {val}</span>
                                 </motion.div>
                             ))}
                         </AnimatePresence>

@@ -150,7 +150,7 @@ export default function KMPVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-hidden">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">KMP Algorithm</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
                 <p className="text-xs text-brand-500">Step: {currentStep + 1} / {steps.length}</p>
             </div>
 
@@ -169,12 +169,12 @@ export default function KMPVisualizer() {
                                     key={idx}
                                     animate={{
                                         scale: isCurrentText ? 1.1 : 1,
-                                        backgroundColor: isFound ? 'rgba(16, 185, 129, 0.4)' : 
-                                                         isCurrentText ? (isMatch === true ? 'rgba(16, 185, 129, 0.5)' : isMatch === false ? 'rgba(239, 68, 68, 0.5)' : 'rgba(14, 165, 233, 0.5)') : 
-                                                         !isSearchPhase ? 'rgba(31, 41, 55, 0.2)' : 'rgba(31, 41, 55, 0.5)',
-                                        borderColor: isFound ? '#10b981' : isCurrentText ? '#0ea5e9' : 'rgba(255,255,255,0.05)'
+                                        backgroundColor: isFound ? 'var(--viz-highlight-success-bg)' : 
+                                                         isCurrentText ? (isMatch === true ? 'var(--viz-highlight-success-bg)' : isMatch === false ? 'var(--viz-highlight-compare-bg)' : 'var(--viz-highlight-active)') : 
+                                                         !isSearchPhase ? 'rgba(31, 41, 55, 0.2)' : 'var(--viz-bg-inactive)',
+                                        borderColor: isFound ? 'var(--viz-highlight-success)' : isCurrentText ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)'
                                     }}
-                                    className="min-w-10 min-h-10 border-2 rounded flex items-center justify-center font-bold text-lg text-slate-200"
+                                    className="min-w-10 min-h-10 border-2 rounded flex items-center justify-center font-bold text-lg text-[var(--text-primary)]"
                                 >
                                     {char}
                                 </motion.div>
@@ -202,14 +202,14 @@ export default function KMPVisualizer() {
                                 <div key={idx} className="flex flex-col gap-1 w-10">
                                     <motion.div
                                         animate={{
-                                            backgroundColor: isCurrentPattern ? 'rgba(234, 179, 8, 0.5)' : 'rgba(139, 92, 246, 0.2)',
-                                            borderColor: isCurrentPattern ? '#eab308' : 'rgba(139, 92, 246, 0.5)'
+                                            backgroundColor: isCurrentPattern ? 'var(--viz-highlight-warning-bg)' : 'rgba(139, 92, 246, 0.2)',
+                                            borderColor: isCurrentPattern ? 'var(--viz-highlight-warning)' : 'rgba(139, 92, 246, 0.5)'
                                         }}
-                                        className="h-10 border-2 rounded flex items-center justify-center font-bold text-lg text-slate-200"
+                                        className="h-10 border-2 rounded flex items-center justify-center font-bold text-lg text-[var(--text-primary)]"
                                     >
                                         {char}
                                     </motion.div>
-                                    <div className="h-6 bg-slate-800/80 rounded border border-white/5 flex items-center justify-center text-xs font-mono text-slate-400">
+                                    <div className="h-6 bg-[var(--viz-bg-inactive)]/80 rounded border border-white/5 flex items-center justify-center text-xs font-mono text-[var(--text-secondary)]">
                                         {lpsVal}
                                     </div>
                                     <span className="text-[8px] text-center text-slate-600 font-bold">LPS[{idx}]</span>

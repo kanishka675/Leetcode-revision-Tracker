@@ -110,7 +110,7 @@ export default function HeapSortVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Heap Sort</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
                 <p className="text-xs text-brand-500">Step: {currentStep + 1} / {steps.length}</p>
             </div>
 
@@ -127,21 +127,21 @@ export default function HeapSortVisualizer() {
                             <motion.div
                                 animate={{
                                     height: `${(val / 100) * 200}px`,
-                                    backgroundColor: isFullySorted || isSorted ? 'rgba(16, 185, 129, 0.5)' : 
-                                                     isSwapping ? 'rgba(249, 115, 22, 0.8)' :
-                                                     isLargest ? 'rgba(234, 179, 8, 0.8)' :
-                                                     isHeapifying ? 'rgba(239, 68, 68, 0.6)' : 'rgba(14, 165, 233, 0.3)',
-                                    borderColor: isFullySorted || isSorted ? '#10b981' : isSwapping ? '#f97316' : isLargest ? '#eab308' : isHeapifying ? '#ef4444' : '#0ea5e9'
+                                    backgroundColor: isFullySorted || isSorted ? 'var(--viz-highlight-success-bg)' : 
+                                                     isSwapping ? 'var(--viz-highlight-compare)' :
+                                                     isLargest ? 'var(--viz-highlight-warning)' :
+                                                     isHeapifying ? 'rgba(239, 68, 68, 0.6)' : 'var(--viz-highlight-active-bg)',
+                                    borderColor: isFullySorted || isSorted ? 'var(--viz-highlight-success)' : isSwapping ? 'var(--viz-highlight-compare)' : isLargest ? 'var(--viz-highlight-warning)' : isHeapifying ? 'var(--viz-highlight-compare)' : 'var(--viz-highlight-active)'
                                 }}
                                 className="w-10 rounded-t-lg border-2 border-b-0 transition-colors duration-300"
                             />
                             <motion.div 
                                 className={`w-10 h-10 rounded-xl border flex items-center justify-center font-black transition-colors duration-300 ${
-                                    isFullySorted || isSorted ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400' : 
+                                    isFullySorted || isSorted ? 'bg-[var(--viz-highlight-success-bg)] border-[var(--viz-highlight-success)] text-[var(--viz-highlight-success)]' : 
                                     isSwapping ? 'bg-orange-500/20 border-orange-500 text-orange-400' :
                                     isLargest ? 'bg-yellow-500/20 border-yellow-500 text-yellow-500' :
-                                    isHeapifying ? 'bg-rose-500/20 border-rose-500 text-rose-400' : 
-                                    'bg-slate-800 border-slate-600 text-slate-300'
+                                    isHeapifying ? 'bg-[var(--viz-highlight-compare-bg)] border-[var(--viz-highlight-compare)] text-[var(--viz-highlight-compare)]' : 
+                                    'bg-[var(--viz-bg-inactive)] border-[var(--viz-border-inactive)] text-[var(--text-primary)]'
                                 }`}
                             >
                                 {val}

@@ -109,10 +109,10 @@ export default function FastSlowPointerVisualizer() {
                                         : isFast 
                                         ? '0 0 15px rgba(99, 102, 241, 0.3)' 
                                         : 'none',
-                                    borderColor: (isSlow && isFast) ? '#a855f7' : isSlow ? '#0ea5e9' : isFast ? '#6366f1' : 'rgba(255,255,255,0.05)'
+                                    borderColor: (isSlow && isFast) ? 'var(--viz-highlight-active)' : isSlow ? 'var(--viz-highlight-active)' : isFast ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)'
                                 }}
                                 className={`w-14 h-14 rounded-full flex items-center justify-center font-black text-lg border-2 transition-all ${
-                                    (isSlow || isFast) ? 'bg-slate-800 text-slate-100' : 'bg-brand-500/5 text-slate-600'
+                                    (isSlow || isFast) ? 'bg-[var(--viz-bg-inactive)] text-slate-100' : 'bg-brand-500/5 text-slate-600'
                                 }`}
                             >
                                 {node.val}
@@ -120,7 +120,7 @@ export default function FastSlowPointerVisualizer() {
 
                             {/* Arrow to Next */}
                             {i < nodes.length - 1 && (
-                                <div className="absolute top-1/2 -right-10 w-8 h-0.5 bg-slate-800">
+                                <div className="absolute top-1/2 -right-10 w-8 h-0.5 bg-[var(--viz-bg-inactive)]">
                                     <div className="absolute -right-1 -top-1 w-2 h-2 border-t-2 border-r-2 border-slate-800 rotate-45" />
                                 </div>
                             )}

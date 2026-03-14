@@ -55,7 +55,7 @@ export default function MatrixTraversalVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="text-center space-y-2 mb-12">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Matrix Traversal</p>
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
             </div>
 
             <div className="grid gap-2 mb-8" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
@@ -69,10 +69,10 @@ export default function MatrixTraversalVisualizer() {
                                 key={`${r}-${c}`}
                                 animate={{
                                     scale: isCurrent ? 1.15 : 1,
-                                    borderColor: isCurrent ? '#0ea5e9' : isVisited ? 'rgba(14, 165, 233, 0.4)' : 'rgba(255,255,255,0.05)',
-                                    backgroundColor: isCurrent ? 'rgba(14, 165, 233, 0.3)' : isVisited ? 'rgba(14, 165, 233, 0.1)' : 'rgba(31, 41, 55, 0.5)'
+                                    borderColor: isCurrent ? 'var(--viz-highlight-active)' : isVisited ? 'var(--viz-highlight-active-bg)' : 'var(--viz-border-inactive)',
+                                    backgroundColor: isCurrent ? 'var(--viz-highlight-active-bg)' : isVisited ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                                 }}
-                                className="w-16 h-16 rounded-2xl border-2 flex flex-col items-center justify-center font-black text-slate-200 transition-colors"
+                                className="w-16 h-16 rounded-2xl border-2 flex flex-col items-center justify-center font-black text-[var(--text-primary)] transition-colors"
                             >
                                 <span className="text-xl">{val}</span>
                                 <span className="text-[8px] text-slate-500 font-mono opacity-60">[{r},{c}]</span>

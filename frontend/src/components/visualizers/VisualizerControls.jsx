@@ -6,7 +6,7 @@ export default function VisualizerControls({
     status
 }) {
     return (
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8 p-4 bg-slate-800/30 rounded-2xl border border-white/5">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8 p-4 bg-[var(--viz-bg-inactive)]/30 rounded-2xl border border-white/5">
             {/* Playback Controls */}
             <div className="flex gap-4">
                 <button 

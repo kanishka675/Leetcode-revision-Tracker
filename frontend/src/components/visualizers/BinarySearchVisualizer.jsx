@@ -70,11 +70,11 @@ export default function BinarySearchVisualizer() {
                             animate={{
                                 opacity: isOutside ? 0.3 : 1,
                                 scale: isMid ? 1.2 : 1,
-                                borderColor: isMid ? '#0ea5e9' : 'rgba(255,255,255,0.05)',
-                                backgroundColor: isMid ? 'rgba(14, 165, 233, 0.2)' : 'rgba(30, 41, 59, 0.5)'
+                                borderColor: isMid ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
+                                backgroundColor: isMid ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                             }}
                             className={`w-12 h-12 rounded-xl border flex items-center justify-center font-bold transition-all ${
-                                isMid ? 'text-brand-400' : isOutside ? 'text-slate-700' : 'text-slate-400'
+                                isMid ? 'text-[var(--viz-highlight-active)]' : isOutside ? 'text-slate-700' : 'text-[var(--text-secondary)]'
                             }`}
                         >
                             {val}

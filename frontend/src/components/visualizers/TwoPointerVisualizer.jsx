@@ -68,11 +68,11 @@ export default function TwoPointerVisualizer() {
                             <motion.div
                                 animate={{
                                     scale: (isLeft || isRight) ? 1.1 : 1,
-                                    borderColor: status === 'Found' && (isLeft || isRight) ? '#10b981' : 
-                                               (isLeft || isRight) ? '#0ea5e9' : 'rgba(255,255,255,0.1)'
+                                    borderColor: status === 'Found' && (isLeft || isRight) ? 'var(--viz-highlight-success)' : 
+                                               (isLeft || isRight) ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)'
                                 }}
                                 className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-xl border-2 transition-colors ${
-                                    (isLeft || isRight) ? 'bg-brand-500/20 text-brand-400' : 'bg-slate-800/50 text-slate-500'
+                                    (isLeft || isRight) ? 'bg-[var(--viz-highlight-active-bg)] text-[var(--viz-highlight-active)]' : 'bg-[var(--viz-bg-inactive)]/50 text-slate-500'
                                 }`}
                             >
                                 {val}

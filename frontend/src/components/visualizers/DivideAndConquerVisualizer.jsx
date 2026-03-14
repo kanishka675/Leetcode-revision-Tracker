@@ -52,15 +52,15 @@ export default function DivideAndConquerVisualizer() {
                         className="flex flex-wrap justify-center gap-8 md:gap-16 w-full"
                     >
                         {activeStep.groups.map((group, gIdx) => (
-                            <div key={gIdx} className="flex gap-2 p-3 bg-slate-800/20 rounded-xl border border-white/5 shadow-xl">
+                            <div key={gIdx} className="flex gap-2 p-3 bg-[var(--viz-bg-inactive)]/20 rounded-xl border border-white/5 shadow-xl">
                                 {group.map((val, vIdx) => (
                                     <motion.div
                                         key={`${gIdx}-${vIdx}-${val}`}
                                         layout
                                         className={`w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center font-bold text-sm md:text-base border transition-colors shadow-lg ${
-                                            activeStep.action === 'Merge' ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400' :
+                                            activeStep.action === 'Merge' ? 'bg-emerald-500/10 border-[var(--viz-highlight-success)]/40 text-[var(--viz-highlight-success)]' :
                                             activeStep.action === 'Split' ? 'bg-indigo-500/10 border-indigo-500/40 text-indigo-400' :
-                                            'bg-brand-500/10 border-brand-500/40 text-brand-400'
+                                            'bg-brand-500/10 border-[var(--viz-highlight-active)]/40 text-[var(--viz-highlight-active)]'
                                         }`}
                                     >
                                         {val}

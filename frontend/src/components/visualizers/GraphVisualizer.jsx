@@ -76,7 +76,7 @@ export default function GraphVisualizer({ type }) {
         <div className="flex-1 flex flex-col items-center justify-center p-8 gap-8">
             <div className="text-center">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">{type.toUpperCase()} Traversal</p>
-                <p className="text-sm font-medium text-slate-400 mt-1">
+                <p className="text-sm font-medium text-[var(--text-secondary)] mt-1">
                     {status === 'Wait' ? 'Start from (0,0)' : 
                      status === 'Over' ? 'All nodes visited' : 
                      type === 'bfs' ? `Queue: [${queue.join(' | ')}]` : `Stack: [${stack.join(' | ')}]`}
@@ -93,11 +93,11 @@ export default function GraphVisualizer({ type }) {
                             <motion.div
                                 key={key}
                                 animate={{
-                                    backgroundColor: isCurrent ? '#0ea5e9' : isVisited ? 'rgba(14, 165, 233, 0.4)' : 'rgba(30, 41, 59, 0.5)',
+                                    backgroundColor: isCurrent ? 'var(--viz-highlight-active)' : isVisited ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)',
                                     scale: isCurrent ? 1.1 : 1,
-                                    borderColor: isCurrent ? '#0ea5e9' : 'rgba(255,255,255,0.1)'
+                                    borderColor: isCurrent ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)'
                                 }}
-                                className={`w-16 h-16 rounded-xl border-2 flex items-center justify-center text-[10px] font-black text-slate-300 transition-colors`}
+                                className={`w-16 h-16 rounded-xl border-2 flex items-center justify-center text-[10px] font-black text-[var(--text-primary)] transition-colors`}
                             >
                                 ({r},{c})
                             </motion.div>

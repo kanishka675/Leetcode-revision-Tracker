@@ -68,16 +68,16 @@ export default function MonotonicStackVisualizer() {
                             <div key={i} className="flex flex-col items-center gap-2">
                                 <motion.div
                                     animate={{
-                                        borderColor: i === index ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
+                                        borderColor: i === index ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
                                         scale: i === index ? 1.1 : 1,
-                                        backgroundColor: i === index ? 'rgba(14, 165, 233, 0.1)' : 'rgba(31, 41, 55, 0.5)'
+                                        backgroundColor: i === index ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                                     }}
-                                    className="w-12 h-12 rounded-xl border-2 flex items-center justify-center font-bold text-slate-200"
+                                    className="w-12 h-12 rounded-xl border-2 flex items-center justify-center font-bold text-[var(--text-primary)]"
                                 >
                                     {val}
                                 </motion.div>
                                 <div className="text-[10px] text-slate-500 font-mono">
-                                    NGE: <span className="text-brand-400 font-bold">{result[i] ?? '-'}</span>
+                                    NGE: <span className="text-[var(--viz-highlight-active)] font-bold">{result[i] ?? '-'}</span>
                                 </div>
                             </div>
                         ))}
@@ -87,7 +87,7 @@ export default function MonotonicStackVisualizer() {
                 {/* Stack */}
                 <div className="flex flex-col items-center gap-4">
                     <span className="text-[10px] font-black uppercase text-slate-600">Monotonic Stack</span>
-                    <div className="w-24 h-48 border-x-4 border-b-4 border-slate-700/50 rounded-b-2xl flex flex-col-reverse p-2 gap-2 bg-slate-800/20">
+                    <div className="w-24 h-48 border-x-4 border-b-4 border-[var(--viz-border-inactive)]/50 rounded-b-2xl flex flex-col-reverse p-2 gap-2 bg-[var(--viz-bg-inactive)]/20">
                         <AnimatePresence>
                             {stack.map((idx) => (
                                 <motion.div

@@ -119,8 +119,8 @@ export default function BinaryTreeTraversalVisualizer() {
                             onClick={() => { setMode(m); reset(); }}
                             className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all border ${
                                 mode === m 
-                                    ? 'bg-brand-500/20 text-brand-400 border-brand-500/50 shadow-lg shadow-brand-500/10' 
-                                    : 'bg-slate-800 text-slate-400 border-transparent hover:bg-slate-700'
+                                    ? 'bg-[var(--viz-highlight-active-bg)] text-[var(--viz-highlight-active)] border-[var(--viz-highlight-active)]/50 shadow-lg shadow-brand-500/10' 
+                                    : 'bg-[var(--viz-bg-inactive)] text-[var(--text-secondary)] border-transparent hover:bg-slate-700'
                             }`}
                         >
                             {m}
@@ -128,12 +128,12 @@ export default function BinaryTreeTraversalVisualizer() {
                     ))}
                 </div>
 
-                <p className="text-lg font-bold text-slate-300 max-w-lg mx-auto min-h-[3rem]">{message}</p>
+                <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>
             </div>
 
             <div className="flex flex-col lg:flex-row items-center gap-12 w-full max-w-5xl">
                 {/* Tree Visualization */}
-                <div className="relative w-full max-w-md h-64 border border-white/5 bg-slate-800/20 rounded-2xl flex-shrink-0">
+                <div className="relative w-full max-w-md h-64 border border-white/5 bg-[var(--viz-bg-inactive)]/20 rounded-2xl flex-shrink-0">
                     <svg className="absolute inset-0 w-full h-full pointer-events-none">
                         {edges.map((edge, i) => {
                             const isTraversing = (currentNode === tree.val && nextNode === tree.left.val) || false; // simplifies to all edges dim
@@ -144,7 +144,7 @@ export default function BinaryTreeTraversalVisualizer() {
                                     y1={`${edge.from[1]}%`} 
                                     x2={`${edge.to[0]}%`} 
                                     y2={`${edge.to[1]}%`} 
-                                    stroke="rgba(255,255,255,0.1)" 
+                                    stroke="var(--viz-border-inactive)" 
                                     strokeWidth="2" 
                                 />
                             );
@@ -161,8 +161,8 @@ export default function BinaryTreeTraversalVisualizer() {
                                 animate={{
                                     scale: isCurrent ? 1.2 : 1,
                                     backgroundColor: isCurrent ? 'rgba(234, 179, 8, 0.9)' : 
-                                                     isVisited ? 'rgba(16, 185, 129, 0.8)' : 'rgba(31, 41, 55, 0.9)',
-                                    borderColor: isCurrent ? '#facc15' : isVisited ? '#10b981' : 'rgba(14, 165, 233, 0.5)'
+                                                     isVisited ? 'var(--viz-highlight-success)' : 'var(--viz-bg-inactive)',
+                                    borderColor: isCurrent ? 'var(--viz-highlight-warning)' : isVisited ? 'var(--viz-highlight-success)' : 'var(--viz-highlight-active)'
                                 }}
                                 className="absolute w-12 h-12 -ml-6 -mt-6 rounded-full border-2 flex items-center justify-center font-black text-slate-100 shadow-xl transition-colors duration-300 z-10"
                                 style={{ left: `${node.x}%`, top: `${node.y}%` }}
@@ -176,14 +176,14 @@ export default function BinaryTreeTraversalVisualizer() {
                 {/* Traversal Result Array */}
                 <div className="flex flex-col items-center gap-2 w-full max-w-sm">
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Result Array</span>
-                    <div className="flex flex-wrap justify-center gap-2 min-h-[3rem] w-full p-4 bg-slate-800/50 rounded-xl border border-white/5">
+                    <div className="flex flex-wrap justify-center gap-2 min-h-[3rem] w-full p-4 bg-[var(--viz-bg-inactive)]/50 rounded-xl border border-white/5">
                         {visited.length === 0 && <span className="text-slate-600 text-sm italic">Empty</span>}
                         {visited.map((val, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, scale: 0.5, y: 10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                className="w-10 h-10 bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 rounded-lg flex items-center justify-center font-black"
+                                className="w-10 h-10 bg-[var(--viz-highlight-success-bg)] border border-[var(--viz-highlight-success)]/50 text-[var(--viz-highlight-success)] rounded-lg flex items-center justify-center font-black"
                             >
                                 {val}
                             </motion.div>

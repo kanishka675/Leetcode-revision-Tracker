@@ -56,8 +56,8 @@ export default function HeapVisualizer() {
                         scale: 1,
                         x: `${x}%`,
                         y: `${y}%`,
-                        borderColor: highlightIndices.includes(i) ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
-                        backgroundColor: highlightIndices.includes(i) ? 'rgba(14, 165, 233, 0.2)' : 'rgba(31, 41, 55, 0.8)'
+                        borderColor: highlightIndices.includes(i) ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
+                        backgroundColor: highlightIndices.includes(i) ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                     }}
                     style={{ position: 'absolute', left: '-25px', top: '0', width: '50px', height: '50px' }}
                     className="rounded-full border-2 flex items-center justify-center font-black text-slate-100 shadow-xl z-20"
@@ -94,7 +94,7 @@ export default function HeapVisualizer() {
                     <motion.line
                         x1={`${xF}%`} y1={`${yF}%`}
                         x2={`${xT}%`} y2={`${yT}%`}
-                        stroke="rgba(255,255,255,0.1)"
+                        stroke="var(--viz-border-inactive)"
                         strokeWidth="2"
                     />
                 </svg>
@@ -119,8 +119,8 @@ export default function HeapVisualizer() {
                 <button onClick={reset} className="btn-secondary px-8">Reset</button>
             </div>
             
-            <div className="bg-brand-500/5 p-4 rounded-xl border border-brand-500/10 text-xs text-slate-400 max-w-md text-center">
-                Nodes are arranged in a complete binary tree. Parent of node at index <code className="text-brand-400">i</code> is at <code className="text-brand-400">floor((i-1)/2)</code>.
+            <div className="bg-brand-500/5 p-4 rounded-xl border border-[var(--viz-highlight-active)]/10 text-xs text-[var(--text-secondary)] max-w-md text-center">
+                Nodes are arranged in a complete binary tree. Parent of node at index <code className="text-[var(--viz-highlight-active)]">i</code> is at <code className="text-[var(--viz-highlight-active)]">floor((i-1)/2)</code>.
             </div>
         </div>
     );

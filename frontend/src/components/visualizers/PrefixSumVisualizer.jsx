@@ -69,10 +69,10 @@ export default function PrefixSumVisualizer() {
                                 <motion.div
                                     key={`nums-${i}`}
                                     animate={{
-                                        borderColor: inQuery ? '#10b981' : (i === idx) ? '#0ea5e9' : 'rgba(255,255,255,0.05)',
-                                        backgroundColor: inQuery ? 'rgba(16, 185, 129, 0.1)' : (i === idx) ? 'rgba(14, 165, 233, 0.1)' : 'rgba(255,255,255,0.02)'
+                                        borderColor: inQuery ? 'var(--viz-highlight-success)' : (i === idx) ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
+                                        backgroundColor: inQuery ? 'rgba(16, 185, 129, 0.1)' : (i === idx) ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                                     }}
-                                    className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-slate-400 border-2"
+                                    className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-[var(--text-secondary)] border-2"
                                 >
                                     {val}
                                 </motion.div>
@@ -92,11 +92,11 @@ export default function PrefixSumVisualizer() {
                                     key={`prefix-${i}`}
                                     animate={{
                                         scale: isSelected ? 1.1 : 1,
-                                        borderColor: isSelected ? '#a855f7' : (i === idx) ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
+                                        borderColor: isSelected ? 'var(--viz-highlight-active)' : (i === idx) ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
                                         opacity: val === null ? 0.3 : 1
                                     }}
                                     className={`w-12 h-12 rounded-xl flex items-center justify-center font-black border-2 transition-all ${
-                                        val === null ? 'bg-transparent border-dashed' : isSelected ? 'bg-purple-500/20 text-purple-400' : 'bg-brand-500/10 text-brand-400'
+                                        val === null ? 'bg-transparent border-dashed' : isSelected ? 'bg-[var(--viz-highlight-compare-bg)] text-[var(--viz-highlight-active)]' : 'bg-brand-500/10 text-[var(--viz-highlight-active)]'
                                     }`}
                                 >
                                     {val ?? '?'}

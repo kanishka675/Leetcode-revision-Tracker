@@ -61,7 +61,7 @@ export default function TopologicalSortVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8 space-y-12">
             <div className="text-center space-y-2">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Kahn's Algorithm (Topological Sort)</p>
-                <p className="text-sm font-medium text-slate-400">
+                <p className="text-sm font-medium text-[var(--text-secondary)]">
                     {status === 'Wait' ? 'Sort Directed Acyclic Graph nodes by dependencies' : 
                      status === 'Over' ? 'Sort Complete!' : 
                      `Processing Node ${queue[0]}. Queue: [${queue.join(', ')}]`}
@@ -81,8 +81,8 @@ export default function TopologicalSortVisualizer() {
                                 animate={{
                                     scale: isInQueue ? 1.1 : 1,
                                     opacity: isProcessed ? 0.3 : 1,
-                                    borderColor: isInQueue ? '#0ea5e9' : 'rgba(255,255,255,0.1)',
-                                    backgroundColor: isInQueue ? 'rgba(14, 165, 233, 0.2)' : 'rgba(31, 41, 55, 0.8)'
+                                    borderColor: isInQueue ? 'var(--viz-highlight-active)' : 'var(--viz-border-inactive)',
+                                    backgroundColor: isInQueue ? 'var(--viz-highlight-active-bg)' : 'var(--viz-bg-inactive)'
                                 }}
                                 className="w-12 h-12 rounded-full border-2 flex flex-col items-center justify-center shadow-lg"
                             >
@@ -96,7 +96,7 @@ export default function TopologicalSortVisualizer() {
                 {/* Result Order */}
                 <div className="flex flex-col items-center gap-4">
                     <span className="text-[10px] font-black uppercase text-slate-600">Topological Order</span>
-                    <div className="flex gap-2 min-h-[3rem] items-center p-4 bg-slate-800/20 rounded-xl border border-white/5">
+                    <div className="flex gap-2 min-h-[3rem] items-center p-4 bg-[var(--viz-bg-inactive)]/20 rounded-xl border border-white/5">
                         <AnimatePresence>
                             {result.map(node => (
                                 <motion.div
