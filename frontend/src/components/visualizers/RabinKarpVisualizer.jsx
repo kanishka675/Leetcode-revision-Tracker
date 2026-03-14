@@ -34,7 +34,7 @@ export default function RabinKarpVisualizer() {
             windowHash = (d * windowHash + text.charCodeAt(idx)) % q;
         }
 
-        setPhrases(`Initial Pattern Hash: ${patternHash}, Window Hash: ${windowHash}`);
+        setMessage(`Initial Pattern Hash: ${patternHash}, Window Hash: ${windowHash}`);
         
         return { patternHash, windowHash, multiplier };
     };
