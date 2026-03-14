@@ -51,12 +51,12 @@ export default function PairSumVisualizer() {
             <div className="text-center space-y-2">
                 <p className="text-[10px] font-black text-brand-500 uppercase tracking-[0.2em]">Pattern: Two Pointers (Sorted)</p>
                 <div className="flex flex-col items-center">
-                    <p className="text-2xl font-black text-slate-100">
-                        Target Sum: <span className="text-brand-400">{target}</span>
+                    <p className="text-2xl font-black text-[var(--text-primary)]">
+                        Target Sum: <span className="text-brand-500">{target}</span>
                     </p>
                     {currentSum !== null && (
-                        <p className={`text-sm font-bold mt-1 ${status === 'Found' ? 'text-emerald-400' : 'text-slate-400'}`}>
-                            Current Sum: {array[left]} + {array[right]} = <span className={currentSum === target ? 'text-emerald-400' : currentSum < target ? 'text-blue-400' : 'text-orange-400'}>{currentSum}</span>
+                        <p className={`text-sm font-bold mt-1 ${status === 'Found' ? 'text-emerald-500' : 'text-[var(--text-secondary)]'}`}>
+                            Current Sum: {array[left]} + {array[right]} = <span className={currentSum === target ? 'text-emerald-500' : currentSum < target ? 'text-blue-500' : 'text-orange-500'}>{currentSum}</span>
                         </p>
                     )}
                 </div>
@@ -106,12 +106,12 @@ export default function PairSumVisualizer() {
                                     y: isSelected ? -5 : 0
                                 }}
                                 className={`w-12 h-12 rounded-xl border-2 flex items-center justify-center font-black text-lg transition-colors ${
-                                    isSelected ? 'text-slate-100' : 'text-slate-600'
-                                }`}
+                                    isSelected ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)] opacity-50'
+                                } shadow-sm`}
                             >
                                 {val}
                             </motion.div>
-                            <span className="text-[8px] font-bold text-slate-700 mt-2 uppercase tracking-widest">idx {i}</span>
+                            <span className="text-[8px] font-bold text-[var(--text-secondary)] mt-2 uppercase tracking-widest">idx {i}</span>
                         </div>
                     );
                 })}
@@ -121,17 +121,17 @@ export default function PairSumVisualizer() {
             <div className="h-6">
                 <AnimatePresence mode="wait">
                     {status === 'Found' && (
-                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-emerald-400 font-bold">
+                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-emerald-500 font-bold">
                             🎉 Pair Found: {array[left]} and {array[right]}
                         </motion.p>
                     )}
                     {status === 'NotFound' && (
-                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-400 font-bold">
+                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-500 font-bold">
                             ❌ No pair found.
                         </motion.p>
                     )}
                     {status === 'Comparing' && currentSum !== null && (
-                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-slate-400 text-sm italic">
+                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[var(--text-secondary)] text-sm italic">
                             {currentSum < target ? 'Sum too small, moving left pointer right.' : 'Sum too large, moving right pointer left.'}
                         </motion.p>
                     )}

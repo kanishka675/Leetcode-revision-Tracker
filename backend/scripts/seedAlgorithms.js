@@ -38,6 +38,46 @@ const allAlgorithms = [
         ]
     },
     {
+        name: 'cyclic-sort', title: 'Cyclic Sort', category: 'Array Patterns',
+        explanation: 'Useful for finding missing numbers when numbers are in a given range (e.g., 1 to n).',
+        exampleProblem: { title: 'Missing Number', url: 'https://leetcode.com/problems/missing-number/' },
+        steps: [
+            { label: 'Check Index', description: 'Is current number at its correct index (i.e. nums[i] == i)?' },
+            { label: 'Swap', description: 'If not, swap it to its correct index.' },
+            { label: 'Repeat', description: 'Keep swapping until the current position holds the correct number.' }
+        ]
+    },
+    {
+        name: 'pair-sum', title: 'Pair Sum', category: 'Array Patterns',
+        explanation: 'Finds a pair of numbers in a sorted array that add up to a specific target sum using two pointers.',
+        exampleProblem: { title: 'Two Sum II', url: 'https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/' },
+        steps: [
+            { label: 'Initialize Pointers', description: 'Set left pointer at 0 and right pointer at n-1.' },
+            { label: 'Calculate Sum', description: 'Check sum = arr[left] + arr[right].' },
+            { label: 'Adjust Pointers', description: 'If sum < target, increment left. If sum > target, decrement right. If sum == target, found!' }
+        ]
+    },
+    {
+        name: 'rotate-array', title: 'Rotate Array', category: 'Array Patterns',
+        explanation: 'Rotates an array to the right by k steps using the triple-reverse optimal approach.',
+        exampleProblem: { title: 'Rotate Array', url: 'https://leetcode.com/problems/rotate-array/' },
+        steps: [
+            { label: 'Reverse All', description: 'Reverse the entire array.' },
+            { label: 'Reverse First K', description: 'Reverse the first k elements.' },
+            { label: 'Reverse Rest', description: 'Reverse the remaining n-k elements.' }
+        ]
+    },
+    {
+        name: 'binary-search', title: 'Binary Search', category: 'Array Patterns',
+        explanation: 'Search algorithm that finds the position of a target value within a sorted array by halving the search space.',
+        exampleProblem: { title: 'Binary Search', url: 'https://leetcode.com/problems/binary-search/' },
+        steps: [
+            { label: 'Set Bounds', description: 'Set left=0 and right=len-1.' },
+            { label: 'Find Mid', description: 'Calculate mid = left + (right-left)/2.' },
+            { label: 'Adjust Bounds', description: 'If target < mid, right=mid-1. If target > mid, left=mid+1.' }
+        ]
+    },
+    {
         name: 'hash-map', title: 'Hash Map', category: 'Array Patterns',
         explanation: 'Uses key-value pairs to achieve O(1) average time complexity for lookups and insertions.',
         exampleProblem: { title: 'Two Sum', url: 'https://leetcode.com/problems/two-sum/' },
@@ -157,18 +197,28 @@ const allAlgorithms = [
             { label: 'Heapify', description: 'Fix the heap property at the root to find the next maximum.' }
         ]
     },
-    {
-        name: 'cyclic-sort', title: 'Cyclic Sort', category: 'Sorting Algorithms',
-        explanation: 'Useful for finding missing numbers when numbers are in a given range (e.g., 1 to n).',
-        exampleProblem: { title: 'Missing Number', url: 'https://leetcode.com/problems/missing-number/' },
-        steps: [
-            { label: 'Check Index', description: 'Is current number at its correct index (i.e. nums[i] == i)?' },
-            { label: 'Swap', description: 'If not, swap it to its correct index.' },
-            { label: 'Repeat', description: 'Keep swapping until the current position holds the correct number.' }
-        ]
-    },
 
     // --- String Algorithms ---
+    {
+        name: 'frequency-map', title: 'Frequency Map', category: 'String Algorithms',
+        explanation: 'Builds a frequency distribution of characters in a string, essential for many string problems.',
+        exampleProblem: { title: 'First Unique Character in a String', url: 'https://leetcode.com/problems/first-unique-character-in-a-string/' },
+        steps: [
+            { label: 'Initialize Map', description: 'Create an empty hash map/object.' },
+            { label: 'Scan String', description: 'Iterate through characters one by one.' },
+            { label: 'Update Count', description: 'Increment the count for each character in the map.' }
+        ]
+    },
+    {
+        name: 'palindrome-expansion', title: 'Palindrome Expansion', category: 'String Algorithms',
+        explanation: 'Core logic for finding palindromic substrings by expanding from potential centers.',
+        exampleProblem: { title: 'Longest Palindromic Substring', url: 'https://leetcode.com/problems/longest-palindromic-substring/' },
+        steps: [
+            { label: 'Choose Center', description: 'Pick a character (odd) or gap (even) as center.' },
+            { label: 'Expand Pointers', description: 'Move left and right pointers outward while characters match.' },
+            { label: 'Mark Bound', description: 'Stop when characters mismatch or bounds are reached.' }
+        ]
+    },
     {
         name: 'rabin-karp', title: 'Rabin Karp', category: 'String Algorithms',
         explanation: 'String matching algorithm using a rolling hash to quickly filter out invalid matching windows.',
@@ -189,11 +239,21 @@ const allAlgorithms = [
             { label: 'Mismatch Fallback', description: 'On mismatch, use LPS array to skip redundant comparisons.' }
         ]
     },
+    {
+        name: 'trie', title: 'Trie (Prefix Tree)', category: 'String Algorithms',
+        explanation: 'A tree-like data structure used to efficiently store and search strings, especially for prefix matching.',
+        exampleProblem: { title: 'Implement Trie (Prefix Tree)', url: 'https://leetcode.com/problems/implement-trie-prefix-tree/' },
+        steps: [
+            { label: 'Insert', description: 'Traverse/create nodes for each character in the string.' },
+            { label: 'Search', description: 'Follow characters through the tree; if all exist and mark end, word is found.' },
+            { label: 'Prefix', description: 'Check if a sequence of characters exists as a path.' }
+        ]
+    },
 
     // --- Tree Algorithms ---
     {
-        name: 'binary-tree-traversal', title: 'Binary Tree Traversal', category: 'Tree Algorithms',
-        explanation: 'Techniques to visit all nodes in a binary tree in a specific order: Preorder, Inorder, Postorder.',
+        name: 'binary-tree-traversal', title: 'Tree Traversals', category: 'Tree Algorithms',
+        explanation: 'Techniques to visit all nodes in a binary tree: Preorder, Inorder, and Postorder.',
         exampleProblem: { title: 'Binary Tree Inorder Traversal', url: 'https://leetcode.com/problems/binary-tree-inorder-traversal/' },
         steps: [
             { label: 'Pre-order (NLR)', description: 'Visit Node, traverse Left, traverse Right.' },
@@ -201,10 +261,40 @@ const allAlgorithms = [
             { label: 'Post-order (LRN)', description: 'Traverse Left, traverse Right, visit Node.' }
         ]
     },
+    {
+        name: 'level-order-traversal', title: 'Level Order Traversal', category: 'Tree Algorithms',
+        explanation: 'Visits nodes level by level using a queue, also known as Breadth-First Search on a tree.',
+        exampleProblem: { title: 'Binary Tree Level Order Traversal', url: 'https://leetcode.com/problems/binary-tree-level-order-traversal/' },
+        steps: [
+            { label: 'Enqueue Root', description: 'Add the root node to a queue.' },
+            { label: 'Process Level', description: 'Dequeue all nodes at current depth and enqueue their children.' },
+            { label: 'Repeat', description: 'Continue until the queue is empty.' }
+        ]
+    },
+    {
+        name: 'tree-height', title: 'Tree Height', category: 'Tree Algorithms',
+        explanation: 'Calculates the maximum depth of a tree using a recursive bottom-up approach.',
+        exampleProblem: { title: 'Maximum Depth of Binary Tree', url: 'https://leetcode.com/problems/maximum-depth-of-binary-tree/' },
+        steps: [
+            { label: 'Base Case', description: 'If node is null, height is 0.' },
+            { label: 'Recursive Step', description: 'Calculate height of left and right subtrees.' },
+            { label: 'Return Max', description: 'Return 1 + max(left_height, right_height).' }
+        ]
+    },
+    {
+        name: 'balanced-binary-tree', title: 'Balanced Binary Tree', category: 'Tree Algorithms',
+        explanation: 'Checks if a binary tree is height-balanced (difference between depths <= 1).',
+        exampleProblem: { title: 'Balanced Binary Tree', url: 'https://leetcode.com/problems/balanced-binary-tree/' },
+        steps: [
+            { label: 'Check Heights', description: 'Calculate height of left and right subtrees recursively.' },
+            { label: 'Verify Balance', description: 'If abs(left - right) > 1, mark as imbalanced.' },
+            { label: 'Propagate Result', description: 'Ensure all subtrees are also balanced.' }
+        ]
+    },
 
     // --- Graph Algorithms ---
     {
-        name: 'bfs', title: 'Breadth-First Search (BFS)', category: 'Graph Algorithms',
+        name: 'bfs', title: 'BFS', category: 'Graph Algorithms',
         explanation: 'Traverses a graph level by level using a Queue, extremely useful for shortest path in unweighted graphs.',
         exampleProblem: { title: 'Word Ladder', url: 'https://leetcode.com/problems/word-ladder/' },
         steps: [
@@ -214,23 +304,63 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'dfs', title: 'Depth-First Search (DFS)', category: 'Graph Algorithms',
-        explanation: 'Traverses a graph by exploring as far as possible along each branch before backtracking using a Stack/Recursion.',
+        name: 'dfs', title: 'DFS', category: 'Graph Algorithms',
+        explanation: 'Traverses a graph by exploring as far as possible along each branch before backtracking.',
         exampleProblem: { title: 'Number of Islands', url: 'https://leetcode.com/problems/number-of-islands/' },
         steps: [
             { label: 'Push Root', description: 'Start at a node and mark as visited.' },
             { label: 'Dive Deep', description: 'Recursively visit the first unvisited neighbor.' },
-            { label: 'Backtrack', description: 'When a dead end is reached, pull back up the stack to find fresh paths.' }
+            { label: 'Backtrack', description: 'Backtrack to find fresh paths.' }
+        ]
+    },
+    {
+        name: 'cycle-detection', title: 'Cycle Detection', category: 'Graph Algorithms',
+        explanation: 'Detects if a directed graph contains a cycle using DFS and a recursion stack.',
+        exampleProblem: { title: 'Course Schedule', url: 'https://leetcode.com/problems/course-schedule/' },
+        steps: [
+            { label: 'Visit Node', description: 'Mark node as visited and add to current recursion stack.' },
+            { label: 'Check Neighbors', description: 'If neighbor is already in recursion stack, cycle exists!' },
+            { label: 'Pop Stack', description: 'Remove node from recursion stack after exploring all paths.' }
+        ]
+    },
+    {
+        name: 'dijkstra', title: 'Dijkstra', category: 'Graph Algorithms',
+        explanation: "Finds the shortest path between nodes in a graph with non-negative edge weights.",
+        exampleProblem: { title: 'Network Delay Time', url: 'https://leetcode.com/problems/network-delay-time/' },
+        steps: [
+            { label: 'Initialize Distances', description: 'Set distance to start as 0, others as infinity.' },
+            { label: 'Priority Queue', description: 'Extract the node with the smallest distance.' },
+            { label: 'Relax Edges', description: 'Update neighbor distances if a shorter path is found.' }
+        ]
+    },
+    {
+        name: 'bellman-ford', title: 'Bellman Ford', category: 'Graph Algorithms',
+        explanation: 'Computes shortest paths from a single source vertex to all of the other vertices in a weighted digraph.',
+        exampleProblem: { title: 'Cheapest Flights Within K Stops', url: 'https://leetcode.com/problems/cheapest-flights-within-k-stops/' },
+        steps: [
+            { label: 'Initialization', description: 'Set source distance to 0, all others to infinity.' },
+            { label: 'Relax All Edges', description: 'Iterate |V|-1 times, relaxing all edges in the graph.' },
+            { label: 'Cycle Check', description: 'Check for negative cycles on the last iteration.' }
+        ]
+    },
+    {
+        name: 'floyd-warshall', title: 'Floyd Warshall', category: 'Graph Algorithms',
+        explanation: 'All-pairs shortest path algorithm that works by considering each vertex as an intermediate point.',
+        exampleProblem: { title: 'Find the City With the Smallest Number of Neighbors at a Threshold Distance', url: 'https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/' },
+        steps: [
+            { label: 'Matrix Init', description: 'Create a distance matrix where dist[i][j] is edge weight.' },
+            { label: 'Intermediate Node', description: 'For each k, check if dist[i][j] > dist[i][k] + dist[k][j].' },
+            { label: 'Update Matrix', description: 'If true, update the matrix with the shorter path.' }
         ]
     },
     {
         name: 'topological-sort', title: 'Topological Sort', category: 'Graph Algorithms',
-        explanation: 'Linear ordering of vertices in a Directed Acyclic Graph (DAG) such that for every directed edge uv, vertex u comes before v.',
+        explanation: 'Linear ordering of vertices in a DAG such that for every directed edge uv, vertex u comes before v.',
         exampleProblem: { title: 'Course Schedule II', url: 'https://leetcode.com/problems/course-schedule-ii/' },
         steps: [
             { label: 'Indegree', description: 'Calculate the number of incoming edges for each node.' },
             { label: 'Queue', description: 'Add all nodes with 0 indegree to the queue.' },
-            { label: 'Process', description: 'Remove node from queue, add to result, and decrement neighbor indegrees.' }
+            { label: 'Process', description: 'Remove node from queue and decrement neighbor indegrees.' }
         ]
     },
     {
@@ -256,16 +386,6 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'trie', title: 'Trie (Prefix Tree)', category: 'Advanced Data Structures',
-        explanation: 'A tree-like data structure used to efficiently store and search strings, especially for prefix matching.',
-        exampleProblem: { title: 'Implement Trie (Prefix Tree)', url: 'https://leetcode.com/problems/implement-trie-prefix-tree/' },
-        steps: [
-            { label: 'Insert', description: 'Traverse/create nodes for each character in the string.' },
-            { label: 'Search', description: 'Follow characters through the tree; if all exist and mark end, word is found.' },
-            { label: 'Prefix', description: 'Check if a sequence of characters exists as a path.' }
-        ]
-    },
-    {
         name: 'monotonic-stack', title: 'Monotonic Stack', category: 'Advanced Data Structures',
         explanation: 'A stack that maintains elements in a strict increasing or decreasing order. Useful for "next greater" problems.',
         exampleProblem: { title: 'Next Greater Element I', url: 'https://leetcode.com/problems/next-greater-element-i/' },
@@ -285,36 +405,6 @@ const allAlgorithms = [
     },
 
     // --- Algorithm Concepts ---
-    {
-        name: 'pair-sum', title: 'Pair Sum', category: 'Array Patterns',
-        explanation: 'Finds a pair of numbers in a sorted array that add up to a specific target sum using two pointers.',
-        exampleProblem: { title: 'Two Sum II', url: 'https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/' },
-        steps: [
-            { label: 'Initialize Pointers', description: 'Set left pointer at 0 and right pointer at n-1.' },
-            { label: 'Calculate Sum', description: 'Check sum = arr[left] + arr[right].' },
-            { label: 'Adjust Pointers', description: 'If sum < target, increment left. If sum > target, decrement right. If sum == target, found!' }
-        ]
-    },
-    {
-        name: 'rotate-array', title: 'Rotate Array', category: 'Array Patterns',
-        explanation: 'Rotates an array to the right by k steps using the triple-reverse optimal approach.',
-        exampleProblem: { title: 'Rotate Array', url: 'https://leetcode.com/problems/rotate-array/' },
-        steps: [
-            { label: 'Reverse All', description: 'Reverse the entire array.' },
-            { label: 'Reverse First K', description: 'Reverse the first k elements.' },
-            { label: 'Reverse Rest', description: 'Reverse the remaining n-k elements.' }
-        ]
-    },
-    {
-        name: 'binary-search', title: 'Binary Search', category: 'Array Patterns',
-        explanation: 'Search algorithm that finds the position of a target value within a sorted array by halving the search space.',
-        exampleProblem: { title: 'Binary Search', url: 'https://leetcode.com/problems/binary-search/' },
-        steps: [
-            { label: 'Set Bounds', description: 'Set left=0 and right=len-1.' },
-            { label: 'Find Mid', description: 'Calculate mid = left + (right-left)/2.' },
-            { label: 'Adjust Bounds', description: 'If target < mid, right=mid-1. If target > mid, left=mid+1.' }
-        ]
-    },
     {
         name: 'divide-conquer', title: 'Divide and Conquer', category: 'Algorithm Concepts',
         explanation: 'Recursively breaks down a problem into two or more sub-problems of the same type, until they become simple enough to be solved directly.',

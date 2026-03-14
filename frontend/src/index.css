@@ -26,6 +26,8 @@
   --viz-highlight-success-bg: rgba(16, 185, 129, 0.2);
   --viz-highlight-warning: #eab308;
   --viz-highlight-warning-bg: rgba(234, 179, 8, 0.2);
+  --viz-highlight-error: #ef4444;
+  --viz-highlight-error-bg: rgba(239, 68, 68, 0.2);
   --viz-text-on-highlight: #ffffff;
 }
 
@@ -53,6 +55,8 @@
   --viz-highlight-success-bg: rgba(22, 163, 74, 0.1);
   --viz-highlight-warning: #d97706;
   --viz-highlight-warning-bg: rgba(217, 119, 6, 0.1);
+  --viz-highlight-error: #dc2626;
+  --viz-highlight-error-bg: rgba(220, 38, 38, 0.1);
   --viz-text-on-highlight: #ffffff;
 }
 

@@ -67,10 +67,10 @@ export default function RotateArrayVisualizer() {
         <div className="flex-1 flex flex-col items-center justify-center p-8 space-y-12">
             <div className="text-center space-y-2">
                 <p className="text-[10px] font-black text-brand-500 uppercase tracking-[0.2em]">Strategy: Triple Reverse</p>
-                <p className="text-2xl font-black text-slate-100">
-                    Rotate Right by <span className="text-brand-400">k = {k % n}</span>
+                <p className="text-2xl font-black text-[var(--text-primary)]">
+                    Rotate Right by <span className="text-brand-500">k = {k % n}</span>
                 </p>
-                <p className="text-sm font-bold text-slate-400">
+                <p className="text-sm font-bold text-[var(--text-secondary)]">
                     {phase === 'Wait' && 'Ready to rotate?'}
                     {phase === 'ReverseAll' && 'Phase 1: Reverse entire array'}
                     {phase === 'ReverseK' && 'Phase 2: Reverse first k elements'}
@@ -98,12 +98,12 @@ export default function RotateArrayVisualizer() {
                                     y: isBeingSwapped ? -10 : 0
                                 }}
                                 className={`w-12 h-12 rounded-xl border-2 flex items-center justify-center font-black text-lg transition-all ${
-                                    isBeingSwapped ? 'text-brand-400' : 'text-slate-600'
-                                }`}
+                                    isBeingSwapped ? 'text-brand-500' : 'text-[var(--text-primary)]'
+                                } shadow-sm`}
                             >
                                 {val}
                             </motion.div>
-                            <span className="text-[8px] font-bold text-slate-700 mt-2 uppercase tracking-widest">IDX {i}</span>
+                            <span className="text-[8px] font-bold text-[var(--text-secondary)] mt-2 uppercase tracking-widest">IDX {i}</span>
                         </div>
                     );
                 })}
@@ -122,7 +122,7 @@ export default function RotateArrayVisualizer() {
             </div>
 
             <div className="max-w-sm mt-4 p-4 bg-brand-500/5 rounded-xl border border-brand-500/10 text-center">
-                <p className="text-[10px] text-slate-500 leading-relaxed uppercase font-bold tracking-wider italic">
+                <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed uppercase font-bold tracking-wider italic">
                     {phase === 'ReverseAll' && 'Swapping elements at both ends move inward until they meet.'}
                     {phase === 'ReverseK' && 'Now we reverse the first k elements to position them correctly.'}
                     {phase === 'ReverseRest' && 'Finally, we reverse the rest of the array to restore their relative order.'}

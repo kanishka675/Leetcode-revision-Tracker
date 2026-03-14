@@ -35,6 +35,15 @@ import PairSumVisualizer from '../components/visualizers/PairSumVisualizer';
 import RotateArrayVisualizer from '../components/visualizers/RotateArrayVisualizer';
 import SegmentTreeVisualizer from '../components/visualizers/SegmentTreeVisualizer';
 import RecursionTreeVisualizer from '../components/visualizers/RecursionTreeVisualizer';
+import FrequencyMapVisualizer from '../components/visualizers/FrequencyMapVisualizer';
+import PalindromeExpansionVisualizer from '../components/visualizers/PalindromeExpansionVisualizer';
+import LevelOrderTraversalVisualizer from '../components/visualizers/LevelOrderTraversalVisualizer';
+import TreeHeightVisualizer from '../components/visualizers/TreeHeightVisualizer';
+import BalancedBinaryTreeVisualizer from '../components/visualizers/BalancedBinaryTreeVisualizer';
+import CycleDetectionVisualizer from '../components/visualizers/CycleDetectionVisualizer';
+import DijkstraVisualizer from '../components/visualizers/DijkstraVisualizer';
+import BellmanFordVisualizer from '../components/visualizers/BellmanFordVisualizer';
+import FloydWarshallVisualizer from '../components/visualizers/FloydWarshallVisualizer';
 
 export default function AlgorithmsPage() {
     const [algorithms, setAlgorithms] = useState([]);
@@ -102,6 +111,15 @@ export default function AlgorithmsPage() {
             case 'rabin-karp': return <RabinKarpVisualizer />;
             case 'kmp': return <KMPVisualizer />;
             case 'binary-tree-traversal': return <BinaryTreeTraversalVisualizer />;
+            case 'level-order-traversal': return <LevelOrderTraversalVisualizer />;
+            case 'tree-height': return <TreeHeightVisualizer />;
+            case 'balanced-binary-tree': return <BalancedBinaryTreeVisualizer />;
+            case 'frequency-map': return <FrequencyMapVisualizer />;
+            case 'palindrome-expansion': return <PalindromeExpansionVisualizer />;
+            case 'cycle-detection': return <CycleDetectionVisualizer />;
+            case 'dijkstra': return <DijkstraVisualizer />;
+            case 'bellman-ford': return <BellmanFordVisualizer />;
+            case 'floyd-warshall': return <FloydWarshallVisualizer />;
             case 'pair-sum': return <PairSumVisualizer />;
             case 'rotate-array': return <RotateArrayVisualizer />;
             case 'segment-tree': return <SegmentTreeVisualizer />;
