@@ -157,9 +157,17 @@ export default function Review() {
                     </a>
                 )}
 
-                <div className="flex items-center gap-2 text-xs text-slate-500 bg-brand-500/5 w-fit px-3 py-1.5 rounded-lg border border-brand-500/10">
-                    <span>🔁 Total Reviews:</span>
-                    <span className="text-brand-400 font-bold">{problem.revisionCount}</span>
+                <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center gap-2 text-xs text-slate-500 bg-brand-500/5 w-fit px-3 py-1.5 rounded-lg border border-brand-500/10">
+                        <span>🔁 Total Reviews:</span>
+                        <span className="text-brand-400 font-bold">{problem.revisionCount}</span>
+                    </div>
+                    <button 
+                        onClick={() => navigate(`/debug/${problem._id}`)}
+                        className="text-xs font-bold text-orange-400 bg-orange-500/10 hover:bg-orange-500/20 px-3 py-1.5 rounded-lg border border-orange-500/10 transition-colors uppercase tracking-widest"
+                    >
+                        🐞 Debug Algorithm
+                    </button>
                 </div>
             </div>
 

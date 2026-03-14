@@ -68,6 +68,14 @@ const problemSchema = new mongoose.Schema(
             type: Date,
             default: null,
         },
+        revisionAttempts: {
+            type: Number,
+            default: 0,
+        },
+        debugSolved: {
+            type: Boolean,
+            default: false,
+        },
     },
     { timestamps: true }
 );

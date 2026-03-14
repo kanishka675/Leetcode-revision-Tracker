@@ -17,6 +17,7 @@ app.use('/api/problems', require('./routes/problemRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 app.use('/api/analytics', require('./routes/analyticsRoutes'));
 app.use('/api/algorithms', require('./routes/algorithmRoutes'));
+app.use('/api/revision', require('./routes/revisionRoutes'));
 
 // Health check
 app.get('/', (req, res) => res.json({ message: '🚀 CodeRecall API running' }));
