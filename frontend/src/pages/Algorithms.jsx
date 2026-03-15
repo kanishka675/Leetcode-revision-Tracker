@@ -44,6 +44,8 @@ import CycleDetectionVisualizer from '../components/visualizers/CycleDetectionVi
 import DijkstraVisualizer from '../components/visualizers/DijkstraVisualizer';
 import BellmanFordVisualizer from '../components/visualizers/BellmanFordVisualizer';
 import FloydWarshallVisualizer from '../components/visualizers/FloydWarshallVisualizer';
+import BacktrackingVisualizer from '../components/visualizers/BacktrackingVisualizer';
+import IncludeExcludeVisualizer from '../components/visualizers/IncludeExcludeVisualizer';
 
 export default function AlgorithmsPage() {
     const [algorithms, setAlgorithms] = useState([]);
@@ -124,6 +126,8 @@ export default function AlgorithmsPage() {
             case 'rotate-array': return <RotateArrayVisualizer />;
             case 'segment-tree': return <SegmentTreeVisualizer />;
             case 'recursion-tree': return <RecursionTreeVisualizer />;
+            case 'backtracking': return <BacktrackingVisualizer />;
+            case 'include-exclude': return <IncludeExcludeVisualizer />;
             default: return <div className="p-12 text-center text-slate-500 italic">Visualizer for {selectedAlg.title} coming soon...</div>;
         }
     };

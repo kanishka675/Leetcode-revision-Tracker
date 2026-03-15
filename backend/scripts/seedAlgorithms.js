@@ -404,9 +404,9 @@ const allAlgorithms = [
         ]
     },
 
-    // --- Algorithm Concepts ---
+    // --- Others ---
     {
-        name: 'divide-conquer', title: 'Divide and Conquer', category: 'Algorithm Concepts',
+        name: 'divide-conquer', title: 'Divide and Conquer', category: 'Recursion',
         explanation: 'Recursively breaks down a problem into two or more sub-problems of the same type, until they become simple enough to be solved directly.',
         exampleProblem: { title: 'Maximum Subarray', url: 'https://leetcode.com/problems/maximum-subarray/' },
         steps: [
@@ -416,7 +416,7 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'dp-grid', title: 'DP Grid Pattern', category: 'Algorithm Concepts',
+        name: 'dp-grid', title: 'DP Grid Pattern', category: 'Others',
         explanation: 'A common Dynamic Programming technique where a 2D grid is used to store subproblem results.',
         exampleProblem: { title: 'Unique Paths', url: 'https://leetcode.com/problems/unique-paths/' },
         steps: [
@@ -425,7 +425,7 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'bit-manipulation', title: 'Bit Manipulation', category: 'Algorithm Concepts',
+        name: 'bit-manipulation', title: 'Bit Manipulation', category: 'Others',
         explanation: 'Operating on data at the bit level using bitwise operators like AND, OR, XOR, and shifts.',
         exampleProblem: { title: 'Single Number', url: 'https://leetcode.com/problems/single-number/' },
         steps: [
@@ -435,7 +435,7 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'greedy', title: 'Greedy Algorithm', category: 'Algorithm Concepts',
+        name: 'greedy', title: 'Greedy Algorithm', category: 'Others',
         explanation: 'Making the locally optimal choice at each step with the hope that these choices lead to a globally optimal solution.',
         exampleProblem: { title: 'Jump Game', url: 'https://leetcode.com/problems/jump-game/' },
         steps: [
@@ -444,13 +444,35 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'recursion-tree', title: 'Recursion Tree', category: 'Algorithm Concepts',
+        name: 'recursion-tree', title: 'Recursion Tree', category: 'Recursion',
         explanation: 'Visual representation of recursive calls simulating branch exploration and call stack returns.',
         exampleProblem: { title: 'Fibonacci Number', url: 'https://leetcode.com/problems/fibonacci-number/' },
         steps: [
             { label: 'Base Case Check', description: 'Determine if execution stops here.' },
             { label: 'Recursive Calls', description: 'Branch out to smaller subproblems.' },
             { label: 'Return & Combine', description: 'Bubble results back up the tree to parent nodes.' }
+        ]
+    },
+    {
+        name: 'backtracking', title: 'Backtracking', category: 'Recursion',
+        explanation: 'Systematically searching for a solution to a problem among all available options by exploring possibilities and undoing choices that lead to dead ends.',
+        exampleProblem: { title: 'N-Queens', url: 'https://leetcode.com/problems/n-queens/' },
+        steps: [
+            { label: 'Place Queen', description: 'Try placing a queen in the current row, column by column.' },
+            { label: 'Check Conflicts', description: 'Check if the current position is under attack from previously placed queens.' },
+            { label: 'Recurse', description: 'If valid, move to the next row.' },
+            { label: 'Backtrack', description: 'If no valid position found or recursion returns, remove the queen and try the next column.' }
+        ]
+    },
+    {
+        name: 'include-exclude', title: 'Include / Exclude Pattern', category: 'Recursion',
+        explanation: 'A fundamental recursion pattern where for each element, we make two choices: include it in the current subset/path or exclude it.',
+        exampleProblem: { title: 'Subsets', url: 'https://leetcode.com/problems/subsets/' },
+        steps: [
+            { label: 'Decision Point', description: 'At each index, decide whether to include the current element.' },
+            { label: 'Include Element', description: 'Add the element to the current subset and recurse for the next index.' },
+            { label: 'Exclude Element', description: 'Remove the element (or don\'t add it) and recurse for the next index.' },
+            { label: 'Base Case', description: 'When the index reaches the end of the array, a valid subset is formed.' }
         ]
     }
 ];
