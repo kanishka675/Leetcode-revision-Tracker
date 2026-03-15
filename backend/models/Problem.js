@@ -50,6 +50,18 @@ const problemSchema = new mongoose.Schema(
             type: String,
             default: '',
         },
+        timeComplexity: {
+            type: String,
+            default: '',
+        },
+        dataStructure: {
+            type: String,
+            default: '',
+        },
+        keyAlgorithmIdea: {
+            type: String,
+            default: '',
+        },
         // When the user first solved this problem
         solvedDate: {
             type: Date,
@@ -71,6 +83,10 @@ const problemSchema = new mongoose.Schema(
         lastReviewed: {
             type: Date,
             default: null,
+        },
+        scheduledRevisions: {
+            type: [Date],
+            default: [],
         },
     },
     { timestamps: true }

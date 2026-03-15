@@ -10,6 +10,9 @@ import Review from './pages/Review';
 import ProblemManager from './pages/ProblemManager';
 import CalendarPage from './pages/Calendar';
 import AlgorithmsPage from './pages/Algorithms';
+import RecallPage from './pages/Recall';
+import RecallSessionPage from './pages/RecallSession';
+
 
 
 const PrivateRoute = ({ children }) => {
@@ -40,6 +43,8 @@ export default function App() {
                     <Route path="/add" element={<PrivateRoute><AddProblem /></PrivateRoute>} />
                     <Route path="/edit/:id" element={<PrivateRoute><AddProblem /></PrivateRoute>} />
                     <Route path="/review" element={<PrivateRoute><Review /></PrivateRoute>} />
+                    <Route path="/recall" element={<PrivateRoute><RecallPage /></PrivateRoute>} />
+                    <Route path="/recall/:id" element={<PrivateRoute><RecallSessionPage /></PrivateRoute>} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </main>

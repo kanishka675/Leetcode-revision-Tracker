@@ -12,6 +12,9 @@ const defaultForm = {
     difficulty: 'Medium',
     topics: [],
     notes: '',
+    timeComplexity: '',
+    dataStructure: '',
+    keyAlgorithmIdea: '',
     solvedDate: new Date().toISOString().split('T')[0],
 };
 
@@ -33,6 +36,9 @@ export default function AddProblem() {
                         difficulty: data.difficulty,
                         topics: data.topics,
                         notes: data.notes || '',
+                        timeComplexity: data.timeComplexity || '',
+                        dataStructure: data.dataStructure || '',
+                        keyAlgorithmIdea: data.keyAlgorithmIdea || '',
                         solvedDate: new Date(data.solvedDate).toISOString().split('T')[0],
                     });
                 })
@@ -164,6 +170,41 @@ export default function AddProblem() {
                                 </button>
                             ))}
                         </div>
+                    </div>
+
+                    {/* Flashcard Data */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-1.5 text-brand-400/80 uppercase tracking-widest font-black text-[10px]">Data Structure</label>
+                            <input
+                                type="text"
+                                className="input h-10 text-sm"
+                                placeholder="e.g. Hash Map, Segment Tree"
+                                value={form.dataStructure}
+                                onChange={(e) => setForm({ ...form, dataStructure: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-1.5 text-brand-400/80 uppercase tracking-widest font-black text-[10px]">Time Complexity</label>
+                            <input
+                                type="text"
+                                className="input h-10 text-sm"
+                                placeholder="e.g. O(n log n)"
+                                value={form.timeComplexity}
+                                onChange={(e) => setForm({ ...form, timeComplexity: e.target.value })}
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-1.5 text-brand-400/80 uppercase tracking-widest font-black text-[10px]">Key Algorithm Idea</label>
+                        <input
+                            type="text"
+                            className="input h-10 text-sm"
+                            placeholder="e.g. target - nums[i]"
+                            value={form.keyAlgorithmIdea}
+                            onChange={(e) => setForm({ ...form, keyAlgorithmIdea: e.target.value })}
+                        />
                     </div>
 
                     {/* Solved Date */}

@@ -23,6 +23,7 @@ export default function Navbar() {
         { to: '/manage', label: 'Manage', icon: '📋' },
         { to: '/calendar', label: 'Calendar', icon: '📅' },
         { to: '/review', label: 'Review', icon: '🔁' },
+        { to: '/recall', label: 'Recall', icon: '🧠' },
         { to: '/add', label: 'Add', icon: '➕' },
     ];
 

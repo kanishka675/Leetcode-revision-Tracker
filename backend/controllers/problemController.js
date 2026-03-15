@@ -1,5 +1,5 @@
 const Problem = require('../models/Problem');
-const { calculateNextRevision, getInitialRevisionDate } = require('../utils/spacedRepetition');
+const { calculateNextRevision, getInitialRevisionDate, generateFullSchedule } = require('../utils/spacedRepetition');
 
 // @desc  Get all problems for user
 // @route GET /api/problems
@@ -65,8 +65,10 @@ const addProblem = async (req, res) => {
     }
 
     try {
-        // Auto-schedule first revision for 1 day from now
-        const nextRevisionDate = getInitialRevisionDate();
+        // Auto-schedule full lifecycle from solvedDate
+        const baseDate = solvedDate || new Date();
+        const scheduledRevisions = generateFullSchedule(baseDate);
+        const nextRevisionDate = scheduledRevisions[0]; // First one is next
 
         const problem = await Problem.create({
             user: req.user._id,
@@ -75,8 +77,9 @@ const addProblem = async (req, res) => {
             difficulty,
             topics: topics || [],
             notes,
-            solvedDate: solvedDate || new Date(),
+            solvedDate: baseDate,
             nextRevisionDate,
+            scheduledRevisions,
             revisionCount: 0,
         });
 
@@ -206,12 +209,28 @@ const getCalendarSchedule = async (req, res) => {
         const schedule = {};
         
         problems.forEach(p => {
-            if (p.nextRevisionDate) {
+            // Add all scheduled dates for this problem to the calendar
+            p.scheduledRevisions.forEach(revDate => {
+                if (revDate >= today) {
+                    const dateStr = revDate.toISOString().split('T')[0];
+                    if (!schedule[dateStr]) {
+                        schedule[dateStr] = [];
+                    }
+                    if (!schedule[dateStr].includes(p.title)) {
+                        schedule[dateStr].push(p.title);
+                    }
+                }
+            });
+
+            // Also include current nextRevisionDate if not already in scheduledRevisions
+            if (p.nextRevisionDate && p.nextRevisionDate >= today) {
                 const dateStr = p.nextRevisionDate.toISOString().split('T')[0];
                 if (!schedule[dateStr]) {
                     schedule[dateStr] = [];
                 }
-                schedule[dateStr].push(p.title);
+                if (!schedule[dateStr].includes(p.title)) {
+                    schedule[dateStr].push(p.title);
+                }
             }
         });
 

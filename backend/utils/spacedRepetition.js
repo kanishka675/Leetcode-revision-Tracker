@@ -8,7 +8,21 @@
  *   4th  → 14 days
  *   5th+ → 30 days (repeats)
  */
-const REVISION_INTERVALS = [1, 3, 7, 14, 30];
+const REVISION_INTERVALS = [2, 7, 15, 30, 60, 90];
+
+/**
+ * Generates the full revision schedule from a start date.
+ * @param {Date|string} startDate - The date the problem was first solved.
+ * @returns {Date[]} - Array of future revision dates.
+ */
+const generateFullSchedule = (startDate) => {
+    const baseDate = new Date(startDate);
+    return REVISION_INTERVALS.map(days => {
+        const revDate = new Date(baseDate);
+        revDate.setDate(revDate.getDate() + days);
+        return revDate;
+    });
+};
 
 /**
  * Returns the number of days until the next revision
@@ -49,4 +63,4 @@ const getInitialRevisionDate = () => {
     return date;
 };
 
-module.exports = { calculateNextRevision, getInitialRevisionDate };
+module.exports = { calculateNextRevision, getInitialRevisionDate, generateFullSchedule };

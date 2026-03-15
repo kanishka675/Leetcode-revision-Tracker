@@ -95,15 +95,6 @@ export default function ProblemManager() {
         }
     };
 
-    const handleQuickRevise = async (id) => {
-        try {
-            await api.post(`/api/problems/${id}/revise`);
-            toast.success('Revision logged! 🔁');
-            fetchProblems();
-        } catch {
-            toast.error('Failed to log revision');
-        }
-    };
 
     const getDueStatus = (nextRevisionDate) => {
         const now = new Date();
@@ -363,12 +354,6 @@ export default function ProblemManager() {
                                                         {due.label}
                                                     </div>
                                                     <div className="flex items-center gap-2">
-                                                        <button
-                                                            onClick={() => handleQuickRevise(p._id)}
-                                                            className="btn-primary text-xs py-2 px-4 shadow-emerald-500/10 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 border-none"
-                                                        >
-                                                            Quick Revise 🔁
-                                                        </button>
                                                         <button
                                                             onClick={() => setEditingNotesProblem(p)}
                                                             className="btn-secondary p-2 group-hover:bg-brand-500/10"
