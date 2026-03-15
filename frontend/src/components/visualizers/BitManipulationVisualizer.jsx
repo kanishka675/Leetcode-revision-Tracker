@@ -40,7 +40,7 @@ export default function BitManipulationVisualizer() {
 
     const renderBits = (n, label, color = 'brand') => (
         <div className="flex flex-col items-center gap-2">
-            <span className="text-[10px] font-black uppercase text-slate-600">{label} ({n})</span>
+            <span className="text-[10px] font-black uppercase text-[var(--text-secondary)]">{label} ({n})</span>
             <div className="flex gap-2">
                 {toBinary(n).map((bit, i) => (
                     <motion.div
@@ -49,7 +49,7 @@ export default function BitManipulationVisualizer() {
                             backgroundColor: bit === '1' ? `var(--color-${color}-500)` : 'var(--viz-bg-inactive)',
                             borderColor: bit === '1' ? `var(--color-${color}-400)` : 'var(--viz-border-inactive)'
                         }}
-                        className={`w-10 h-10 rounded-lg border-2 flex items-center justify-center font-black text-white ${bit === '1' ? 'shadow-lg' : 'text-slate-600'}`}
+                        className={`w-10 h-10 rounded-lg border-2 flex items-center justify-center font-black text-white ${bit === '1' ? 'shadow-lg' : 'text-[var(--text-secondary)]'}`}
                     >
                         {bit}
                     </motion.div>
@@ -61,14 +61,14 @@ export default function BitManipulationVisualizer() {
     return (
         <div className="flex-1 flex flex-col items-center justify-center p-8 space-y-12">
             <div className="text-center space-y-2">
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Bitwise Operations Visualization</p>
+                <p className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest">Bitwise Operations Visualization</p>
                 <div className="flex gap-4 justify-center mt-4">
                     {['XOR', 'AND', 'OR', 'LSHIFT', 'RSHIFT'].map(op => (
                         <button 
                             key={op}
                             onClick={() => runOp(op)}
                             className={`px-3 py-1 rounded-full text-[10px] font-black transition-all ${
-                                operation === op ? 'bg-brand-500 text-white' : 'bg-[var(--viz-bg-inactive)] text-slate-500 hover:text-[var(--text-primary)]'
+                                operation === op ? 'bg-brand-500 text-white' : 'bg-[var(--viz-bg-inactive)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                             }`}
                         >
                             {op}
@@ -82,7 +82,7 @@ export default function BitManipulationVisualizer() {
                 {operation !== 'LSHIFT' && operation !== 'RSHIFT' && renderBits(num2, 'Number 2')}
                 
                 <div className="h-px bg-[var(--viz-bg-inactive)] w-full relative">
-                    <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 bg-slate-900 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">
+                    <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 bg-[var(--bg-primary)] text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-[0.2em]">
                         {operation} result
                     </div>
                 </div>

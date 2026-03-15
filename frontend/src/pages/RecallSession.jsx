@@ -130,10 +130,16 @@ export default function RecallSessionPage() {
             <div className="w-full max-w-md perspective-1000">
                 <motion.div
                     key={currentCard}
-                    className={`relative w-full aspect-[4/3] transition-all duration-500 preserve-3d cursor-pointer ${isFlipped ? 'rotate-y-180' : ''}`}
+                    className={`relative w-full aspect-[4/3] preserve-3d cursor-pointer`}
                     onClick={() => setIsFlipped(!isFlipped)}
+                    initial={false}
                     animate={{ rotateY: isFlipped ? 180 : 0 }}
-                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                    transition={{ 
+                        type: "spring", 
+                        stiffness: 120, 
+                        damping: 20,
+                        mass: 1
+                    }}
                 >
                     {/* Front side */}
                     <div className="absolute inset-0 backface-hidden card glass flex items-center justify-center p-8 border-brand-500/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">

@@ -120,7 +120,7 @@ export default function BinaryTreeTraversalVisualizer() {
                             className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all border ${
                                 mode === m 
                                     ? 'bg-[var(--viz-highlight-active-bg)] text-[var(--viz-highlight-active)] border-[var(--viz-highlight-active)]/50 shadow-lg shadow-brand-500/10' 
-                                    : 'bg-[var(--viz-bg-inactive)] text-[var(--text-secondary)] border-transparent hover:bg-slate-700'
+                                    : 'bg-[var(--viz-bg-inactive)] text-[var(--text-secondary)] border-transparent hover:bg-[var(--viz-bg-hover)]'
                             }`}
                         >
                             {m}

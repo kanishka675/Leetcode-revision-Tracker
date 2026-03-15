@@ -17,6 +17,7 @@
   
   /* Visualizer Semantic Colors */
   --viz-bg-inactive: rgba(31, 41, 55, 0.5);
+  --viz-bg-hover: #334155;
   --viz-border-inactive: rgba(255, 255, 255, 0.1);
   --viz-highlight-active: #0ea5e9;
   --viz-highlight-compare: #ef4444;
@@ -46,6 +47,7 @@
 
   /* Visualizer Semantic Colors (Light Mode) */
   --viz-bg-inactive: #f1f5f9;
+  --viz-bg-hover: #e2e8f0;
   --viz-border-inactive: #e2e8f0;
   --viz-highlight-active: #2563eb;
   --viz-highlight-compare: #dc2626;
