@@ -13,7 +13,7 @@ export default function CalendarPage() {
     useEffect(() => {
         const fetchSchedule = async () => {
             try {
-                const { data } = await api.get('/api/problems/calendar');
+                const { data } = await api.get('/problems/calendar');
                 setSchedule(data);
                 
                 // Select today by default if it has problems

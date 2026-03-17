@@ -34,7 +34,7 @@ export default function AddProblem() {
 
     useEffect(() => {
         if (isEdit) {
-            api.get(`/api/problems/${id}`)
+            api.get(`/problems/${id}`)
                 .then(({ data }) => {
                     setForm({
                         title: data.title,
@@ -69,10 +69,10 @@ export default function AddProblem() {
         setLoading(true);
         try {
             if (isEdit) {
-                await api.put(`/api/problems/${id}`, form);
+                await api.put(`/problems/${id}`, form);
                 toast.success('Problem updated! ✅');
             } else {
-                await api.post('/api/problems', form);
+                await api.post('/problems', form);
                 toast.success('Problem added! 🎉');
             }
             navigate('/problems');

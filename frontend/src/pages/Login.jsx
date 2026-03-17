@@ -16,10 +16,16 @@ export default function Login() {
         e.preventDefault();
         setLoading(true);
         try {
-            const { data } = await api.post('/api/auth/login', form);
+            const { data } = await api.post('/auth/login', form);
             login(data);
             toast.success(`Welcome back, ${data.name}! 👋`);
-            navigate('/');
+            const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+            const isAdmin = data.email?.toLowerCase().trim() === ADMIN_EMAIL;
+            if (isAdmin || data.isPaid) {
+                navigate('/');
+            } else {
+                navigate('/demo');
+            }
         } catch (err) {
             toast.error(err.response?.data?.message || 'Login failed');
         } finally {

@@ -12,7 +12,7 @@ export default function ForgotPassword() {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.post('/api/auth/send-reset-code', { email });
+            await api.post('/auth/send-reset-code', { email });
             toast.success('Verification code sent to your email! 📧');
             navigate(`/reset-password?email=${encodeURIComponent(email)}`);
         } catch (err) {

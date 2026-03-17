@@ -46,9 +46,9 @@ export default function Dashboard() {
         const fetchStats = async () => {
             try {
                 const [dashboardRes, weeklyRes, reminderRes] = await Promise.all([
-                    api.get('/api/dashboard'),
-                    api.get('/api/analytics/weekly'),
-                    api.get('/api/problems/reminders')
+                    api.get('/dashboard'),
+                    api.get('/analytics/weekly'),
+                    api.get('/problems/reminders')
                 ]);
                 setStats(dashboardRes.data);
                 setWeeklyStats(weeklyRes.data);
@@ -183,11 +183,13 @@ export default function Dashboard() {
             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8"
         >
             {/* Greeting */}
-            <motion.div variants={itemVariants} className="text-center sm:text-left">
-                <h1 className="text-4xl font-extrabold text-slate-100 tracking-tight">
-                    Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-indigo-400">{user?.name?.split(' ')[0]}</span>
-                </h1>
-                <p className="text-slate-400 mt-2 text-lg">Here's your coding progress at a glance.</p>
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-4xl font-extrabold text-slate-100 tracking-tight">
+                        Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-indigo-400">{user?.name?.split(' ')[0]}</span>
+                    </h1>
+                    <p className="text-slate-400 mt-2 text-lg">Here's your coding progress at a glance.</p>
+                </div>
             </motion.div>
 
             {/* Stats Summary */}

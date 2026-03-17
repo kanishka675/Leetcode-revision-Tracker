@@ -21,7 +21,7 @@ export default function ResetPassword() {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.post('/api/auth/verify-reset-code', { email: form.email, code: form.code });
+            await api.post('/auth/verify-reset-code', { email: form.email, code: form.code });
             toast.success('Code verified! Set your new password. 🗝️');
             setStep(2);
         } catch (err) {
@@ -38,7 +38,7 @@ export default function ResetPassword() {
         }
         setLoading(true);
         try {
-            await api.post('/api/auth/reset-password', {
+            await api.post('/auth/reset-password', {
                 email: form.email,
                 code: form.code,
                 password: form.password

@@ -12,7 +12,7 @@ export default function RecallInsights() {
 
     const fetchStats = async () => {
         try {
-            const { data } = await api.get('/api/revision/recall-stats');
+            const { data } = await api.get('/revision/recall-stats');
             setStats(data);
         } catch (error) {
             console.error('Failed to fetch stats');

@@ -54,7 +54,7 @@ export default function AlgorithmsPage() {
     const [expandedCategories, setExpandedCategories] = useState({});
 
     useEffect(() => {
-        api.get('/api/algorithms')
+        api.get('/algorithms')
             .then(({ data }) => {
                 setAlgorithms(data);
                 if (data.length > 0) setSelectedAlg(data[0]);

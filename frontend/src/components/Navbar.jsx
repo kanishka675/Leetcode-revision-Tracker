@@ -10,6 +10,7 @@ export default function Navbar() {
     const location = useLocation();
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
+    const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
 
     const handleLogout = () => {
         logout();
@@ -26,6 +27,10 @@ export default function Navbar() {
         { to: '/recall', label: 'Recall', icon: '🧠' },
         { to: '/add', label: 'Add', icon: '➕' },
     ];
+
+    if (user?.email?.toLowerCase().trim() === ADMIN_EMAIL) {
+        links.push({ to: '/admin', label: 'Admin', icon: '🛡️' });
+    }
 
     const isActive = (path) =>
         path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);

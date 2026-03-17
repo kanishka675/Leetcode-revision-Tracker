@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../api/axiosInstance';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 
 export default function RecallSessionPage() {
     const { id } = useParams();
@@ -20,7 +21,7 @@ export default function RecallSessionPage() {
 
     const fetchProblem = async () => {
         try {
-            const { data } = await api.get(`/api/problems/${id}`);
+            const { data } = await api.get(`/problems/${id}`);
             setProblem(data);
         } catch (error) {
             toast.error('Failed to load problem');
@@ -84,7 +85,7 @@ export default function RecallSessionPage() {
 
     const saveResultAndExit = async () => {
         try {
-            await api.post('/api/revision/recall-result', {
+            await api.post('/revision/recall-result', {
                 problemId: id,
                 rememberedCount: results.remembered,
                 forgotCount: results.forgot

@@ -30,6 +30,7 @@ const registerUser = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            isPaid: user.isPaid,
             token: generateToken(user._id),
         });
     } catch (error) {
@@ -50,6 +51,7 @@ const loginUser = async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                isPaid: user.isPaid,
                 token: generateToken(user._id),
             });
         } else {
@@ -67,6 +69,7 @@ const getMe = async (req, res) => {
         _id: req.user._id,
         name: req.user.name,
         email: req.user.email,
+        isPaid: req.user.isPaid,
     });
 };
 

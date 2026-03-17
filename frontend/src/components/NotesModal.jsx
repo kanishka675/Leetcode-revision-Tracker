@@ -27,7 +27,7 @@ export default function NotesModal({ problem, onClose, onSave }) {
         e.preventDefault();
         setSaving(true);
         try {
-            const { data } = await api.post(`/api/problems/${problem._id}/notes`, formData);
+            const { data } = await api.post(`/problems/${problem._id}/notes`, formData);
             toast.success('Notes saved! 📝');
             onSave(data);
         } catch (err) {
