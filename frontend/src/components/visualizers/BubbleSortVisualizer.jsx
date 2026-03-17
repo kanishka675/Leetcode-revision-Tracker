@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function BubbleSortVisualizer() {
@@ -94,6 +95,9 @@ export default function BubbleSortVisualizer() {
     };
 
     
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setArray([...defaultArray]);
         setI(0);
@@ -101,7 +105,8 @@ export default function BubbleSortVisualizer() {
         setComparing([-1, -1]);
         setSwapping(false);
         setStatus('Wait');
-                setMessage('Compare adjacent elements and bubble the largest to the end.');
+        setMessage('Compare adjacent elements and bubble the largest to the end.');
+        resetAutoplay();
     };
 
     return (
@@ -145,6 +150,8 @@ export default function BubbleSortVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

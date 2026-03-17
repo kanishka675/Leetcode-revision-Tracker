@@ -31,24 +31,23 @@ export default function Login() {
         <div className="min-h-screen flex items-center justify-center px-4 py-12">
             {/* Background glow */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl" />
+                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl opacity-50" />
             </div>
 
             <div className="w-full max-w-md animate-slide-up">
-                {/* Header */}
+                {/* Logo & Header */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-600 rounded-2xl shadow-2xl shadow-brand-600/40 mb-4">
                         <span className="text-2xl font-bold text-white">CR</span>
                     </div>
-                    <h1 className="text-3xl font-bold text-slate-100">Code <span className="text-brand-400">Recall</span></h1>
-                    <p className="text-slate-400 mt-1">Sign in to your revision tracker</p>
+                    <h1 className="text-3xl font-bold text-slate-100 italic tracking-tight">Code<span className="text-brand-400">Recall</span></h1>
+                    <p className="text-slate-400 mt-1">Master LeetCode with spaced repetition</p>
                 </div>
 
-                {/* Card */}
-                <div className="card shadow-2xl">
+                <div className="card shadow-2xl border-white/5">
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-1.5">Email</label>
+                            <label className="block text-sm font-medium text-slate-300 mb-1.5">Email Address</label>
                             <input
                                 type="email"
                                 name="email"
@@ -71,10 +70,11 @@ export default function Login() {
                                 required
                             />
                         </div>
+
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn-primary w-full flex items-center justify-center gap-2"
+                            className="btn-primary w-full flex items-center justify-center gap-2 py-2.5"
                         >
                             {loading ? (
                                 <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -87,7 +87,7 @@ export default function Login() {
                     <p className="text-center text-slate-400 text-sm mt-6">
                         Don't have an account?{' '}
                         <Link to="/register" className="text-brand-400 font-medium hover:text-brand-300">
-                            Create one
+                            Create account
                         </Link>
                     </p>
                 </div>

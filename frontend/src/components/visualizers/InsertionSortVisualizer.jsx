@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function InsertionSortVisualizer() {
@@ -92,6 +93,9 @@ export default function InsertionSortVisualizer() {
     };
 
     
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setArray([...defaultArray]);
         setI(1);
@@ -99,7 +103,8 @@ export default function InsertionSortVisualizer() {
         setKey(null);
         setPhase('pick');
         setStatus('Wait');
-                setMessage('Pick each element and insert it into its correct position in the sorted part.');
+        setMessage('Pick each element and insert it into its correct position in the sorted part.');
+        resetAutoplay();
     };
 
     return (
@@ -173,6 +178,8 @@ export default function InsertionSortVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

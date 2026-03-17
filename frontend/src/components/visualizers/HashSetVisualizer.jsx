@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function HashSetVisualizer() {
@@ -45,12 +46,16 @@ export default function HashSetVisualizer() {
     };
 
     
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setIndex(-1);
         setSet(new Set());
         setStatus('Wait');
-                setDuplicateValue(null);
+        setDuplicateValue(null);
         setMessage('Check if array contains any duplicates.');
+        resetAutoplay();
     };
 
     return (
@@ -119,6 +124,8 @@ export default function HashSetVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

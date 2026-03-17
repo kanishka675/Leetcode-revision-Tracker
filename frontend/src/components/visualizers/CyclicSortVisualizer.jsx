@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function CyclicSortVisualizer() {
     const [array, setArray] = useState([3, 1, 5, 4, 2]);
@@ -41,11 +43,15 @@ export default function CyclicSortVisualizer() {
         }
     };
 
+    const isFinished = status === 'Done';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setArray([3, 1, 5, 4, 2]);
         setI(0);
         setStatus('Wait');
         setSwapIndices([]);
+        resetAutoplay();
     };
 
     return (
@@ -90,16 +96,13 @@ export default function CyclicSortVisualizer() {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-4">
-                <button 
-                    onClick={handleNext} 
-                    disabled={status === 'Done'}
-                    className="btn-primary px-8 shadow-brand-600/20"
-                >
-                    {status === 'Wait' ? 'Start Sorting' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext}
+                onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status === 'Done' ? 'Over' : status}
+            />
 
             <div className="text-xs text-slate-500 flex gap-8">
                 <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[var(--viz-highlight-active-bg)] border border-[var(--viz-highlight-active)]" /> Current Pointer</div>

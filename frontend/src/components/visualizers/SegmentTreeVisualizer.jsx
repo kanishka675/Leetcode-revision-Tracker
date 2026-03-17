@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function SegmentTreeVisualizer() {
@@ -113,10 +114,14 @@ export default function SegmentTreeVisualizer() {
     };
 
     
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setCurrentStep(0);
         setStatus('Wait');
-            };
+        resetAutoplay();
+    };
 
     const stepData = steps[currentStep];
     const tree = stepData.tree;
@@ -179,6 +184,8 @@ export default function SegmentTreeVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

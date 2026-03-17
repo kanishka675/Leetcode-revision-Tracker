@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function KMPVisualizer() {
@@ -131,10 +132,14 @@ export default function KMPVisualizer() {
     };
 
     
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setCurrentStep(0);
         setStatus('Wait');
-            };
+        resetAutoplay();
+    };
 
     const stepData = steps[currentStep];
     const lps = stepData.lps;
@@ -223,6 +228,8 @@ export default function KMPVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

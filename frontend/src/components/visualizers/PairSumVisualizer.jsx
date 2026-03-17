@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function PairSumVisualizer() {
     const [array] = useState([1, 2, 4, 6, 8, 10, 13]);
@@ -38,12 +40,16 @@ export default function PairSumVisualizer() {
         }
     };
 
+    const isFinished = status === 'Found' || status === 'NotFound' || status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setLeft(0);
         setRight(array.length - 1);
         setStatus('Wait');
         setCurrentSum(null);
         setHistory([]);
+        resetAutoplay();
     };
 
     return (
@@ -139,16 +145,13 @@ export default function PairSumVisualizer() {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-4">
-                <button 
-                    onClick={handleNext} 
-                    disabled={status === 'Found' || status === 'NotFound' || status === 'Over'}
-                    className="btn-primary px-8 shadow-brand-600/20"
-                >
-                    {status === 'Wait' ? 'Start Search' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext}
+                onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

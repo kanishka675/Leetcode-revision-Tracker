@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function BinarySearchVisualizer() {
     const [array] = useState([2, 5, 8, 12, 16, 23, 38, 56, 72, 91]);
@@ -40,11 +42,15 @@ export default function BinarySearchVisualizer() {
         }
     };
 
+    const isFinished = status === 'Found' || status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setLow(0);
         setHigh(array.length - 1);
         setMid(null);
         setStatus('Wait');
+        resetAutoplay();
     };
 
     return (
@@ -83,16 +89,13 @@ export default function BinarySearchVisualizer() {
                 })}
             </div>
 
-            <div className="flex gap-4">
-                <button 
-                    onClick={handleNext} 
-                    disabled={status === 'Found' || status === 'Over'}
-                    className="btn-primary px-8"
-                >
-                    {status === 'Wait' ? (mid === null ? 'Start' : 'Pick Next Mid') : 'Continue'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

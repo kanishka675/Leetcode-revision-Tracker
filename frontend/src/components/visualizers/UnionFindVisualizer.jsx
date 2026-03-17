@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function UnionFindVisualizer() {
     const [nodes] = useState([0, 1, 2, 3, 4, 5]);
@@ -8,6 +10,11 @@ export default function UnionFindVisualizer() {
     const [status, setStatus] = useState('Wait');
     const [message, setMessage] = useState('Nodes are independent sets');
     const [activeUnion, setActiveUnion] = useState([-1, -1]);
+
+    const [opIndex, setOpIndex] = useState(0);
+    const operations = [
+        [0, 1], [2, 3], [1, 2], [4, 5], [0, 5]
+    ];
 
     const find = (i, p) => {
         if (p[i] === i) return i;
@@ -38,12 +45,29 @@ export default function UnionFindVisualizer() {
         }
     };
 
+    const handleNext = () => {
+        if (opIndex >= operations.length) {
+            setStatus('Over');
+            return;
+        }
+        const [u, v] = operations[opIndex];
+        handleUnion(u, v);
+        setOpIndex(prev => prev + 1);
+        setStatus('Running');
+        if (opIndex + 1 === operations.length) setStatus('Over');
+    };
+
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setParent([0, 1, 2, 3, 4, 5]);
         setRank([0, 0, 0, 0, 0, 0]);
         setStatus('Wait');
         setMessage('Nodes are independent sets');
         setActiveUnion([-1, -1]);
+        setOpIndex(0);
+        resetAutoplay();
     };
 
     return (
@@ -77,13 +101,13 @@ export default function UnionFindVisualizer() {
                 })}
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={() => handleUnion(0, 1)} className="btn-secondary text-xs px-4">Union(0,1)</button>
-                <button onClick={() => handleUnion(2, 3)} className="btn-secondary text-xs px-4">Union(2,3)</button>
-                <button onClick={() => handleUnion(1, 2)} className="btn-secondary text-xs px-4">Union(1,2)</button>
-                <button onClick={() => handleUnion(4, 5)} className="btn-secondary text-xs px-4">Union(4,5)</button>
-                <button onClick={reset} className="btn-primary text-xs px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
 
             <div className="text-xs text-slate-500 italic text-center max-w-md">
                 Union by Rank and Find operations. Colors represent different disjoint sets. Direct parent pointer shown as 'P'.

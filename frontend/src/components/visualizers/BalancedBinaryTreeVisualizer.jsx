@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function BalancedBinaryTreeVisualizer() {
@@ -83,9 +84,13 @@ export default function BalancedBinaryTreeVisualizer() {
         }
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setCurrentStep(0);
         setStatus('Wait');
+        resetAutoplay();
     };
 
     const stepData = steps[currentStep] || steps[0];
@@ -163,8 +168,10 @@ export default function BalancedBinaryTreeVisualizer() {
 
             <VisualizerControls 
                 onNext={handleNext}
-                status={status}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
             />
         </div>
     );

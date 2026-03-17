@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function KadaneVisualizer() {
     const [array] = useState([-2, 1, -3, 4, -1, 2, 1, -5, 4]);
@@ -55,6 +57,9 @@ export default function KadaneVisualizer() {
         setBestRange(newBestRange);
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setIndex(-1);
         setCurrentSum(0);
@@ -62,6 +67,7 @@ export default function KadaneVisualizer() {
         setStatus('Wait');
         setBestRange([-1, -1]);
         setCurrentRange([-1, -1]);
+        resetAutoplay();
     };
 
     return (
@@ -105,12 +111,13 @@ export default function KadaneVisualizer() {
                 })}
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
             
             <div className="text-xs text-slate-500 italic max-w-sm text-center">
                 Blue highlight shows the current running subarray. Purple outline shows the best subarray found so far.

@@ -3,17 +3,23 @@ import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axiosInstance';
 import toast from 'react-hot-toast';
 
-const TOPICS = ['Arrays', 'Strings', 'Linked List', 'Trees', 'Graphs', 'DP', 'Binary Search',
-    'Sliding Window', 'Two Pointers', 'Stack', 'Queue', 'Heap', 'Trie', 'Recursion', 'Backtracking'];
+const TOPICS = [
+    'Sliding Window', 'Two Pointers', 'Prefix Sum', 'Binary Search', 'DP', 'Recursion', 
+    'Backtracking', 'Greedy', 'DFS', 'BFS', 'Union Find', 'Bit Manipulation', 'Hashing', 'Hash Map'
+];
+
+const CATEGORIES = [
+    'Array', 'String', 'Linked List', 'Tree', 'Graph', 'Heap', 'Stack', 'Queue', 'Trie', 'Hash Map'
+];
 
 const defaultForm = {
     title: '',
     leetcodeUrl: '',
     difficulty: 'Medium',
+    category: 'Array',
     topics: [],
     notes: '',
     timeComplexity: '',
-    dataStructure: '',
     keyAlgorithmIdea: '',
     solvedDate: new Date().toISOString().split('T')[0],
 };
@@ -34,10 +40,10 @@ export default function AddProblem() {
                         title: data.title,
                         leetcodeUrl: data.leetcodeUrl || '',
                         difficulty: data.difficulty,
+                        category: data.category || 'Array',
                         topics: data.topics,
                         notes: data.notes || '',
                         timeComplexity: data.timeComplexity || '',
-                        dataStructure: data.dataStructure || '',
                         keyAlgorithmIdea: data.keyAlgorithmIdea || '',
                         solvedDate: new Date(data.solvedDate).toISOString().split('T')[0],
                     });
@@ -149,6 +155,28 @@ export default function AddProblem() {
                         </div>
                     </div>
 
+                    {/* Category */}
+                    <div className="animate-in fade-in slide-in-from-top-4 duration-500">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                            Category <span className="text-red-400">*</span>
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                            {CATEGORIES.map((cat) => (
+                                <button
+                                    key={cat}
+                                    type="button"
+                                    onClick={() => setForm({ ...form, category: cat })}
+                                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-150 ${form.category === cat
+                                        ? 'bg-indigo-600/30 text-indigo-400 border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.2)]'
+                                        : 'bg-brand-500/5 text-slate-400 border-brand-500/10 hover:border-brand-500/30 hover:text-slate-300'
+                                        }`}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
                     {/* Topics */}
                     <div>
                         <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -175,16 +203,6 @@ export default function AddProblem() {
                     {/* Flashcard Data */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-1.5 text-brand-400/80 uppercase tracking-widest font-black text-[10px]">Data Structure</label>
-                            <input
-                                type="text"
-                                className="input h-10 text-sm"
-                                placeholder="e.g. Hash Map, Segment Tree"
-                                value={form.dataStructure}
-                                onChange={(e) => setForm({ ...form, dataStructure: e.target.value })}
-                            />
-                        </div>
-                        <div>
                             <label className="block text-sm font-medium text-slate-300 mb-1.5 text-brand-400/80 uppercase tracking-widest font-black text-[10px]">Time Complexity</label>
                             <input
                                 type="text"
@@ -194,17 +212,16 @@ export default function AddProblem() {
                                 onChange={(e) => setForm({ ...form, timeComplexity: e.target.value })}
                             />
                         </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-1.5 text-brand-400/80 uppercase tracking-widest font-black text-[10px]">Key Algorithm Idea</label>
-                        <input
-                            type="text"
-                            className="input h-10 text-sm"
-                            placeholder="e.g. target - nums[i]"
-                            value={form.keyAlgorithmIdea}
-                            onChange={(e) => setForm({ ...form, keyAlgorithmIdea: e.target.value })}
-                        />
+                        <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-1.5 text-brand-400/80 uppercase tracking-widest font-black text-[10px]">Key Algorithm Idea</label>
+                            <input
+                                type="text"
+                                className="input h-10 text-sm"
+                                placeholder="e.g. target - nums[i]"
+                                value={form.keyAlgorithmIdea}
+                                onChange={(e) => setForm({ ...form, keyAlgorithmIdea: e.target.value })}
+                            />
+                        </div>
                     </div>
 
                     {/* Solved Date */}

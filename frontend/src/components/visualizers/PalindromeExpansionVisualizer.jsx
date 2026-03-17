@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function PalindromeExpansionVisualizer() {
@@ -69,6 +70,9 @@ export default function PalindromeExpansionVisualizer() {
         }
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setCenterIdx(0);
         setLeft(0);
@@ -76,6 +80,7 @@ export default function PalindromeExpansionVisualizer() {
         setLongest({ s: 0, e: 0 });
         setStatus('Wait');
         setMessage('Find the longest palindromic substring by expanding around centers.');
+        resetAutoplay();
     };
 
     return (
@@ -146,6 +151,8 @@ export default function PalindromeExpansionVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

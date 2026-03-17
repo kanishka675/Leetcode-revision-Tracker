@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function BitManipulationVisualizer() {
     const [num1, setNum1] = useState(5);  // 0101
@@ -11,14 +13,23 @@ export default function BitManipulationVisualizer() {
     const toBinary = (n) => n.toString(2).padStart(4, '0').split('');
 
     const handleNext = () => {
+        const ops = ['XOR', 'AND', 'OR', 'LSHIFT', 'RSHIFT'];
+        const currentOpIdx = ops.indexOf(operation);
+        const nextOp = ops[(currentOpIdx + 1) % ops.length];
+        
         if (status === 'Wait') {
-            setStatus('StepByStep');
-            return;
+            setStatus('Running');
         }
         
-        // Finalize for demo
-        setStatus('Over');
+        runOp(nextOp);
+        
+        if (nextOp === 'RSHIFT' && currentOpIdx === ops.length - 2) {
+            setStatus('Over');
+        }
     };
+
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
 
     const runOp = (op) => {
         setOperation(op);
@@ -36,6 +47,7 @@ export default function BitManipulationVisualizer() {
         setNum1(5);
         setNum2(3);
         runOp('XOR');
+        resetAutoplay();
     };
 
     const renderBits = (n, label, color = 'brand') => (
@@ -90,9 +102,19 @@ export default function BitManipulationVisualizer() {
                 {renderBits(result, 'Result', 'indigo')}
             </div>
 
-            <div className="flex gap-4 mt-8">
-                <button onClick={() => setNum1(Math.floor(Math.random() * 15))} className="btn-secondary text-xs px-4">Random N1</button>
-                <button onClick={reset} className="btn-primary text-xs px-8">Reset</button>
+            <div className="flex flex-col items-center gap-6 mt-8">
+                <div className="flex gap-4">
+                    <button onClick={() => setNum1(Math.floor(Math.random() * 15))} className="btn-secondary text-xs px-4">Random N1</button>
+                    <button onClick={() => setNum2(Math.floor(Math.random() * 15))} className="btn-secondary text-xs px-4">Random N2</button>
+                </div>
+                
+                <VisualizerControls 
+                    onNext={handleNext} 
+                    onReset={reset} 
+                    onTogglePlay={togglePlay}
+                    isPlaying={isPlaying}
+                    status={status}
+                />
             </div>
             
             <style dangerouslySetInnerHTML={{ __html: `

@@ -22,6 +22,10 @@ const problemSchema = new mongoose.Schema(
             enum: ['Easy', 'Medium', 'Hard'],
             required: [true, 'Difficulty is required'],
         },
+        category: {
+            type: String,
+            default: '',
+        },
         topics: {
             type: [String],
             default: [],

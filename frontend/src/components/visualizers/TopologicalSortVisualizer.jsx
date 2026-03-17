@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function TopologicalSortVisualizer() {
     const [nodes] = useState(['A', 'B', 'C', 'D', 'E']);
@@ -50,11 +52,15 @@ export default function TopologicalSortVisualizer() {
         }
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setIndegree({ A: 0, B: 0, C: 2, D: 1, E: 2 });
         setQueue([]);
         setResult([]);
         setStatus('Wait');
+        resetAutoplay();
     };
 
     return (
@@ -113,12 +119,13 @@ export default function TopologicalSortVisualizer() {
                 </div>
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

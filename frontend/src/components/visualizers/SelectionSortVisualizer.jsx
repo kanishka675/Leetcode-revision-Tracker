@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function SelectionSortVisualizer() {
@@ -92,6 +93,9 @@ export default function SelectionSortVisualizer() {
     };
 
     
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setArray([...defaultArray]);
         setI(0);
@@ -99,7 +103,8 @@ export default function SelectionSortVisualizer() {
         setMinIdx(0);
         setSwapping(false);
         setStatus('Wait');
-                setMessage('Find the minimum element and swap it with the first unsorted element.');
+        setMessage('Find the minimum element and swap it with the first unsorted element.');
+        resetAutoplay();
     };
 
     return (
@@ -150,6 +155,8 @@ export default function SelectionSortVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

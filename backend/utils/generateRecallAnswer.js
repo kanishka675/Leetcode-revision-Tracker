@@ -6,8 +6,9 @@
 const generateRecallAnswer = (problem) => {
     const topics = problem.topics || [];
     const difficulty = problem.difficulty || 'Medium';
+    const category = problem.category || '';
 
-    // Priority mappings for patterns
+    // 1. Priority mappings for patterns
     const patternMappings = {
         'Hash Map': {
             ds: 'Hash Map / Unordered Map',
@@ -29,30 +30,15 @@ const generateRecallAnswer = (problem) => {
             tc: 'O(log n)',
             idea: 'Repeatedly divide the search space in half by comparing the middle element with the target.'
         },
-        'Heap': {
-            ds: 'Priority Queue (Min/Max Heap)',
-            tc: 'O(n log k) or O(n log n)',
-            idea: 'Use a heap to efficiently find the K-th smallest/largest element or maintain a sorted set of elements.'
-        },
         'Trie': {
             ds: 'Trie (Prefix Tree)',
-            tc: 'O(n * L) where L is the average word length',
+            tc: 'O(L) where L is the length of the string',
             idea: 'Store characters at tree nodes to provide efficient prefix-based searching and insertions.'
         },
-        'Graphs': {
-            ds: 'Adjacency List / Matrix',
-            tc: 'O(V + E)',
-            idea: 'Use BFS for shortest paths in unweighted graphs or DFS for exhaustive search and connectivity.'
-        },
-        'DP': {
-            ds: '1D/2D DP Table or Memoization Map',
-            tc: 'O(n * m)',
-            idea: 'Break down the problem into overlapping subproblems and store their results to avoid redundant calculations.'
-        },
-        'Recursion': {
-            ds: 'Recursion Stack',
-            tc: 'O(2^n) or O(n!)',
-            idea: 'Solve the problem by calling the same function with smaller subproblems until reaching a base case.'
+        'Union Find': {
+            ds: 'Disjoint Set Union (DSU)',
+            tc: 'O(α(n)) near constant time',
+            idea: 'Maintain disjoint sets and use path compression and union by rank for efficient connectivity checks.'
         },
         'Backtracking': {
             ds: 'Recursion Stack + State Tracking',
@@ -61,33 +47,84 @@ const generateRecallAnswer = (problem) => {
         }
     };
 
-    // Find the first matching topic
-    for (const topic of topics) {
-        if (patternMappings[topic]) {
-            return patternMappings[topic];
-        }
-    }
-
-    // Fallback based on difficulty if no pattern matches
-    const fallbacks = {
-        'Easy': {
-            ds: 'Hash Map or Two Pointers',
+    // 2. Category based mapping (Primary Data Structure)
+    const categoryMappings = {
+        'Linked List': {
+            ds: 'Single/Double Linked List',
             tc: 'O(n)',
-            idea: 'Usually involves a single pass with a frequency map or simple pointer traversal.'
+            idea: 'Manipulate node pointers (next/prev) to traverse, reverse, or modify the sequence.'
         },
-        'Medium': {
-            ds: 'Sliding Window or Binary Search',
-            tc: 'O(n) or O(log n)',
-            idea: 'Look for optimal subarrays or search for a value in a sorted/constrained space.'
+        'Tree': {
+            ds: 'Binary Tree / BST',
+            tc: 'O(n)',
+            idea: 'Traverse the hierarchy using Depth-First Search (DFS) or Breadth-First Search (BFS).'
         },
-        'Hard': {
-            ds: 'Dynamic Programming or Graph DFS',
-            tc: 'O(n^2) or O(V+E)',
-            idea: 'Requires breaking the problem into subproblems or navigating complex relationships/states.'
+        'Graph': {
+            ds: 'Adjacency List / Matrix',
+            tc: 'O(V + E)',
+            idea: 'Represent relationships as nodes and edges, using BFS/DFS for traversal and connectivity.'
+        },
+        'Heap': {
+            ds: 'Priority Queue (Min/Max Heap)',
+            tc: 'O(n log n)',
+            idea: 'Use a binary heap to efficiently find the K-th smallest/largest element or maintain sorted order.'
+        },
+        'Stack': {
+            ds: 'Stack (LIFO)',
+            tc: 'O(n)',
+            idea: 'Use Last-In-First-Out logic for nested structures, matching brackets, or monotonic trends.'
+        },
+        'Queue': {
+            ds: 'Queue (FIFO)',
+            tc: 'O(n)',
+            idea: 'Use First-In-First-Out logic, typically for BFS or level-order processing.'
+        },
+        'DP': {
+            ds: '1D/2D DP Table',
+            tc: 'O(n*m)',
+            idea: 'Break down into overlapping subproblems and store results to avoid redundant work.'
+        },
+        'Array': {
+            ds: 'Array / Dynamic Array',
+            tc: 'O(n)',
+            idea: 'Use indexing and loops to process elements in a linear sequence.'
+        },
+        'String': {
+            ds: 'String / Character Array',
+            tc: 'O(n)',
+            idea: 'Process sequences of characters, often using sliding windows or frequency maps.'
         }
     };
 
-    return fallbacks[difficulty] || fallbacks['Medium'];
+    // Check Priority 1: Pattern (for TC and Idea)
+    let patternMatch = null;
+    for (const topic of topics) {
+        if (patternMappings[topic]) {
+            patternMatch = patternMappings[topic];
+            break;
+        }
+    }
+
+    // Check Priority 2: Category (for DS)
+    const categoryMatch = category && categoryMappings[category] ? categoryMappings[category] : null;
+
+    // Define Fallback (Difficulty)
+    const fallbacks = {
+        'Easy': { ds: 'Hash Map or Two Pointers', tc: 'O(n)', idea: 'Linear pass with simple memory.' },
+        'Medium': { ds: 'Sliding Window or Binary Search', tc: 'O(n)', idea: 'Optimal subarray search or divide & conquer.' },
+        'Hard': { ds: 'DP / Advanced Graph', tc: 'O(n^2)', idea: 'Complex state transitions or graph algorithms.' }
+    };
+    const difficultyFallback = fallbacks[difficulty] || fallbacks['Medium'];
+
+    // Construct Result
+    return {
+        // DS Priority: Category > Pattern > Fallback
+        ds: category || (patternMatch ? patternMatch.ds : difficultyFallback.ds),
+        
+        // TC/Idea Priority: Pattern > Category > Fallback
+        tc: patternMatch ? patternMatch.tc : (categoryMatch ? categoryMatch.tc : difficultyFallback.tc),
+        idea: patternMatch ? patternMatch.idea : (categoryMatch ? categoryMatch.idea : difficultyFallback.idea)
+    };
 };
 
 module.exports = generateRecallAnswer;

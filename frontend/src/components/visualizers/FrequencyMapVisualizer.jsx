@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function FrequencyMapVisualizer() {
@@ -34,11 +35,15 @@ export default function FrequencyMapVisualizer() {
         }
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setIndex(-1);
         setMap({});
         setStatus('Wait');
         setMessage('Build a frequency map for the string "banana".');
+        resetAutoplay();
     };
 
     return (
@@ -112,6 +117,8 @@ export default function FrequencyMapVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

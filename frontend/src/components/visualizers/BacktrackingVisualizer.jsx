@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function BacktrackingVisualizer() {
@@ -116,13 +117,17 @@ export default function BacktrackingVisualizer() {
         }
     };
 
-    const reset = () => {
-        setStepIndex(-1);
-    };
-
     const currentStep = stepIndex >= 0 ? steps[stepIndex] : null;
     const board = currentStep ? currentStep.board : Array(N).fill(null).map(() => Array(N).fill(0));
     const status = stepIndex === -1 ? 'Wait' : (stepIndex === steps.length - 1 ? 'Found' : 'Running');
+
+    const isFinished = status === 'Found';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
+    const reset = () => {
+        setStepIndex(-1);
+        resetAutoplay();
+    };
 
     return (
         <div className="flex-1 flex flex-col items-center justify-center p-8 space-y-8">
@@ -214,6 +219,8 @@ export default function BacktrackingVisualizer() {
             <VisualizerControls 
                 onNext={handleNext} 
                 onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status} 
             />
         </div>

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function MergeIntervalsVisualizer() {
     const [intervals, setIntervals] = useState([
@@ -45,10 +47,14 @@ export default function MergeIntervalsVisualizer() {
         if (currentIndex + 1 >= intervals.length) setStatus('Over');
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setMerged([]);
         setStatus('Wait');
         setCurrentIndex(0);
+        resetAutoplay();
     };
 
     return (
@@ -110,12 +116,13 @@ export default function MergeIntervalsVisualizer() {
                 </div>
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

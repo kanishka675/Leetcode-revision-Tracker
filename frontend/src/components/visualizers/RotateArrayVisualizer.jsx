@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function RotateArrayVisualizer() {
     const initialArray = [1, 2, 3, 4, 5, 6, 7];
@@ -55,12 +57,16 @@ export default function RotateArrayVisualizer() {
         }
     };
 
+    const isFinished = phase === 'Done';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setArray([...initialArray]);
         setPhase('Wait');
         setLeft(null);
         setRight(null);
         setSwapping(null);
+        resetAutoplay();
     };
 
     return (
@@ -110,16 +116,13 @@ export default function RotateArrayVisualizer() {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-4">
-                <button 
-                    onClick={handleNext} 
-                    disabled={phase === 'Done'}
-                    className="btn-primary px-8 shadow-brand-600/20"
-                >
-                    {phase === 'Wait' ? 'Start Rotation' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext}
+                onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={phase}
+            />
 
             <div className="max-w-sm mt-4 p-4 bg-brand-500/5 rounded-xl border border-brand-500/10 text-center">
                 <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed uppercase font-bold tracking-wider italic">

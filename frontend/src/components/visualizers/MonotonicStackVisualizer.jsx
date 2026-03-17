@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function MonotonicStackVisualizer() {
     const [array] = useState([5, 3, 1, 2, 4]);
@@ -41,11 +43,15 @@ export default function MonotonicStackVisualizer() {
         }
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setIndex(-1);
         setStack([]);
         setResult(new Array(array.length).fill(null));
         setStatus('Wait');
+        resetAutoplay();
     };
 
     return (
@@ -105,12 +111,13 @@ export default function MonotonicStackVisualizer() {
                 </div>
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

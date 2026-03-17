@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function IncludeExcludeVisualizer() {
@@ -81,12 +82,15 @@ export default function IncludeExcludeVisualizer() {
         }
     };
 
-    const reset = () => {
-        setStepIndex(-1);
-    };
-
     const currentStep = stepIndex >= 0 ? steps[stepIndex] : null;
     const status = stepIndex === -1 ? 'Wait' : (stepIndex === steps.length - 1 ? 'Found' : 'Running');
+
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, status === 'Found');
+
+    const reset = () => {
+        setStepIndex(-1);
+        resetAutoplay();
+    };
 
     // Simple recursion tree structure for visualization
     // Level 0: []
@@ -182,6 +186,8 @@ export default function IncludeExcludeVisualizer() {
             <VisualizerControls 
                 onNext={handleNext} 
                 onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status} 
             />
         </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function RabinKarpVisualizer() {
@@ -97,15 +98,19 @@ export default function RabinKarpVisualizer() {
     };
 
     
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setStatus('Wait');
-                setI(0);
+        setI(0);
         setPHash(0);
         setTHash(0);
         setH(1);
         setMatches([]);
         setPhase('init');
         setMessage('Rabin-Karp String Matching');
+        resetAutoplay();
     };
 
     return (
@@ -174,6 +179,8 @@ export default function RabinKarpVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

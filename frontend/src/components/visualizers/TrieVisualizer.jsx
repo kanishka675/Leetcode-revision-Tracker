@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function TrieVisualizer() {
     const [words] = useState(['CAT', 'CAR', 'DOG']);
@@ -53,12 +55,16 @@ export default function TrieVisualizer() {
         setTrie(newTrie);
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setTrie({ nodes: { root: { children: {}, isEnd: false } } });
         setStatus('Wait');
         setCurrentWordIdx(0);
         setCurrentCharIdx(0);
         setMessage('Build a Trie with words: CAT, CAR, DOG');
+        resetAutoplay();
     };
 
     // Recursive helper to render Trie nodes
@@ -97,12 +103,13 @@ export default function TrieVisualizer() {
                 {renderNode(trie.nodes.root)}
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

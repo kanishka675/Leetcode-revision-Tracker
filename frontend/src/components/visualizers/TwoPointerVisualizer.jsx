@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function TwoPointerVisualizer() {
     const [array] = useState([1, 2, 4, 7, 11, 15]);
@@ -22,10 +24,14 @@ export default function TwoPointerVisualizer() {
         }
     };
 
+    const isFinished = status === 'Found' || status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setLeft(0);
         setRight(array.length - 1);
         setStatus('Wait');
+        resetAutoplay();
     };
 
     return (
@@ -84,16 +90,13 @@ export default function TwoPointerVisualizer() {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-4">
-                <button 
-                    onClick={handleNext} 
-                    disabled={status === 'Found' || status === 'Over'}
-                    className="btn-primary px-8 shadow-brand-600/20"
-                >
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

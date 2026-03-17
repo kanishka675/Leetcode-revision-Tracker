@@ -31,10 +31,25 @@ export default function RecallSessionPage() {
     };
 
     const cards = problem ? [
-        { q: "Which data structure is used?", a: problem.dataStructure || "Not specified" },
-        { q: "What is the Time Complexity?", a: problem.timeComplexity || "Not specified" },
-        { q: "What is the Key Logic / Algorithm Idea?", a: problem.keyAlgorithmIdea || problem.optimizedApproach || "Not specified" },
-        { q: "What Pattern does this problem belong to?", a: problem.topics?.join(', ') || "Not specified" }
+        { 
+            q: "Which data structure is used?", 
+            a: problem.category || "Not specified" 
+        },
+        { 
+            q: "What is the Time Complexity?", 
+            a: problem.timeComplexity || "Not specified" 
+        },
+        { 
+            q: "What is the Key Logic / Algorithm Idea?", 
+            a: problem.keyAlgorithmIdea || problem.optimizedApproach || "Not specified" 
+        },
+        { 
+            q: "What Pattern does this problem belong to?", 
+            a: problem.topics?.filter(t => ![
+                'Array', 'Arrays', 'String', 'Strings', 'Linked List', 
+                'Tree', 'Trees', 'Graph', 'Graphs', 'Heap', 'Stack', 'Queue', 'Trie'
+            ].includes(t)).join(', ') || problem.topics?.join(', ') || "Not specified"
+        }
     ] : [];
 
     const handleRating = (remembered) => {

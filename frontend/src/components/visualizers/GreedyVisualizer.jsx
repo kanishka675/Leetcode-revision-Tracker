@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function GreedyVisualizer() {
     const [capacity] = useState(50);
@@ -61,12 +63,16 @@ export default function GreedyVisualizer() {
         }
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setBag([]);
         setCurrentWeight(0);
         setTotalValue(0);
         setCurrentIndex(0);
         setStatus('Wait');
+        resetAutoplay();
     };
 
     return (
@@ -135,12 +141,13 @@ export default function GreedyVisualizer() {
                 </div>
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
             
             <div className="text-[10px] text-slate-500 italic max-w-sm text-center">
                 Greedy Strategy: Always pick the item with the highest <code className="text-[var(--viz-highlight-active)]">Value / Weight</code> ratio first.

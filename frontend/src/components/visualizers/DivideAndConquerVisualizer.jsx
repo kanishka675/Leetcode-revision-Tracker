@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function DivideAndConquerVisualizer() {
     // Merge Sort Visualization
@@ -27,8 +29,12 @@ export default function DivideAndConquerVisualizer() {
         }
     };
 
+    const status = currentStep === -1 ? 'Wait' : (currentStep === visualizationSteps.length - 1 ? 'Over' : 'Running');
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, status === 'Over');
+
     const reset = () => {
         setCurrentStep(-1);
+        resetAutoplay();
     };
 
     const activeStep = currentStep === -1 ? visualizationSteps[0] : visualizationSteps[currentStep];
@@ -73,16 +79,13 @@ export default function DivideAndConquerVisualizer() {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-4">
-                <button 
-                    onClick={handleNext} 
-                    disabled={currentStep === visualizationSteps.length - 1}
-                    className="btn-primary px-8 shadow-brand-600/20"
-                >
-                    {currentStep === -1 ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext}
+                onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
 
             <div className="flex gap-6 text-[10px] font-black uppercase tracking-widest text-slate-600">
                  <div className="flex items-center gap-2">

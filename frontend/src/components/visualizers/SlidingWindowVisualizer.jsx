@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function SlidingWindowVisualizer() {
     const array = [2, 1, 5, 1, 3, 2];
@@ -45,12 +47,16 @@ export default function SlidingWindowVisualizer() {
         }
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setStart(0);
         setEnd(0);
         setCurrentSum(0);
         setMaxSum(0);
         setStatus('Wait');
+        resetAutoplay();
     };
 
     return (
@@ -90,16 +96,13 @@ export default function SlidingWindowVisualizer() {
                 })}
             </div>
 
-            <div className="flex gap-4">
-                <button 
-                    onClick={handleNext} 
-                    disabled={status === 'Over'}
-                    className="btn-primary px-8 shadow-brand-600/20"
-                >
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

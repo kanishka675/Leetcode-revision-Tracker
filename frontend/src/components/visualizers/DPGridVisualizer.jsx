@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function DPGridVisualizer() {
     const rows = 3;
@@ -50,11 +52,15 @@ export default function DPGridVisualizer() {
         if (nextRow >= rows) setStatus('Over');
     };
 
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setGrid(Array(rows).fill(0).map(() => Array(cols).fill(0)));
         setStatus('Wait');
         setCurrRow(0);
         setCurrCol(0);
+        resetAutoplay();
     };
 
     return (
@@ -93,12 +99,13 @@ export default function DPGridVisualizer() {
                 )}
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
             
             <div className="text-[10px] text-slate-500 max-w-sm text-center">
                 DP State: <code className="text-[var(--viz-highlight-active)]">dp[i][j] = dp[i-1][j] + dp[i][j-1]</code>. We sum paths from top and left neighbors.

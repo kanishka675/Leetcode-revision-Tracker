@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function HeapVisualizer() {
     const [heap, setHeap] = useState([10, 20, 30, 40, 50, 60, 70]); // Min-Heap
@@ -16,26 +18,30 @@ export default function HeapVisualizer() {
         const newHeap = [...heap, newVal];
         setHeap(newHeap);
         setStatus('BubblingUp');
-        setMessage(`Inserted ${newVal}. Bubbling up...`);
-        
-        let curr = newHeap.length - 1;
-        setHighlightIndices([curr]);
-
-        // Bubble Up simulation (step-by-step logic would be better in handleNext, 
-        // but for simplicity here we just show the state. 
-        // Let's refactor to step-by-step handleNext)
+        setMessage(`Inserted ${newVal}.`);
+        setHighlightIndices([newHeap.length - 1]);
     };
 
     const handleNext = () => {
-        // Implement step-by-step bubble up or extract min logic
-        setMessage('Step-by-step heap operations');
+        if (status === 'Wait') {
+            handleInsert();
+            return;
+        }
+
+        // Just insert random nodes for demo
+        handleInsert();
+        if (heap.length >= 15) setStatus('Over');
     };
+
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
 
     const reset = () => {
         setHeap([10, 20, 30, 40, 50, 60, 70]);
         setStatus('Wait');
         setHighlightIndices([]);
         setMessage('Binary Min-Heap Visualization');
+        resetAutoplay();
     };
 
     // Helper to calculate node positions for a binary tree
@@ -114,10 +120,13 @@ export default function HeapVisualizer() {
                 {renderNodes()}
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleInsert} className="btn-primary px-8">Insert Rand</button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext} 
+                onReset={reset} 
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
             
             <div className="bg-brand-500/5 p-4 rounded-xl border border-[var(--viz-highlight-active)]/10 text-xs text-[var(--text-secondary)] max-w-md text-center">
                 Nodes are arranged in a complete binary tree. Parent of node at index <code className="text-[var(--viz-highlight-active)]">i</code> is at <code className="text-[var(--viz-highlight-active)]">floor((i-1)/2)</code>.

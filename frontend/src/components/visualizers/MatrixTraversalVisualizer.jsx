@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function MatrixTraversalVisualizer() {
@@ -44,11 +45,15 @@ export default function MatrixTraversalVisualizer() {
     };
 
     
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setIndex(-1);
         setPath([]);
         setStatus('Wait');
-                setMessage('Standard row-by-row traversal of a 2D grid.');
+        setMessage('Standard row-by-row traversal of a 2D grid.');
+        resetAutoplay();
     };
 
     return (
@@ -85,6 +90,8 @@ export default function MatrixTraversalVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

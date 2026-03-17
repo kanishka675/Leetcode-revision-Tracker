@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
 
 export default function QuickSortVisualizer() {
@@ -85,14 +86,17 @@ export default function QuickSortVisualizer() {
             setStatus('Running');
         } else {
             setStatus('Over');
-                    }
+        }
     };
 
-    
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setCurrentStep(0);
         setStatus('Wait');
-            };
+        resetAutoplay();
+    };
 
     const stepData = steps[currentStep];
     const array = stepData.array;
@@ -154,6 +158,8 @@ export default function QuickSortVisualizer() {
             <VisualizerControls 
                 onNext={handleNext}
                 onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
                 status={status}
             />
         </div>

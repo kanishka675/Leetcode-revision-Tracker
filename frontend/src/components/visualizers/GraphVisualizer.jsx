@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function GraphVisualizer({ type }) {
     // Simple 3x3 grid for grid-based BFS/DFS demo
@@ -14,6 +16,15 @@ export default function GraphVisualizer({ type }) {
         setQueue([]);
         setStack([]);
         setStatus('Wait');
+        resetAutoplay();
+    };
+
+    const getNeighbors = (node) => {
+        const [r, c] = node.split(',').map(Number);
+        const adj = [];
+        if (r < size - 1) adj.push(`${r + 1},${c}`);
+        if (c < size - 1) adj.push(`${r},${c + 1}`);
+        return adj;
     };
 
     const handleNext = () => {
@@ -64,13 +75,8 @@ export default function GraphVisualizer({ type }) {
         }
     };
 
-    const getNeighbors = (node) => {
-        const [r, c] = node.split(',').map(Number);
-        const adj = [];
-        if (r < size - 1) adj.push(`${r + 1},${c}`);
-        if (c < size - 1) adj.push(`${r},${c + 1}`);
-        return adj;
-    };
+    const isFinished = status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
 
     return (
         <div className="flex-1 flex flex-col items-center justify-center p-8 gap-8">
@@ -106,12 +112,13 @@ export default function GraphVisualizer({ type }) {
                 )}
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={handleNext} disabled={status === 'Over'} className="btn-primary px-8">
-                    {status === 'Wait' ? 'Start' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext}
+                onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={status}
+            />
         </div>
     );
 }

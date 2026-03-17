@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAutoplay from '../../hooks/useAutoplay';
+import VisualizerControls from './VisualizerControls';
 
 export default function FastSlowPointerVisualizer() {
     // A linked list represented as an array of objects to simulate pointers
@@ -44,11 +46,15 @@ export default function FastSlowPointerVisualizer() {
         }
     };
 
+    const isFinished = status === 'Detected' || status === 'Over';
+    const { isPlaying, togglePlay, resetAutoplay } = useAutoplay(handleNext, isFinished);
+
     const reset = () => {
         setSlow(0);
         setFast(0);
         setStatus('Wait');
         setStepCount(0);
+        resetAutoplay();
     };
 
     return (
@@ -146,16 +152,13 @@ export default function FastSlowPointerVisualizer() {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-4">
-                <button 
-                    onClick={handleNext} 
-                    disabled={status === 'Detected' || status === 'Over'}
-                    className="btn-primary px-8 shadow-brand-600/20"
-                >
-                    {status === 'Wait' ? 'Start Detection' : 'Next Step'}
-                </button>
-                <button onClick={reset} className="btn-secondary px-8">Reset</button>
-            </div>
+            <VisualizerControls 
+                onNext={handleNext}
+                onReset={reset}
+                onTogglePlay={togglePlay}
+                isPlaying={isPlaying}
+                status={isFinished ? 'Over' : status}
+            />
             
             <p className="text-xs text-slate-500 max-w-md text-center italic">
                 In this example, the last node (Index 5) points back to Node 2, creating a cycle.

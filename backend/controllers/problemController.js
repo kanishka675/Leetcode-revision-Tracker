@@ -58,7 +58,7 @@ const getProblem = async (req, res) => {
 // @desc  Add a new problem
 // @route POST /api/problems
 const addProblem = async (req, res) => {
-    const { title, leetcodeUrl, difficulty, topics, notes, solvedDate } = req.body;
+    const { title, leetcodeUrl, difficulty, category, topics, notes, solvedDate } = req.body;
 
     if (!title || !difficulty) {
         return res.status(400).json({ message: 'Title and difficulty are required' });
@@ -75,6 +75,7 @@ const addProblem = async (req, res) => {
             title,
             leetcodeUrl,
             difficulty,
+            category: category || 'Array',
             topics: topics || [],
             notes,
             solvedDate: baseDate,
@@ -101,10 +102,11 @@ const updateProblem = async (req, res) => {
             return res.status(403).json({ message: 'Not authorized' });
         }
 
-        const { title, leetcodeUrl, difficulty, topics, notes } = req.body;
+        const { title, leetcodeUrl, difficulty, category, topics, notes } = req.body;
         problem.title = title || problem.title;
         problem.leetcodeUrl = leetcodeUrl ?? problem.leetcodeUrl;
         problem.difficulty = difficulty || problem.difficulty;
+        problem.category = category || problem.category;
         problem.topics = topics || problem.topics;
         problem.notes = notes ?? problem.notes;
 
