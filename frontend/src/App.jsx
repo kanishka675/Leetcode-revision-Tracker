@@ -19,6 +19,9 @@ import AdminRoute from './components/AdminRoute';
 
 import Paywall from './pages/Paywall';
 import DemoPage from './pages/DemoPage';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import VerifyOTP from './pages/VerifyOTP';
 
 const PrivateRoute = ({ children }) => {
     const { user } = useAuth();
@@ -50,6 +53,9 @@ export default function App() {
                 <Routes>
                     <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
                     <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+                    <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+                    <Route path="/reset-password" element={<PublicRoute><ResetPassword /></PublicRoute>} />
+                    <Route path="/verify-otp" element={<PublicRoute><VerifyOTP /></PublicRoute>} />
                     <Route path="/paywall" element={<PrivateRoute><Paywall /></PrivateRoute>} />
                     <Route path="/demo" element={<PrivateRoute><DemoPage /></PrivateRoute>} />
                     <Route path="/" element={<PaidRoute><Dashboard /></PaidRoute>} />

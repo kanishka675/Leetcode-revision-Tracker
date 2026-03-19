@@ -59,7 +59,7 @@ export default function DemoPage() {
                         <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                             <iframe
                                 className="absolute inset-0 w-full h-full"
-                                src={`https://www.youtube.com/embed/${YOUTUBE_ID}?rel=0&modestbranding=1`}
+                                src={`https://www.youtube.com/embed/${YOUTUBE_ID}?rel=0&modestbranding=1&autoplay=1`}
                                 title="CodeRecall Demo"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
@@ -69,6 +69,7 @@ export default function DemoPage() {
                         <video
                             ref={videoRef}
                             controls
+                            autoPlay
                             onTimeUpdate={handleTimeUpdate}
                             onEnded={() => setUnlocked(true)}
                             className="w-full max-h-[560px] object-contain bg-slate-950"
@@ -119,14 +120,6 @@ export default function DemoPage() {
                         {unlocked ? '🔓 Continue to Unlock ⚡' : `⏳ Watch ${Math.max(0, UNLOCK_AFTER_SECONDS - watchedSeconds)}s more…`}
                     </button>
 
-                    {!unlocked && (
-                        <button
-                            onClick={handleSkip}
-                            className="text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 underline underline-offset-2 transition-colors"
-                        >
-                            Skip video
-                        </button>
-                    )}
                 </div>
 
                 <p className="text-center text-xs text-slate-400">

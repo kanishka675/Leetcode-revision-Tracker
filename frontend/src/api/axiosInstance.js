@@ -23,6 +23,9 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
+            if (error.response?.data?.message === 'Session expired. Logged in from another device.') {
+                alert('You were logged out because your account was used on another device');
+            }
             localStorage.removeItem('user');
             window.location.href = '/login';
         }

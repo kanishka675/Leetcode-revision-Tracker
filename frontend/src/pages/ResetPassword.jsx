@@ -1,149 +1,104 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import api from '../api/axiosInstance';
+import { useState } from 'react';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
 export default function ResetPassword() {
-    const location = useLocation();
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get('token');
     const navigate = useNavigate();
-    const [form, setForm] = useState({
-        email: new URLSearchParams(location.search).get('email') || '',
-        code: '',
-        password: '',
-        confirmPassword: ''
-    });
+
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [step, setStep] = useState(1); // 1: Verify Code, 2: Reset Password
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-    const handleVerifyCode = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        try {
-            await api.post('/auth/verify-reset-code', { email: form.email, code: form.code });
-            toast.success('Code verified! Set your new password. 🗝️');
-            setStep(2);
-        } catch (err) {
-            toast.error(err.response?.data?.message || 'Invalid or expired code');
-        } finally {
-            setLoading(false);
-        }
-    };
 
-    const handleResetPassword = async (e) => {
-        e.preventDefault();
-        if (form.password !== form.confirmPassword) {
-            return toast.error('Passwords do not match');
+        if (password !== confirmPassword) {
+            return toast.error("Passwords don't match");
         }
+
         setLoading(true);
+
         try {
-            await api.post('/auth/reset-password', {
-                email: form.email,
-                code: form.code,
-                password: form.password
-            });
-            toast.success('Password reset successful! Please login. 🎉');
+            const { data } = await axios.post('/api/auth/reset-password', { token, password });
+            toast.success(data.message);
             navigate('/login');
-        } catch (err) {
-            toast.error(err.response?.data?.message || 'Reset failed');
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to reset password');
         } finally {
             setLoading(false);
         }
     };
+
+    if (!token) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-950 px-4">
+                <div className="max-w-md w-full card glass p-10 text-center">
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">Invalid Link</h1>
+                    <p className="text-slate-600 dark:text-slate-400 mb-8">This password reset link is invalid or has expired.</p>
+                    <Link to="/forgot-password" className="btn-primary block w-full py-3">
+                        Request New Link
+                    </Link>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4 py-12">
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl" />
-            </div>
-
-            <div className="w-full max-w-md animate-slide-up">
+        <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-950 px-4">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="max-w-md w-full card glass p-10"
+            >
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-600 rounded-2xl shadow-2xl shadow-brand-600/40 mb-4">
-                        <span className="text-2xl font-bold text-white">{step === 1 ? '6#' : '🗝️'}</span>
+                    <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">Reset Password</h1>
+                    <p className="text-slate-600 dark:text-slate-400">Set a new, strong password for your account.</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
+                        <input
+                            type="password"
+                            required
+                            minlength="6"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="input-field w-full py-3"
+                            placeholder="••••••••"
+                        />
                     </div>
-                    <h1 className="text-3xl font-bold text-slate-100">{step === 1 ? 'Verify' : 'New'} <span className="text-brand-400">{step === 1 ? 'Code' : 'Password'}</span></h1>
-                    <p className="text-slate-400 mt-1">
-                        {step === 1 ? `Enter the 6-digit code sent to ${form.email}` : 'Enter your new secure password'}
-                    </p>
-                </div>
 
-                <div className="card shadow-2xl">
-                    {step === 1 ? (
-                        <form onSubmit={handleVerifyCode} className="space-y-5">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1.5">Verification Code</label>
-                                <input
-                                    type="text"
-                                    name="code"
-                                    maxLength="6"
-                                    className="input text-center text-2xl tracking-[1em] font-mono"
-                                    placeholder="000000"
-                                    value={form.code}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="btn-primary w-full flex items-center justify-center gap-2"
-                            >
-                                {loading ? (
-                                    <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                ) : (
-                                    'Verify Code'
-                                )}
-                            </button>
-                        </form>
-                    ) : (
-                        <form onSubmit={handleResetPassword} className="space-y-5">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1.5">New Password</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    className="input"
-                                    placeholder="••••••••"
-                                    value={form.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1.5">Confirm Password</label>
-                                <input
-                                    type="password"
-                                    name="confirmPassword"
-                                    className="input"
-                                    placeholder="••••••••"
-                                    value={form.confirmPassword}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="btn-primary w-full flex items-center justify-center gap-2"
-                            >
-                                {loading ? (
-                                    <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                ) : (
-                                    'Reset Password'
-                                )}
-                            </button>
-                        </form>
-                    )}
+                    <div>
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Confirm New Password</label>
+                        <input
+                            type="password"
+                            required
+                            minlength="6"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            className="input-field w-full py-3"
+                            placeholder="••••••••"
+                        />
+                    </div>
 
-                    <p className="text-center text-slate-400 text-sm mt-6">
-                        <button onClick={() => setStep(1)} className="text-brand-400 font-medium hover:text-brand-300">
-                            {step === 2 ? 'Back to Verify Code' : ''}
-                        </button>
-                    </p>
-                </div>
-            </div>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="btn-primary w-full py-4 text-lg font-bold flex items-center justify-center gap-2"
+                    >
+                        {loading ? (
+                            <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        ) : (
+                            'Update Password'
+                        )}
+                    </button>
+                </form>
+            </motion.div>
         </div>
     );
 }

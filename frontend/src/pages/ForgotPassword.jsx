@@ -1,76 +1,80 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/axiosInstance';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [sent, setSent] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+
         try {
-            await api.post('/auth/send-reset-code', { email });
-            toast.success('Verification code sent to your email! 📧');
-            navigate(`/reset-password?email=${encodeURIComponent(email)}`);
-        } catch (err) {
-            toast.error(err.response?.data?.message || 'Failed to send reset code');
+            await axios.post('/api/auth/forgot-password', { email });
+            toast.success('Reset link sent to your email!');
+            setSent(true);
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Something went wrong');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4 py-12">
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl" />
-            </div>
-
-            <div className="w-full max-w-md animate-slide-up">
+        <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-950 px-4">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="max-w-md w-full card glass p-10"
+            >
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-600 rounded-2xl shadow-2xl shadow-brand-600/40 mb-4">
-                        <span className="text-2xl font-bold text-white">??</span>
-                    </div>
-                    <h1 className="text-3xl font-bold text-slate-100">Forgot <span className="text-brand-400">Password</span></h1>
-                    <p className="text-slate-400 mt-1">We'll send you a 6-digit verification code</p>
+                    <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">Forgot Password?</h1>
+                    <p className="text-slate-600 dark:text-slate-400">Enter your email and we'll send you a link to reset your password.</p>
                 </div>
 
-                <div className="card shadow-2xl">
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                {!sent ? (
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-1.5">Email Address</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
                             <input
                                 type="email"
-                                className="input"
-                                placeholder="you@example.com"
+                                required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                required
+                                className="input-field w-full py-3"
+                                placeholder="name@example.com"
                             />
                         </div>
+
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn-primary w-full flex items-center justify-center gap-2"
+                            className="btn-primary w-full py-4 text-lg font-bold flex items-center justify-center gap-2"
                         >
                             {loading ? (
-                                <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                             ) : (
-                                'Send Verification Code'
+                                'Send Reset Link'
                             )}
                         </button>
                     </form>
+                ) : (
+                    <div className="text-center space-y-6">
+                        <div className="w-16 h-16 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto text-3xl">
+                            ✓
+                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 font-medium">Check your inbox for the reset link! If you don't see it, check your spam folder.</p>
+                    </div>
+                )}
 
-                    <p className="text-center text-slate-400 text-sm mt-6">
-                        Remember your password?{' '}
-                        <Link to="/login" className="text-brand-400 font-medium hover:text-brand-300">
-                            Back to Login
-                        </Link>
-                    </p>
-                </div>
-            </div>
+                <p className="mt-8 text-center text-sm text-slate-500">
+                    Remember your password? <Link to="/login" className="text-brand-500 font-bold hover:underline">Log In</Link>
+                </p>
+            </motion.div>
         </div>
     );
 }

@@ -42,7 +42,7 @@ export default function VisualizerControls({
                     className="flex items-center gap-2 bg-brand-600/20 text-brand-400 border border-brand-500/50 px-6 py-2.5 rounded-xl font-bold hover:bg-brand-600/30 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed shadow-lg"
                 >
                     <SkipForward size={18} fill="currentColor" />
-                    <span>Next Step</span>
+                    <span>{status === 'Wait' ? 'Start' : 'Next Step'}</span>
                 </button>
                 
                 <button 

@@ -2,6 +2,8 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Payment = require('../models/Payment');
 
+const User = require('../models/User');
+
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
@@ -50,14 +52,21 @@ const verifyPayment = async (req, res) => {
     if (generated_signature === razorpay_signature) {
         try {
             // Update payment record
-            await Payment.findOneAndUpdate(
+            const payment = await Payment.findOneAndUpdate(
                 { orderId: razorpay_order_id },
                 {
                     paymentId: razorpay_payment_id,
                     signature: razorpay_signature,
-                    status: 'captured'
-                }
+                    status: 'paid'
+                },
+                { new: true } // Return the updated document so we can get its userId
             );
+
+            // ACTUAL FIX: Update the actual User doc's isPaid flag
+             if (payment && payment.userId) {
+                await User.findByIdAndUpdate(payment.userId, { isPaid: true });
+            }
+
             res.json({ message: 'Payment verified successfully', success: true });
         } catch (error) {
             res.status(500).json({ message: 'Payment verification update failed' });

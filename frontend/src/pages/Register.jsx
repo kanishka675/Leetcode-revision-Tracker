@@ -10,6 +10,8 @@ export default function Register() {
     const { login } = useAuth();
     const navigate = useNavigate();
 
+    const [registered, setRegistered] = useState(false);
+
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleSubmit = async (e) => {
@@ -21,9 +23,8 @@ export default function Register() {
         setLoading(true);
         try {
             const { data } = await api.post('/auth/register', form);
-            login(data);
-            toast.success(`Welcome aboard, ${data.name}! 🚀`);
-            navigate('/paywall');
+            toast.success(data.message || 'OTP sent to your email');
+            navigate('/verify-otp', { state: { email: form.email } });
         } catch (err) {
             toast.error(err.response?.data?.message || 'Registration failed');
         } finally {

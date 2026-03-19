@@ -8,6 +8,7 @@ const AdminDashboard = () => {
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('stats');
+    const [filterStatus, setFilterStatus] = useState('all');
 
     useEffect(() => {
         const fetchAdminData = async () => {
@@ -29,6 +30,38 @@ const AdminDashboard = () => {
 
         fetchAdminData();
     }, []);
+
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this user?")) return;
+        
+        try {
+            await axios.delete(`/admin/user/${id}`);
+            // Remove user from local state to avoid refetching everything
+            setUsers(users.filter(user => user._id !== id));
+            // toast could be added here if hot-toast is imported
+        } catch (error) {
+            console.error('Failed to delete user:', error);
+            alert("Failed to delete user");
+        }
+    };
+
+    const handleDeletePayment = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this payment?")) return;
+        
+        try {
+            await axios.delete(`/admin/payment/${id}`);
+            setPayments(payments.filter(payment => payment._id !== id));
+        } catch (error) {
+            console.error('Failed to delete payment:', error);
+            alert("Failed to delete payment");
+        }
+    };
+
+    const filteredPayments = payments.filter(p => {
+        if (filterStatus === 'paid') return p.status === 'paid';
+        if (filterStatus === 'not-paid') return p.status !== 'paid';
+        return true;
+    });
 
     if (loading) return <div className="text-center py-20 text-slate-100 italic">Loading Admin Dashboard...</div>;
 
@@ -81,7 +114,9 @@ const AdminDashboard = () => {
                                 <tr className="text-slate-100" style={{ borderBottom: '1px solid var(--border-muted)' }}>
                                     <th className="px-6 py-4">Name</th>
                                     <th className="px-6 py-4">Email</th>
+                                    <th className="px-6 py-4">Status</th>
                                     <th className="px-6 py-4">Joined</th>
+                                    <th className="px-6 py-4">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y" style={{ borderColor: 'var(--border-muted)' }}>
@@ -89,7 +124,20 @@ const AdminDashboard = () => {
                                     <tr key={user._id} className="hover:bg-slate-500/5 transition-colors">
                                         <td className="px-6 py-4">{user.name}</td>
                                         <td className="px-6 py-4">{user.email}</td>
+                                        <td className="px-6 py-4">
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.isPaid ? 'bg-emerald-500/20 text-emerald-500' : 'bg-rose-500/20 text-rose-500'}`}>
+                                                {user.isPaid ? "Paid" : "Not Paid"}
+                                            </span>
+                                        </td>
                                         <td className="px-6 py-4">{new Date(user.createdAt).toLocaleDateString()}</td>
+                                        <td className="px-6 py-4">
+                                            <button 
+                                                onClick={() => handleDelete(user._id)}
+                                                className="px-3 py-1 bg-rose-500/20 text-rose-500 text-xs font-medium rounded-lg hover:bg-rose-500 hover:text-white transition-colors"
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -99,6 +147,11 @@ const AdminDashboard = () => {
 
                 {activeTab === 'payments' && (
                     <div className="overflow-x-auto">
+                        <div className="flex space-x-2 mb-4 px-6 pt-6">
+                            <button onClick={() => setFilterStatus('all')} className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-colors border ${filterStatus === 'all' ? 'bg-brand-600 text-white border-brand-600' : 'bg-transparent text-slate-400 border-slate-700 hover:text-slate-300'}`}>All</button>
+                            <button onClick={() => setFilterStatus('paid')} className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-colors border ${filterStatus === 'paid' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-transparent text-slate-400 border-slate-700 hover:text-slate-300'}`}>Show Paid</button>
+                            <button onClick={() => setFilterStatus('not-paid')} className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-colors border ${filterStatus === 'not-paid' ? 'bg-yellow-600 text-white border-yellow-600' : 'bg-transparent text-slate-400 border-slate-700 hover:text-slate-300'}`}>Show Unpaid</button>
+                        </div>
                         <table className="w-full text-left">
                             <thead className="text-sm" style={{ backgroundColor: 'var(--surface-accent)' }}>
                                 <tr className="text-slate-100" style={{ borderBottom: '1px solid var(--border-muted)' }}>
@@ -107,23 +160,32 @@ const AdminDashboard = () => {
                                     <th className="px-6 py-4">Status</th>
                                     <th className="px-6 py-4">Date</th>
                                     <th className="px-6 py-4">Order ID</th>
+                                    <th className="px-6 py-4">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y" style={{ borderColor: 'var(--border-muted)' }}>
-                                {payments.map(payment => (
+                                {filteredPayments.map(payment => (
                                     <tr key={payment._id} className="hover:bg-slate-500/5 transition-colors">
                                         <td className="px-6 py-4">
                                             <p className="font-medium">{payment.userId?.name}</p>
                                             <p className="text-xs text-slate-400">{payment.userId?.email}</p>
                                         </td>
-                                        <td className="px-6 py-4">₹{payment.amount}</td>
+                                        <td className="px-6 py-4">{payment.status === 'paid' ? `₹${payment.amount}` : '-'}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 rounded-full text-xs ${payment.status === 'captured' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
-                                                {payment.status}
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${payment.status === 'paid' ? 'bg-emerald-500/20 text-emerald-500' : 'bg-yellow-500/20 text-yellow-500'}`}>
+                                                {payment.status === 'paid' ? 'Paid' : 'Not Paid'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">{new Date(payment.createdAt).toLocaleDateString()}</td>
-                                        <td className="px-6 py-4 text-xs font-mono">{payment.orderId}</td>
+                                        <td className="px-6 py-4 text-xs font-mono w-48 truncate max-w-[12rem]">{payment.orderId}</td>
+                                        <td className="px-6 py-4">
+                                            <button 
+                                                onClick={() => handleDeletePayment(payment._id)}
+                                                className="px-3 py-1 bg-rose-500/20 text-rose-500 text-xs font-medium rounded-lg hover:bg-rose-500 hover:text-white transition-colors"
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

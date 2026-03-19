@@ -38,32 +38,34 @@ export default function Navbar() {
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-brand-500/10 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
-                    <Link to="/" className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-brand-600/40">
-                            CR
-                        </div>
-                        <span className="font-bold text-slate-100 hidden sm:block">
-                            Code<span className="text-brand-400">Recall</span>
-                        </span>
-                    </Link>
+                <div className="flex items-center justify-between h-16 w-full gap-4">
+                    <div className="flex items-center gap-6 lg:gap-10">
+                        {/* Logo */}
+                        <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+                            <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-brand-600/40">
+                                CR
+                            </div>
+                            <span className="font-bold text-slate-100 hidden sm:block whitespace-nowrap">
+                                Code<span className="text-brand-400">Recall</span>
+                            </span>
+                        </Link>
 
-                    {/* Desktop Links */}
-                    <div className="hidden md:flex items-center gap-1">
-                        {links.map(({ to, label, icon }) => (
-                            <Link
-                                key={to}
-                                to={to}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive(to)
-                                        ? 'bg-brand-600/20 text-brand-400 border border-brand-500/30'
-                                        : 'text-slate-400 hover:text-brand-400 hover:bg-brand-500/10'
-                                    }`}
-                            >
-                                <span>{icon}</span>
-                                {label}
-                            </Link>
-                        ))}
+                        {/* Desktop Links */}
+                        <div className="hidden lg:flex items-center gap-1">
+                            {links.map(({ to, label, icon }) => (
+                                <Link
+                                    key={to}
+                                    to={to}
+                                    className={`flex items-center gap-2 px-3 lg:px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200 ${isActive(to)
+                                            ? 'bg-brand-600/20 text-brand-400 border border-brand-500/30'
+                                            : 'text-slate-400 hover:text-brand-400 hover:bg-brand-500/10'
+                                        }`}
+                                >
+                                    <span>{icon}</span>
+                                    {label}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
 
                     {/* User + Toggle + Logout */}
@@ -91,7 +93,7 @@ export default function Navbar() {
                         {/* Mobile menu button */}
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
-                            className="md:hidden text-slate-400 hover:text-slate-200 p-2"
+                            className="lg:hidden text-slate-400 hover:text-slate-200 p-2 ml-1"
                         >
                             {menuOpen ? '✕' : '☰'}
                         </button>
@@ -101,7 +103,7 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {menuOpen && (
-                <div className="md:hidden glass border-t border-brand-500/10 px-4 py-3 space-y-1">
+                <div className="lg:hidden glass border-t border-brand-500/10 px-4 py-3 space-y-1">
                     {links.map(({ to, label, icon }) => (
                         <Link
                             key={to}

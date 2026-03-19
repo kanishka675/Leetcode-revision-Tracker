@@ -19,9 +19,21 @@ const userSchema = new mongoose.Schema(
             required: [true, 'Password is required'],
             minlength: 6,
         },
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
         isPaid: {
             type: Boolean,
             default: false,
+        },
+        otp: String,
+        otpExpiry: Date,
+        resetPasswordToken: String,
+        tokenExpiry: Date,
+        currentSessionToken: {
+            type: String,
+            default: null,
         },
     },
     { timestamps: true }
