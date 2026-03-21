@@ -416,7 +416,7 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'dp-grid', title: 'DP Grid Pattern', category: 'Others',
+        name: 'dp-grid', title: 'DP Grid Pattern', category: 'Other',
         explanation: 'A common Dynamic Programming technique where a 2D grid is used to store subproblem results.',
         exampleProblem: { title: 'Unique Paths', url: 'https://leetcode.com/problems/unique-paths/' },
         steps: [
@@ -425,7 +425,7 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'bit-manipulation', title: 'Bit Manipulation', category: 'Others',
+        name: 'bit-manipulation', title: 'Bit Manipulation', category: 'Other',
         explanation: 'Operating on data at the bit level using bitwise operators like AND, OR, XOR, and shifts.',
         exampleProblem: { title: 'Single Number', url: 'https://leetcode.com/problems/single-number/' },
         steps: [
@@ -435,7 +435,7 @@ const allAlgorithms = [
         ]
     },
     {
-        name: 'greedy', title: 'Greedy Algorithm', category: 'Others',
+        name: 'greedy', title: 'Greedy Algorithm', category: 'Other',
         explanation: 'Making the locally optimal choice at each step with the hope that these choices lead to a globally optimal solution.',
         exampleProblem: { title: 'Jump Game', url: 'https://leetcode.com/problems/jump-game/' },
         steps: [
