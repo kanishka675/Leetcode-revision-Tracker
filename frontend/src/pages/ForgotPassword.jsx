@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axiosInstance';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
@@ -14,7 +14,7 @@ export default function ForgotPassword() {
         setLoading(true);
 
         try {
-            await axios.post('/api/auth/forgot-password', { email });
+            await api.post('/auth/forgot-password', { email });
             toast.success('Reset link sent to your email!');
             setSent(true);
         } catch (error) {
