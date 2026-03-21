@@ -59,9 +59,11 @@ export default function AlgorithmsPage() {
                 setAlgorithms(data);
                 if (data.length > 0) setSelectedAlg(data[0]);
                 
-                // Expand the first category by default
                 if (data.length > 0) {
-                    setExpandedCategories({ [data[0].category]: true });
+                    const allCategories = [...new Set(data.map(a => a.category))];
+                    const expanded = {};
+                    allCategories.forEach(cat => expanded[cat] = true);
+                    setExpandedCategories(expanded);
                 }
             })
             .catch(console.error)
@@ -144,7 +146,10 @@ export default function AlgorithmsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-4rem)] flex flex-col sm:flex-row gap-8 overflow-hidden">
             {/* Sidebar */}
             <div className="w-full sm:w-64 flex-shrink-0 flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2">
-                <h2 className="text-2xl font-black text-slate-100 uppercase tracking-tighter">Patterns</h2>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-2xl font-black text-slate-100 uppercase tracking-tighter">Patterns</h2>
+                    <span className="text-[10px] bg-brand-500/10 text-brand-400 px-2 py-1 rounded-full font-black border border-brand-500/20">{algorithms.length} found</span>
+                </div>
                 <div className="space-y-4">
                     {Object.entries(groupedAlgorithms).map(([category, algs]) => (
                         <div key={category} className="space-y-1">
