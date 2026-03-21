@@ -81,6 +81,7 @@ const loginUser = async (req, res) => {
             if (!user.isVerified) {
                 return res.status(401).json({ message: 'Please verify OTP first' });
             }
+// ...
 
             const token = generateToken(user._id);
             user.currentSessionToken = token;
