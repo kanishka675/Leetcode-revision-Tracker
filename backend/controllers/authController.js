@@ -59,6 +59,7 @@ const registerUser = async (req, res) => {
                 message: 'OTP sent to email! Please check your inbox.',
             });
         } catch (error) {
+            console.error('Registration Email Error:', error);
             user.otp = undefined;
             user.otpExpiry = undefined;
             await user.save();
@@ -176,6 +177,7 @@ const resendOTP = async (req, res) => {
 
         res.json({ message: 'A new OTP has been sent to your email.' });
     } catch (error) {
+        console.error('Email Sending Error:', error);
         res.status(500).json({ message: error.message });
     }
 };
@@ -212,6 +214,7 @@ const forgotPassword = async (req, res) => {
 
         res.json({ message: 'Password reset email sent!' });
     } catch (error) {
+        console.error('Forgot Password Email Error:', error);
         res.status(500).json({ message: error.message });
     }
 };

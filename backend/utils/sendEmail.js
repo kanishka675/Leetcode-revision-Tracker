@@ -4,9 +4,11 @@ const sendEmail = async (options) => {
     const user = process.env.EMAIL_USER;
     const pass = process.env.EMAIL_PASS;
 
-    console.log(`Attempting to send email using: ${user} (Pass length: ${pass ? pass.length : 0})`);
+    // STEP 1 — ENV variable check
+    console.log("EMAIL_USER:", user);
+    console.log("EMAIL_PASS:", pass ? "Loaded" : "Missing");
 
-    // 1. Create a transporter with final working config
+    // STEP 2 — Create transporter with debug mode enabled
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
@@ -17,25 +19,30 @@ const sendEmail = async (options) => {
             pass: pass,
         },
         tls: {
-            // Do not fail on invalid certs
             rejectUnauthorized: false,
         },
-        connectionTimeout: 30000, // Increased to 30 seconds
-        greetingTimeout: 20000,  // Increased to 20 seconds
-        socketTimeout: 45000,    // Increased to 45 seconds
+        connectionTimeout: 30000,
+        greetingTimeout: 20000,
+        socketTimeout: 45000,
+        debug: true,   // STEP 5 — enables detailed SMTP debug output
+        logger: true,  // STEP 5 — logs to console
     });
 
-    // 2. Enable debug logging with a promise to wait for it if needed
+    console.log("Transporter created"); // STEP 2 log
+
+    // STEP 3 — Verify SMTP connection with detailed error
     try {
         await transporter.verify();
-        console.log("SMTP READY (Verified)");
-    } catch (verifyError) {
-        console.error("SMTP VERIFICATION FAILED:", verifyError);
-        // We still try to send, but now we know it's a connection issue
+        console.log("✅ SMTP READY (Verified)");
+    } catch (error) {
+        console.error("❌ SMTP VERIFICATION FAILED");
+        console.error("Error name:", error.name);
+        console.error("Error message:", error.message);
+        console.error("Full error:", error);
+        // Still attempt to send, so the caller gets the real send error if any
     }
 
-
-    // 3. Define the email options
+    // Define mail options
     const mailOptions = {
         from: `CodeRecall <${process.env.EMAIL_USER}>`,
         to: options.email,
@@ -43,14 +50,18 @@ const sendEmail = async (options) => {
         html: options.html,
     };
 
-    // 4. Actually send the email with error handling
+    // STEP 4 — Send mail with detailed error handling
     try {
-        await transporter.sendMail(mailOptions);
-    } catch (err) {
-        console.error("EMAIL SEND ERROR:", err);
-        throw err;
+        const info = await transporter.sendMail(mailOptions);
+        console.log("✅ EMAIL SENT SUCCESSFULLY");
+        console.log("Response:", info.response);
+    } catch (error) {
+        console.error("❌ EMAIL SEND FAILED");
+        console.error("Error name:", error.name);
+        console.error("Error message:", error.message);
+        console.error("Full error:", error);
+        throw error;
     }
 };
 
 module.exports = sendEmail;
-

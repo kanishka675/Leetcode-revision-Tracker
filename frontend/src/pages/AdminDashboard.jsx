@@ -7,7 +7,7 @@ const AdminDashboard = () => {
     const [payments, setPayments] = useState([]);
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('stats');
+    const [activeTab, setActiveTab] = useState('users');
     const [filterStatus, setFilterStatus] = useState('all');
 
     useEffect(() => {
