@@ -42,7 +42,7 @@ export default function DemoPage() {
             >
                 {/* Header */}
                 <div className="text-center space-y-3">
-                    <span className="text-xs font-black uppercase tracking-[0.25em] text-brand-500 opacity-70">
+                    <span className="text-xs font-black uppercase tracking-[0.25em] text-brand-500 opacity-70 dark:text-brand-400 dark:opacity-90">
                         Welcome to CodeRecall
                     </span>
                     <h1 className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
@@ -75,8 +75,8 @@ export default function DemoPage() {
                             className="w-full max-h-[560px] object-contain bg-slate-950"
                         >
                             <source src={LOCAL_VIDEO} type="video/mp4" />
-                            <p className="text-slate-500 p-8 text-center">
-                                Your browser does not support HTML5 video. <a href={LOCAL_VIDEO} className="text-brand-400 underline">Download the demo</a>.
+                            <p className="text-slate-500 dark:text-slate-400 p-8 text-center">
+                                Your browser does not support HTML5 video. <a href={LOCAL_VIDEO} className="text-brand-400 hover:text-brand-300 dark:text-brand-300 underline">Download the demo</a>.
                             </p>
                         </video>
                     )}
@@ -85,7 +85,7 @@ export default function DemoPage() {
                 {/* Progress bar (only for local video) */}
                 {!YOUTUBE_ID && !unlocked && (
                     <div className="space-y-2">
-                        <div className="flex justify-between text-xs text-slate-500 font-bold uppercase tracking-widest">
+                        <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest">
                             <span>Watch at least {UNLOCK_AFTER_SECONDS}s to continue</span>
                             <span>{watchedSeconds}s / {UNLOCK_AFTER_SECONDS}s</span>
                         </div>
@@ -102,7 +102,7 @@ export default function DemoPage() {
                 {/* Feature chips */}
                 <div className="flex flex-wrap gap-3 justify-center">
                     {['📊 Smart Dashboard', '🧠 Recall Mode', '🔮 45+ Visualizers', '📝 Personal Notes', '📅 Auto-Scheduling', '🔗 LeetCode Links'].map(f => (
-                        <span key={f} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 px-3 py-1.5 rounded-full">
+                        <span key={f} className="text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
                             {f}
                         </span>
                     ))}
@@ -122,7 +122,7 @@ export default function DemoPage() {
 
                 </div>
 
-                <p className="text-center text-xs text-slate-400">
+                <p className="text-center text-xs text-slate-400 dark:text-slate-500">
                     Pay just ₹50 once — lifetime access, no subscriptions.
                 </p>
             </motion.div>
