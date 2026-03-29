@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axiosInstance';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
@@ -23,7 +23,7 @@ export default function ResetPassword() {
         setLoading(true);
 
         try {
-            const { data } = await axios.post('/api/auth/reset-password', { token, password });
+            const { data } = await api.post('/auth/reset-password', { token, password });
             toast.success(data.message);
             navigate('/login');
         } catch (error) {
