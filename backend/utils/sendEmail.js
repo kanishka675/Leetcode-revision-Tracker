@@ -16,7 +16,7 @@ const sendEmail = async (options) => {
 
     try {
         const { data, error } = await resend.emails.send({
-            from: 'CodeRecall <onboarding@resend.dev>',
+            from: 'CodeRecall <noreply@coderecall.in>',
             to: options.email,
             subject: options.subject,
             html: options.html,
