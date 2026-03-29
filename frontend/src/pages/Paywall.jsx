@@ -101,11 +101,11 @@ export default function Paywall() {
                         { icon: '📅', title: 'Auto-Scheduled Revisions', desc: 'Problems are automatically scheduled using spaced repetition when you add them' },
                         { icon: '🔗', title: 'Direct LeetCode Links', desc: 'Jump straight to any problem on LeetCode with one click for instant revision' },
                     ].map(({ icon, title, desc }) => (
-                        <div key={title} className="flex items-center gap-3 text-left p-4 bg-slate-200/70 dark:bg-brand-500/5 rounded-2xl border border-slate-300 dark:border-brand-500/10">
+                        <div key={title} className="flex items-center gap-3 text-left p-4 bg-slate-200/70 dark:bg-slate-900 rounded-2xl border border-slate-300 dark:border-white/10">
                             <span className="text-xl">{icon}</span>
                             <div>
                                 <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{title}</p>
-                                <p className="text-xs text-slate-500">{desc}</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
                             </div>
                         </div>
                     ))}
@@ -113,11 +113,11 @@ export default function Paywall() {
 
                 {/* Pricing + CTA */}
                 <div className="space-y-6">
-                    <div className="p-6 bg-yellow-50 dark:bg-yellow-500/10 rounded-2xl border border-yellow-300 dark:border-yellow-500/20 relative overflow-hidden group">
+                    <div className="p-6 bg-yellow-50 dark:bg-yellow-950/30 rounded-2xl border border-yellow-300 dark:border-yellow-500/30 relative overflow-hidden group">
                         <div className="absolute inset-0 bg-yellow-100 dark:bg-yellow-500/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                        <p className="text-xs font-black text-yellow-600 dark:text-yellow-500 uppercase tracking-widest mb-1 relative z-10">LIFETIME ACCESS</p>
-                        <p className="text-4xl font-black text-slate-900 dark:text-slate-100 relative z-10">
-                            ₹50 <span className="text-sm font-normal text-slate-500 italic block mt-1">one-time payment</span>
+                        <p className="text-xs font-black text-yellow-600 dark:text-yellow-400 uppercase tracking-widest mb-1 relative z-10">LIFETIME ACCESS</p>
+                        <p className="text-4xl font-black text-slate-900 dark:text-white relative z-10">
+                            ₹50 <span className="text-sm font-normal text-slate-500 dark:text-slate-400 italic block mt-1">one-time payment</span>
                         </p>
                     </div>
 
@@ -133,7 +133,7 @@ export default function Paywall() {
                         )}
                     </button>
 
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                         Payment secured by Razorpay. Immediate access after verification.
                     </p>
                 </div>

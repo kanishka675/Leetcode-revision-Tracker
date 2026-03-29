@@ -68,7 +68,7 @@ export default function ResetPassword() {
                             minlength="6"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="input-field w-full py-3"
+                            className="input w-full py-3"
                             placeholder="••••••••"
                         />
                     </div>
@@ -81,7 +81,7 @@ export default function ResetPassword() {
                             minlength="6"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="input-field w-full py-3"
+                            className="input w-full py-3"
                             placeholder="••••••••"
                         />
                     </div>
