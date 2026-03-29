@@ -67,7 +67,7 @@ export default function Paywall() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-950 px-4 py-20 overflow-hidden relative">
+        <div className="min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden relative">
             {/* Background glow */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-600/10 rounded-full blur-[120px] opacity-50" />
@@ -83,10 +83,10 @@ export default function Paywall() {
                     <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-600 rounded-3xl shadow-2xl shadow-brand-600/40 mb-6">
                         <span className="text-4xl">🔐</span>
                     </div>
-                    <h1 className="text-4xl font-black text-slate-900 dark:text-slate-100 uppercase tracking-tighter mb-4">
-                        Unlock <span className="text-brand-500 dark:text-brand-400">Full Access</span>
+                    <h1 className="text-4xl font-black text-slate-100 uppercase tracking-tighter mb-4">
+                        Unlock <span className="text-brand-500">Full Access</span>
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 text-lg">
+                    <p className="text-slate-400 text-lg">
                         Master LeetCode patterns with our advanced spaced-repetition system and algorithm visualizers.
                     </p>
                 </div>
@@ -101,11 +101,11 @@ export default function Paywall() {
                         { icon: '📅', title: 'Auto-Scheduled Revisions', desc: 'Problems are automatically scheduled using spaced repetition when you add them' },
                         { icon: '🔗', title: 'Direct LeetCode Links', desc: 'Jump straight to any problem on LeetCode with one click for instant revision' },
                     ].map(({ icon, title, desc }) => (
-                        <div key={title} className="flex items-center gap-3 text-left p-4 bg-slate-200/70 dark:bg-slate-900 rounded-2xl border border-slate-300 dark:border-white/10">
+                        <div key={title} className="flex items-center gap-3 text-left p-4 bg-[var(--surface-accent)] rounded-2xl border border-[var(--border-muted)]">
                             <span className="text-xl">{icon}</span>
                             <div>
-                                <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{title}</p>
-                                <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
+                                <p className="text-sm font-bold text-slate-200">{title}</p>
+                                <p className="text-xs text-slate-400">{desc}</p>
                             </div>
                         </div>
                     ))}
@@ -133,7 +133,7 @@ export default function Paywall() {
                         )}
                     </button>
 
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                    <p className="text-xs text-slate-400">
                         Payment secured by Razorpay. Immediate access after verification.
                     </p>
                 </div>

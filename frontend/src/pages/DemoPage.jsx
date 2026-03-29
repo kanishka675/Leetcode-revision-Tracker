@@ -28,7 +28,7 @@ export default function DemoPage() {
     const progressPct = Math.min((watchedSeconds / UNLOCK_AFTER_SECONDS) * 100, 100);
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-950 px-4 py-16 relative overflow-hidden">
+        <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16 relative overflow-hidden">
             {/* Background glow */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-600/10 rounded-full blur-[140px] opacity-40" />
@@ -42,13 +42,13 @@ export default function DemoPage() {
             >
                 {/* Header */}
                 <div className="text-center space-y-3">
-                    <span className="text-xs font-black uppercase tracking-[0.25em] text-brand-500 opacity-70 dark:text-brand-400 dark:opacity-90">
+                    <span className="text-xs font-black uppercase tracking-[0.25em] text-brand-500 opacity-70">
                         Welcome to CodeRecall
                     </span>
-                    <h1 className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
-                        Watch How This <span className="text-brand-500 dark:text-brand-400">App Works</span>
+                    <h1 className="text-4xl sm:text-5xl font-black text-slate-100 tracking-tight">
+                        Watch How This <span className="text-brand-500">App Works</span>
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 text-lg max-w-xl mx-auto">
+                    <p className="text-slate-400 text-lg max-w-xl mx-auto">
                         See how CodeRecall helps you master LeetCode with spaced repetition, recall mode, and interactive visualizers.
                     </p>
                 </div>
@@ -75,8 +75,8 @@ export default function DemoPage() {
                             className="w-full max-h-[560px] object-contain bg-slate-950"
                         >
                             <source src={LOCAL_VIDEO} type="video/mp4" />
-                            <p className="text-slate-500 dark:text-slate-400 p-8 text-center">
-                                Your browser does not support HTML5 video. <a href={LOCAL_VIDEO} className="text-brand-400 hover:text-brand-300 dark:text-brand-300 underline">Download the demo</a>.
+                            <p className="text-slate-400 p-8 text-center">
+                                Your browser does not support HTML5 video. <a href={LOCAL_VIDEO} className="text-brand-500 hover:text-brand-400 underline">Download the demo</a>.
                             </p>
                         </video>
                     )}
@@ -85,11 +85,11 @@ export default function DemoPage() {
                 {/* Progress bar (only for local video) */}
                 {!YOUTUBE_ID && !unlocked && (
                     <div className="space-y-2">
-                        <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest">
+                        <div className="flex justify-between text-xs text-slate-400 font-bold uppercase tracking-widest">
                             <span>Watch at least {UNLOCK_AFTER_SECONDS}s to continue</span>
                             <span>{watchedSeconds}s / {UNLOCK_AFTER_SECONDS}s</span>
                         </div>
-                        <div className="h-1.5 w-full bg-slate-300 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div className="h-1.5 w-full bg-[var(--surface-accent)] rounded-full overflow-hidden">
                             <motion.div
                                 className="h-full bg-brand-500 rounded-full"
                                 animate={{ width: `${progressPct}%` }}
@@ -102,7 +102,7 @@ export default function DemoPage() {
                 {/* Feature chips */}
                 <div className="flex flex-wrap gap-3 justify-center">
                     {['📊 Smart Dashboard', '🧠 Recall Mode', '🔮 45+ Visualizers', '📝 Personal Notes', '📅 Auto-Scheduling', '🔗 LeetCode Links'].map(f => (
-                        <span key={f} className="text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
+                        <span key={f} className="text-xs font-bold text-slate-300 bg-[var(--surface-accent)] border border-[var(--border-muted)] px-3 py-1.5 rounded-full">
                             {f}
                         </span>
                     ))}
@@ -122,7 +122,7 @@ export default function DemoPage() {
 
                 </div>
 
-                <p className="text-center text-xs text-slate-400 dark:text-slate-500">
+                <p className="text-center text-xs text-slate-500">
                     Pay just ₹50 once — lifetime access, no subscriptions.
                 </p>
             </motion.div>
