@@ -6,26 +6,22 @@ import { motion } from 'framer-motion';
 // Option 1: local video → put demo.mp4 inside frontend/public/
 // Option 2: YouTube embed → set YOUTUBE_ID to e.g. "dQw4w9WgXcQ"
 const YOUTUBE_ID = ''; // set a YouTube video ID here, or leave empty to use local video
-const LOCAL_VIDEO = '/demo.mp4'; // put your demo video at frontend/public/demo.mp4
-const UNLOCK_AFTER_SECONDS = 10; // seconds before "Continue" button becomes active
+const LOCAL_VIDEO = '/demo.mp4';
 // ────────────────────────────────────────────────────────────────────────────
 
 export default function DemoPage() {
     const navigate = useNavigate();
     const videoRef = useRef(null);
-    const [unlocked, setUnlocked] = useState(false);
+    const [unlocked, setUnlocked] = useState(true);
     const [watchedSeconds, setWatchedSeconds] = useState(0);
 
     const handleTimeUpdate = () => {
         if (!videoRef.current) return;
         const current = Math.floor(videoRef.current.currentTime);
         setWatchedSeconds(current);
-        if (current >= UNLOCK_AFTER_SECONDS) setUnlocked(true);
     };
 
     const handleSkip = () => setUnlocked(true);
-
-    const progressPct = Math.min((watchedSeconds / UNLOCK_AFTER_SECONDS) * 100, 100);
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16 relative overflow-hidden">
@@ -82,22 +78,7 @@ export default function DemoPage() {
                     )}
                 </div>
 
-                {/* Progress bar (only for local video) */}
-                {!YOUTUBE_ID && !unlocked && (
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-xs text-slate-400 font-bold uppercase tracking-widest">
-                            <span>Watch at least {UNLOCK_AFTER_SECONDS}s to continue</span>
-                            <span>{watchedSeconds}s / {UNLOCK_AFTER_SECONDS}s</span>
-                        </div>
-                        <div className="h-1.5 w-full bg-[var(--surface-accent)] rounded-full overflow-hidden">
-                            <motion.div
-                                className="h-full bg-brand-500 rounded-full"
-                                animate={{ width: `${progressPct}%` }}
-                                transition={{ ease: 'linear' }}
-                            />
-                        </div>
-                    </div>
-                )}
+
 
                 {/* Feature chips */}
                 <div className="flex flex-wrap gap-3 justify-center">
@@ -112,12 +93,9 @@ export default function DemoPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button
                         onClick={() => navigate('/paywall')}
-                        disabled={!unlocked}
-                        className={`btn-primary px-12 py-4 text-base font-black uppercase tracking-widest shadow-xl shadow-brand-600/30 transition-all duration-300 ${
-                            unlocked ? 'opacity-100 scale-100' : 'opacity-40 cursor-not-allowed scale-95'
-                        }`}
+                        className="btn-primary px-12 py-4 text-base font-black uppercase tracking-widest shadow-xl shadow-brand-600/30 transition-all duration-300 opacity-100 scale-100"
                     >
-                        {unlocked ? '🔓 Continue to Unlock ⚡' : `⏳ Watch ${Math.max(0, UNLOCK_AFTER_SECONDS - watchedSeconds)}s more…`}
+                        🔓 Continue to Unlock ⚡
                     </button>
 
                 </div>

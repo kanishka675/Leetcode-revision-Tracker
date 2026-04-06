@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        isPremium: {
+            type: Boolean,
+            default: false,
+        },
         otp: String,
         otpExpiry: Date,
         resetPasswordToken: String,

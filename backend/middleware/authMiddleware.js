@@ -29,4 +29,23 @@ const protect = async (req, res, next) => {
     }
 };
 
-module.exports = { protect };
+const requirePremium = (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Not authorized, no user' });
+    }
+
+    const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+    const isAdmin = req.user.email?.toLowerCase().trim() === ADMIN_EMAIL;
+
+    // Allow access if user is admin OR has paid/premium status
+    if (isAdmin || req.user.isPremium || req.user.isPaid) {
+        return next();
+    }
+
+    return res.status(403).json({ 
+        message: 'Premium access required',
+        requirePayment: true 
+    });
+};
+
+module.exports = { protect, requirePremium };

@@ -58,7 +58,7 @@ export default function AlgorithmsPage() {
             .then(({ data }) => {
                 setAlgorithms(data);
                 if (data.length > 0) setSelectedAlg(data[0]);
-                
+
                 if (data.length > 0) {
                     const allCategories = [...new Set(data.map(a => a.category))];
                     const expanded = {};
@@ -172,11 +172,10 @@ export default function AlgorithmsPage() {
                                             <button
                                                 key={alg.name}
                                                 onClick={() => setSelectedAlg(alg)}
-                                                className={`w-full text-left px-4 py-2 text-sm rounded-lg font-bold transition-all border ${
-                                                    selectedAlg?.name === alg.name
-                                                        ? 'bg-brand-600/20 text-brand-400 border-brand-500/40 shadow-lg'
-                                                        : 'text-slate-500 border-transparent hover:bg-brand-500/5 hover:text-slate-300'
-                                                }`}
+                                                className={`w-full text-left px-4 py-2 text-sm rounded-lg font-bold transition-all border ${selectedAlg?.name === alg.name
+                                                    ? 'bg-brand-600/20 text-brand-400 border-brand-500/40 shadow-lg'
+                                                    : 'text-slate-500 border-transparent hover:bg-brand-500/5 hover:text-slate-300'
+                                                    }`}
                                             >
                                                 {alg.title}
                                             </button>
@@ -220,7 +219,7 @@ export default function AlgorithmsPage() {
                             {/* Visualizer Container */}
                             <div className="card glass min-h-[400px] flex flex-col border-brand-500/10 relative overflow-hidden bg-brand-500/5">
                                 <div className="absolute top-0 left-0 p-4 z-10">
-                                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-500 opacity-50">Interactive Sandbox</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-500 opacity-50">Interactive Sandbox</span>
                                 </div>
                                 {renderVisualizer()}
                             </div>

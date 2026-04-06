@@ -62,9 +62,9 @@ const verifyPayment = async (req, res) => {
                 { new: true } // Return the updated document so we can get its userId
             );
 
-            // ACTUAL FIX: Update the actual User doc's isPaid flag
+            // ACTUAL FIX: Update the actual User doc's status
              if (payment && payment.userId) {
-                await User.findByIdAndUpdate(payment.userId, { isPaid: true });
+                await User.findByIdAndUpdate(payment.userId, { isPaid: true, isPremium: true });
             }
 
             res.json({ message: 'Payment verified successfully', success: true });

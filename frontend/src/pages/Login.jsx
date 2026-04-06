@@ -24,7 +24,7 @@ export default function Login() {
             toast.success(`Welcome back, ${data.name}! 👋`);
             const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
             const isAdmin = data.email?.toLowerCase().trim() === ADMIN_EMAIL;
-            if (isAdmin || data.isPaid) {
+            if (isAdmin || data.isPremium || data.isPaid) {
                 navigate('/');
             } else {
                 navigate('/demo');
@@ -46,7 +46,7 @@ export default function Login() {
             toast.success(`Welcome, ${data.name}! 👋`);
             const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
             const isAdmin = data.email?.toLowerCase().trim() === ADMIN_EMAIL;
-            if (isAdmin || data.isPaid) {
+            if (isAdmin || data.isPremium || data.isPaid) {
                 navigate('/');
             } else {
                 navigate('/demo');

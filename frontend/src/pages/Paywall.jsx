@@ -10,8 +10,8 @@ export default function Paywall() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    // If user is already paid, get them out of here
-    if (user?.isPaid) {
+    // If user is already paid/premium, get them out of here
+    if (user?.isPaid || user?.isPremium) {
         navigate('/');
         return null;
     }
@@ -22,7 +22,7 @@ export default function Paywall() {
             const { data: order } = await api.post('/payment/create-order', { amount: 50 });
 
             const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SSHY5lIg93xtfF',
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_SX2d403j71KuAK',
                 amount: order.amount,
                 currency: order.currency,
                 name: 'CodeRecall Full Access',
@@ -38,7 +38,7 @@ export default function Paywall() {
 
                         if (verification.success) {
                             toast.success('Payment Successful! Welcome to CodeRecall. 🎉');
-                            updateUserData({ isPaid: true });
+                            updateUserData({ isPaid: true, isPremium: true });
                             navigate('/');
                         } else {
                             toast.error('Payment verification failed.');

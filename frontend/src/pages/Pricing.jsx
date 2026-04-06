@@ -11,7 +11,7 @@ export default function Pricing() {
     const navigate = useNavigate();
 
     const handlePayment = async () => {
-        if (user?.isPaid) {
+        if (user?.isPaid || user?.isPremium) {
             toast.success('You already have Premium access! 🚀');
             return;
         }
@@ -25,7 +25,7 @@ export default function Pricing() {
 
             // 2. Initialize Razorpay options
             const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SSHY5lIg93xtfF',
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_SX2d403j71KuAK',
                 amount: order.amount,
                 currency: order.currency,
                 name: 'CodeRecall Premium',
@@ -42,7 +42,7 @@ export default function Pricing() {
 
                         if (verification.success) {
                             toast.success('Payment Successful! Welcome to Premium. 🎉');
-                            updateUserData({ isPaid: true });
+                            updateUserData({ isPaid: true, isPremium: true });
                             navigate('/dashboard');
                         } else {
                             toast.error('Payment verification failed.');
@@ -117,10 +117,10 @@ export default function Pricing() {
                         <div className="mt-10 text-3xl font-bold text-slate-100">₹499 <span className="text-sm font-normal text-slate-500">/ one-time</span></div>
                         <button
                             onClick={handlePayment}
-                            disabled={loading || user?.isPaid}
+                            disabled={loading || user?.isPaid || user?.isPremium}
                             className="mt-6 w-full btn-primary bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500"
                         >
-                            {loading ? 'Processing...' : user?.isPaid ? 'Already Premium' : 'Buy Now'}
+                            {loading ? 'Processing...' : (user?.isPaid || user?.isPremium) ? 'Already Premium' : 'Buy Now'}
                         </button>
                     </div>
                 </div>

@@ -125,8 +125,8 @@ const AdminDashboard = () => {
                                         <td className="px-6 py-4">{user.name}</td>
                                         <td className="px-6 py-4">{user.email}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.isPaid ? 'bg-emerald-500/20 text-emerald-500' : 'bg-rose-500/20 text-rose-500'}`}>
-                                                {user.isPaid ? "Paid" : "Not Paid"}
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${(user.isPaid || user.isPremium) ? 'bg-emerald-500/20 text-emerald-500' : 'bg-rose-500/20 text-rose-500'}`}>
+                                                {(user.isPaid || user.isPremium) ? "Premium" : "Free"}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">{new Date(user.createdAt).toLocaleDateString()}</td>
