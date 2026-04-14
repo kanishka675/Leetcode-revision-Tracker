@@ -93,6 +93,7 @@ const loginUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 isPaid: user.isPaid,
+                isPremium: user.isPremium,
                 token: token,
             });
         } else {
@@ -280,6 +281,7 @@ const googleLogin = async (req, res) => {
             name: user.name,
             email: user.email,
             isPaid: user.isPaid,
+            isPremium: user.isPremium,
             token: generatedToken,
         });
     } catch (error) {
@@ -309,6 +311,7 @@ const getMe = async (req, res) => {
         name: req.user.name,
         email: req.user.email,
         isPaid: req.user.isPaid,
+        isPremium: req.user.isPremium,
     });
 };
 
