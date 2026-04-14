@@ -65,6 +65,20 @@ const addProblem = async (req, res) => {
     }
 
     try {
+        // Free tier limit check (1 problem)
+        const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+        const isAdmin = req.user.email.toLowerCase().trim() === ADMIN_EMAIL;
+        
+        if (!isAdmin && !req.user.isPremium && !req.user.isPaid) {
+            const count = await Problem.countDocuments({ user: req.user._id });
+            if (count >= 1) {
+                return res.status(403).json({ 
+                    message: 'Free tier limit reached (1 question). Upgrade to Premium for unlimited questions.',
+                    requirePremium: true
+                });
+            }
+        }
+
         // Auto-schedule full lifecycle from solvedDate
         const baseDate = solvedDate || new Date();
         const scheduledRevisions = generateFullSchedule(baseDate);

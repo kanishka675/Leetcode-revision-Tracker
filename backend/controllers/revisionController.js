@@ -7,7 +7,14 @@ const generateRecallAnswer = require('../utils/generateRecallAnswer');
 // @access  Private
 const getRecallProblems = async (req, res) => {
     try {
-        const problems = await Problem.find({ user: req.user.id });
+        const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+        const isAdmin = req.user.email.toLowerCase().trim() === ADMIN_EMAIL;
+        
+        let problems = await Problem.find({ user: req.user._id });
+        
+        if (!isAdmin && !req.user.isPremium && !req.user.isPaid) {
+            problems = problems.slice(0, 2);
+        }
 
         // Check for missing flashcard data and suggest/save it
         const updatedProblems = await Promise.all(problems.map(async (problem) => {

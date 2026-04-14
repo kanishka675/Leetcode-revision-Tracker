@@ -36,7 +36,7 @@ export default function RecallInsights() {
         >
             <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-black text-slate-100 uppercase tracking-tight">Revision Insights</h2>
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-800 px-3 py-1 rounded-full">
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-500/10 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-500/10 dark:border-transparent">
                     Based on {stats.totalSessions} sessions
                 </span>
             </div>

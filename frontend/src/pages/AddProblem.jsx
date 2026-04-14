@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axiosInstance';
 import toast from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
+import PremiumPaywall from '../components/PremiumPaywall';
 
 const TOPICS = [
     'Sliding Window', 'Two Pointers', 'Prefix Sum', 'Binary Search', 'DP', 'Recursion', 
@@ -31,22 +33,34 @@ export default function AddProblem() {
     const [form, setForm] = useState(defaultForm);
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(isEdit);
+    const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+    const [paywallReason, setPaywallReason] = useState('');
+    const [showOtherInput, setShowOtherInput] = useState(false);
+    const [otherTopic, setOtherTopic] = useState('');
 
     useEffect(() => {
         if (isEdit) {
             api.get(`/problems/${id}`)
                 .then(({ data }) => {
+                    const standardTopics = data.topics.filter(t => TOPICS.includes(t));
+                    const custom = data.topics.find(t => !TOPICS.includes(t));
+
                     setForm({
                         title: data.title,
                         leetcodeUrl: data.leetcodeUrl || '',
                         difficulty: data.difficulty,
                         category: data.category || 'Array',
-                        topics: data.topics,
+                        topics: standardTopics,
                         notes: data.notes || '',
                         timeComplexity: data.timeComplexity || '',
                         keyAlgorithmIdea: data.keyAlgorithmIdea || '',
                         solvedDate: new Date(data.solvedDate).toISOString().split('T')[0],
                     });
+
+                    if (custom) {
+                        setShowOtherInput(true);
+                        setOtherTopic(custom);
+                    }
                 })
                 .catch(() => toast.error('Failed to load problem'))
                 .finally(() => setFetching(false));
@@ -65,19 +79,32 @@ export default function AddProblem() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.title.trim()) return toast.error('Title is required');
-        if (form.topics.length === 0) return toast.error('Select at least one topic');
+        
+        const finalTopics = [...form.topics];
+        if (showOtherInput && otherTopic.trim()) {
+            finalTopics.push(otherTopic.trim());
+        }
+
+        if (finalTopics.length === 0) return toast.error('Select at least one topic');
+        
         setLoading(true);
         try {
+            const submissionData = { ...form, topics: finalTopics };
             if (isEdit) {
-                await api.put(`/problems/${id}`, form);
+                await api.put(`/problems/${id}`, submissionData);
                 toast.success('Problem updated! ✅');
             } else {
-                await api.post('/problems', form);
+                await api.post('/problems', submissionData);
                 toast.success('Problem added! 🎉');
             }
             navigate('/problems');
         } catch (err) {
-            toast.error(err.response?.data?.message || 'Save failed');
+            if (err.response?.status === 403 && err.response?.data?.requirePremium) {
+                setPaywallReason(err.response.data.message);
+                setIsPaywallOpen(true);
+            } else {
+                toast.error(err.response?.data?.message || 'Save failed');
+            }
         } finally {
             setLoading(false);
         }
@@ -93,6 +120,12 @@ export default function AddProblem() {
 
     return (
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 animate-slide-up">
+            <PremiumPaywall 
+                isOpen={isPaywallOpen} 
+                onClose={() => setIsPaywallOpen(false)} 
+                featureName="Unlimited Question Tracking"
+                description={paywallReason}
+            />
             <div className="mb-6">
                 <h1 className="text-3xl font-bold text-slate-100">
                     {isEdit ? '✏️ Edit Problem' : '➕ Add Problem'}
@@ -197,7 +230,37 @@ export default function AddProblem() {
                                     {form.topics.includes(topic) ? '✓ ' : ''}{topic}
                                 </button>
                             ))}
+                            <button
+                                type="button"
+                                onClick={() => setShowOtherInput(!showOtherInput)}
+                                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-150 ${showOtherInput
+                                    ? 'bg-brand-600/30 text-brand-600 border-brand-500/50'
+                                    : 'bg-brand-500/5 text-slate-400 border-brand-500/10 hover:border-brand-500/30 hover:text-slate-300'
+                                    }`}
+                            >
+                                {showOtherInput ? '✓ ' : '+ '}Other
+                            </button>
                         </div>
+
+                        <AnimatePresence>
+                            {showOtherInput && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="pt-3 overflow-hidden"
+                                >
+                                    <input
+                                        type="text"
+                                        className="input text-sm h-10"
+                                        placeholder="Enter custom topic name..."
+                                        value={otherTopic}
+                                        onChange={(e) => setOtherTopic(e.target.value)}
+                                        autoFocus
+                                    />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
 
                     {/* Flashcard Data */}

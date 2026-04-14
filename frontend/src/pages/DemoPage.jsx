@@ -92,16 +92,15 @@ export default function DemoPage() {
                 {/* Action buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button
-                        onClick={() => navigate('/paywall')}
+                        onClick={() => navigate('/')}
                         className="btn-primary px-12 py-4 text-base font-black uppercase tracking-widest shadow-xl shadow-brand-600/30 transition-all duration-300 opacity-100 scale-100"
                     >
-                        🔓 Continue to Unlock ⚡
+                        🔓 Continue to Dashboard ⚡
                     </button>
-
                 </div>
 
                 <p className="text-center text-xs text-slate-500">
-                    Pay just ₹50 once — lifetime access, no subscriptions.
+                    Explore core features for free. Upgrade only when you need advanced tools.
                 </p>
             </motion.div>
         </div>

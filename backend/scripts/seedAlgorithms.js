@@ -135,6 +135,36 @@ const allAlgorithms = [
             { label: 'Cycle Check', description: 'If they meet, there is a cycle.' }
         ]
     },
+    {
+        name: 'linear-search', title: 'Linear Search', category: 'Array Patterns',
+        explanation: 'Sequential search through an array until a match is found or the end is reached.',
+        exampleProblem: { title: 'Find Target Indices After Sorting Array', url: 'https://leetcode.com/problems/find-target-indices-after-sorting-array/' },
+        steps: [
+            { label: 'Initialize', description: 'Start from the first element.' },
+            { label: 'Check Match', description: 'Compare current element with the target.' },
+            { label: 'Next Element', description: 'If no match, move to the next index.' }
+        ]
+    },
+    {
+        name: 'stack', title: 'Stack (Push/Pop)', category: 'Advanced Data Structures',
+        explanation: 'Last-In, First-Out (LIFO) data structure where elements are added and removed from the same end.',
+        exampleProblem: { title: 'Valid Parentheses', url: 'https://leetcode.com/problems/valid-parentheses/' },
+        steps: [
+            { label: 'Push', description: 'Add an element to the top of the stack.' },
+            { label: 'Peek', description: 'Look at the top element without removing it.' },
+            { label: 'Pop', description: 'Remove the top element from the stack.' }
+        ]
+    },
+    {
+        name: 'queue', title: 'Queue (Enqueue/Dequeue)', category: 'Advanced Data Structures',
+        explanation: 'First-In, First-Out (FIFO) data structure where elements are added at the back and removed from the front.',
+        exampleProblem: { title: 'Number of Recent Calls', url: 'https://leetcode.com/problems/number-of-recent-calls/' },
+        steps: [
+            { label: 'Enqueue', description: 'Add an element to the rear of the queue.' },
+            { label: 'Front', description: 'Access the first element of the queue.' },
+            { label: 'Dequeue', description: 'Remove the front element from the queue.' }
+        ]
+    },
 
     // --- Sorting Algorithms ---
     {

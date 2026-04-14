@@ -46,12 +46,23 @@ import BellmanFordVisualizer from '../components/visualizers/BellmanFordVisualiz
 import FloydWarshallVisualizer from '../components/visualizers/FloydWarshallVisualizer';
 import BacktrackingVisualizer from '../components/visualizers/BacktrackingVisualizer';
 import IncludeExcludeVisualizer from '../components/visualizers/IncludeExcludeVisualizer';
+import SuggestionForm from '../components/codeVisualizer/SuggestionForm';
+import { useAuth } from '../context/AuthContext';
+import PremiumPaywall from '../components/PremiumPaywall';
+
+const FREE_ALGS = ['binary-search', 'bubble-sort', 'insertion-sort', 'linear-search', 'stack', 'queue', 'two-pointer', 'monotonic-stack', 'binary-tree-traversal'];
 
 export default function AlgorithmsPage() {
+    const { user } = useAuth();
     const [algorithms, setAlgorithms] = useState([]);
     const [selectedAlg, setSelectedAlg] = useState(null);
     const [loading, setLoading] = useState(true);
     const [expandedCategories, setExpandedCategories] = useState({});
+    const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+
+    const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+    const isAdmin = user?.email?.toLowerCase().trim() === ADMIN_EMAIL;
+    const isPremium = isAdmin || user?.isPremium || user?.isPaid;
 
     useEffect(() => {
         api.get('/algorithms')
@@ -79,6 +90,15 @@ export default function AlgorithmsPage() {
 
     const toggleCategory = (cat) => {
         setExpandedCategories(prev => ({ ...prev, [cat]: prev[cat] === undefined ? false : !prev[cat] }));
+    };
+
+    const handleSelectAlg = (alg) => {
+        const isFree = FREE_ALGS.includes(alg.name);
+        if (!isPremium && !isFree) {
+            setIsPaywallOpen(true);
+            return;
+        }
+        setSelectedAlg(alg);
     };
 
     const renderVisualizer = () => {
@@ -144,6 +164,12 @@ export default function AlgorithmsPage() {
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-4rem)] flex flex-col sm:flex-row gap-8 overflow-hidden">
+            <PremiumPaywall 
+                isOpen={isPaywallOpen} 
+                onClose={() => setIsPaywallOpen(false)} 
+                featureName={selectedAlg?.title || "Premium Visualizers"}
+            />
+            
             {/* Sidebar */}
             <div className="w-full sm:w-64 flex-shrink-0 flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2">
                 <div className="flex items-center justify-between mb-4">
@@ -168,18 +194,30 @@ export default function AlgorithmsPage() {
                                         exit={{ height: 0, opacity: 0 }}
                                         className="space-y-1 overflow-hidden ml-2 border-l-2 border-slate-800 pl-2"
                                     >
-                                        {algs.map((alg) => (
-                                            <button
-                                                key={alg.name}
-                                                onClick={() => setSelectedAlg(alg)}
-                                                className={`w-full text-left px-4 py-2 text-sm rounded-lg font-bold transition-all border ${selectedAlg?.name === alg.name
-                                                    ? 'bg-brand-600/20 text-brand-400 border-brand-500/40 shadow-lg'
-                                                    : 'text-slate-500 border-transparent hover:bg-brand-500/5 hover:text-slate-300'
-                                                    }`}
-                                            >
-                                                {alg.title}
-                                            </button>
-                                        ))}
+                                        {algs.map((alg) => {
+                                            const isFree = FREE_ALGS.includes(alg.name);
+                                            const isLocked = !isPremium && !isFree;
+                                            return (
+                                                <button
+                                                    key={alg.name}
+                                                    onClick={() => handleSelectAlg(alg)}
+                                                    className={`w-full text-left px-4 py-2 text-sm rounded-lg font-bold transition-all border flex items-center justify-between group ${selectedAlg?.name === alg.name
+                                                        ? 'bg-brand-600/20 text-brand-400 border-brand-500/40 shadow-lg'
+                                                        : 'text-slate-500 border-transparent hover:bg-brand-500/5 hover:text-slate-300'
+                                                        }`}
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        <span>{alg.title}</span>
+                                                        {isFree && !isPremium && (
+                                                            <span className="text-[8px] font-black bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/30 whitespace-nowrap">🟢 FREE</span>
+                                                        )}
+                                                    </div>
+                                                    {isLocked && (
+                                                        <span className="opacity-40 group-hover:opacity-100 transition-opacity">🔒</span>
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
                                     </motion.div>
                                 )}
                             </AnimatePresence>
@@ -239,6 +277,9 @@ export default function AlgorithmsPage() {
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Suggestion Box */}
+                <SuggestionForm />
             </div>
         </div>
     );

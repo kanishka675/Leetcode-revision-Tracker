@@ -22,6 +22,7 @@ import DemoPage from './pages/DemoPage';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import VerifyOTP from './pages/VerifyOTP';
+import CodeVisualizer from './pages/CodeVisualizer';
 
 const PrivateRoute = ({ children }) => {
     const { user } = useAuth();
@@ -33,18 +34,11 @@ const PublicRoute = ({ children }) => {
     return !user ? children : <Navigate to="/" replace />;
 };
 
-// Requires login AND payment (admin bypasses paywall)
-const PaidRoute = ({ children }) => {
+// Authenticated user (can be free or premium)
+const UserRoute = ({ children }) => {
     const { user } = useAuth();
-    const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
     if (!user) return <Navigate to="/login" replace />;
-    
-    const isAdmin = user.email?.toLowerCase().trim() === ADMIN_EMAIL;
-    // Admin bypasses everything; others must have isPremium or isPaid
-    if (isAdmin || user.isPremium || user.isPaid) return children;
-    
-    // Non-premium users are sent to demo
-    return <Navigate to="/demo" replace />;
+    return children;
 };
 
 export default function App() {
@@ -60,18 +54,19 @@ export default function App() {
                     <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
                     <Route path="/reset-password" element={<PublicRoute><ResetPassword /></PublicRoute>} />
                     <Route path="/verify-otp" element={<PublicRoute><VerifyOTP /></PublicRoute>} />
-                    <Route path="/paywall" element={<PrivateRoute><Paywall /></PrivateRoute>} />
+                    <Route path="/paywall" element={<UserRoute><Paywall /></UserRoute>} />
                     <Route path="/demo" element={<DemoPage />} />
-                    <Route path="/" element={<PaidRoute><Dashboard /></PaidRoute>} />
-                    <Route path="/problems" element={<PaidRoute><Problems /></PaidRoute>} />
-                    <Route path="/manage" element={<PaidRoute><ProblemManager /></PaidRoute>} />
-                    <Route path="/calendar" element={<PaidRoute><CalendarPage /></PaidRoute>} />
-                    <Route path="/algorithms" element={<PaidRoute><AlgorithmsPage /></PaidRoute>} />
-                    <Route path="/add" element={<PaidRoute><AddProblem /></PaidRoute>} />
-                    <Route path="/edit/:id" element={<PaidRoute><AddProblem /></PaidRoute>} />
-                    <Route path="/review" element={<PaidRoute><Review /></PaidRoute>} />
-                    <Route path="/recall" element={<PaidRoute><RecallPage /></PaidRoute>} />
-                    <Route path="/recall/:id" element={<PaidRoute><RecallSessionPage /></PaidRoute>} />
+                    <Route path="/" element={<UserRoute><Dashboard /></UserRoute>} />
+                    <Route path="/problems" element={<UserRoute><Problems /></UserRoute>} />
+                    <Route path="/manage" element={<UserRoute><ProblemManager /></UserRoute>} />
+                    <Route path="/calendar" element={<UserRoute><CalendarPage /></UserRoute>} />
+                    <Route path="/algorithms" element={<UserRoute><AlgorithmsPage /></UserRoute>} />
+                    <Route path="/add" element={<UserRoute><AddProblem /></UserRoute>} />
+                    <Route path="/edit/:id" element={<UserRoute><AddProblem /></UserRoute>} />
+                    <Route path="/review" element={<UserRoute><Review /></UserRoute>} />
+                    <Route path="/recall" element={<UserRoute><RecallPage /></UserRoute>} />
+                    <Route path="/recall/:id" element={<UserRoute><RecallSessionPage /></UserRoute>} />
+                    <Route path="/code-visualizer" element={<UserRoute><CodeVisualizer /></UserRoute>} />
                     <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

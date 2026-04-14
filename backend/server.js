@@ -18,13 +18,15 @@ const { protect, requirePremium } = require('./middleware/authMiddleware');
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/payment', require('./routes/paymentRoutes'));
 
-// Feature routes - all require auth AND premium/admin
-app.use('/api/problems', protect, requirePremium, require('./routes/problemRoutes'));
-app.use('/api/dashboard', protect, requirePremium, require('./routes/dashboardRoutes'));
-app.use('/api/analytics', protect, requirePremium, require('./routes/analyticsRoutes'));
-app.use('/api/algorithms', protect, requirePremium, require('./routes/algorithmRoutes'));
-app.use('/api/revision', protect, requirePremium, require('./routes/revisionRoutes'));
-app.use('/api/admin', protect, requirePremium, require('./routes/adminRoutes'));
+// Feature routes (requirePremium removed here to allow freemium logic inside controllers)
+app.use('/api/problems', protect, require('./routes/problemRoutes'));
+app.use('/api/dashboard', protect, require('./routes/dashboardRoutes'));
+app.use('/api/analytics', protect, require('./routes/analyticsRoutes'));
+app.use('/api/algorithms', protect, require('./routes/algorithmRoutes'));
+app.use('/api/revision', protect, require('./routes/revisionRoutes'));
+app.use('/api/usage', protect, require('./routes/usageRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/suggestions', require('./routes/suggestionRoutes'));
 
 // Health check
 app.get('/', (req, res) => res.json({ message: '🚀 CodeRecall API running' }));

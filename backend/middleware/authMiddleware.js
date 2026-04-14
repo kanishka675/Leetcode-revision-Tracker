@@ -35,7 +35,8 @@ const requirePremium = (req, res, next) => {
     }
 
     const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
-    const isAdmin = req.user.email?.toLowerCase().trim() === ADMIN_EMAIL;
+    const userEmail = req.user.email?.toLowerCase().trim();
+    const isAdmin = userEmail === ADMIN_EMAIL;
 
     // Allow access if user is admin OR has paid/premium status
     if (isAdmin || req.user.isPremium || req.user.isPaid) {
@@ -48,4 +49,19 @@ const requirePremium = (req, res, next) => {
     });
 };
 
-module.exports = { protect, requirePremium };
+const adminOnly = (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Not authorized, no user' });
+    }
+
+    const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+    const userEmail = req.user.email?.toLowerCase().trim();
+    
+    if (userEmail === ADMIN_EMAIL) {
+        return next();
+    }
+
+    return res.status(403).json({ message: 'Access denied. Admin only.' });
+};
+
+module.exports = { protect, requirePremium, adminOnly };

@@ -84,10 +84,6 @@ const problemSchema = new mongoose.Schema(
             type: Date,
             default: null,
         },
-        lastReviewed: {
-            type: Date,
-            default: null,
-        },
         scheduledRevisions: {
             type: [Date],
             default: [],

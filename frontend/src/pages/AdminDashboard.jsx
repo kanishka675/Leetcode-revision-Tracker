@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
     const [payments, setPayments] = useState([]);
+    const [suggestions, setSuggestions] = useState([]);
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('users');
@@ -13,14 +14,16 @@ const AdminDashboard = () => {
     useEffect(() => {
         const fetchAdminData = async () => {
             try {
-                const [usersRes, paymentsRes, statsRes] = await Promise.all([
+                const [usersRes, paymentsRes, statsRes, suggestionsRes] = await Promise.all([
                     axios.get('/admin/users'),
                     axios.get('/admin/payments'),
-                    axios.get('/admin/stats')
+                    axios.get('/admin/stats'),
+                    axios.get('/suggestions')
                 ]);
                 setUsers(usersRes.data);
                 setPayments(paymentsRes.data);
                 setStats(statsRes.data);
+                setSuggestions(suggestionsRes.data);
             } catch (error) {
                 console.error('Error fetching admin data:', error);
             } finally {
@@ -63,6 +66,17 @@ const AdminDashboard = () => {
         return true;
     });
 
+    const handleDeleteSuggestion = async (id) => {
+        if (!window.confirm("Delete this suggestion?")) return;
+        try {
+            await axios.delete(`/suggestions/${id}`);
+            setSuggestions(suggestions.filter(s => s._id !== id));
+        } catch (error) {
+            console.error('Failed to delete suggestion:', error);
+            alert("Failed to delete suggestion");
+        }
+    };
+
     if (loading) return <div className="text-center py-20 text-slate-100 italic">Loading Admin Dashboard...</div>;
 
     return (
@@ -102,6 +116,13 @@ const AdminDashboard = () => {
                     style={activeTab !== 'payments' ? { backgroundColor: 'var(--surface-accent)', borderColor: 'var(--border-muted)' } : {}}
                 >
                     Payments
+                </button>
+                <button
+                    onClick={() => setActiveTab('suggestions')}
+                    className={`px-4 py-2 rounded-lg transition-colors border ${activeTab === 'suggestions' ? 'bg-brand-600 text-white border-brand-600' : 'text-slate-300'}`}
+                    style={activeTab !== 'suggestions' ? { backgroundColor: 'var(--surface-accent)', borderColor: 'var(--border-muted)' } : {}}
+                >
+                    Suggestions
                 </button>
             </div>
 
@@ -188,6 +209,50 @@ const AdminDashboard = () => {
                                         </td>
                                     </tr>
                                 ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+                {activeTab === 'suggestions' && (
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead className="text-sm" style={{ backgroundColor: 'var(--surface-accent)' }}>
+                                <tr className="text-slate-100" style={{ borderBottom: '1px solid var(--border-muted)' }}>
+                                    <th className="px-6 py-4">Suggested Algorithm</th>
+                                    <th className="px-6 py-4">Suggested By</th>
+                                    <th className="px-6 py-4">Date</th>
+                                    <th className="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y" style={{ borderColor: 'var(--border-muted)' }}>
+                                {suggestions.length > 0 ? suggestions.map(suggestion => (
+                                    <tr key={suggestion._id} className="hover:bg-slate-500/5 transition-colors">
+                                        <td className="px-6 py-4">
+                                            <p className="font-bold text-slate-100 leading-none">{suggestion.title}</p>
+                                            <p className="text-xs text-slate-400 mt-1.5 max-w-md italic">{suggestion.description || "No description provided."}</p>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <p className="text-sm font-medium">{suggestion.userName}</p>
+                                            <p className="text-[10px] text-slate-500 font-mono tracking-tight">{suggestion.userEmail}</p>
+                                        </td>
+                                        <td className="px-6 py-4 text-xs text-slate-400">
+                                            {new Date(suggestion.createdAt).toLocaleDateString()}
+                                        </td>
+                                        <td className="px-6 py-4 text-right">
+                                            <button 
+                                                onClick={() => handleDeleteSuggestion(suggestion._id)}
+                                                className="px-3 py-1 bg-rose-500/10 text-rose-500 text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-rose-500 hover:text-white transition-all"
+                                            >
+                                                Dismiss
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan="4" className="px-6 py-12 text-center text-slate-500 italic">No suggestions found.</td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>

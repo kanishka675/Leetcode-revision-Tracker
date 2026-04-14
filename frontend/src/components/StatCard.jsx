@@ -1,6 +1,6 @@
 export default function StatCard({ icon, label, value, color, bg, border, extra }) {
     return (
-        <div className={`card glass border ${border} hover:scale-105 transition-all duration-300 group`}>
+        <div className={`card glass border ${border} hover:scale-105 transition-all duration-300 group h-full`}>
             <div className="flex items-start justify-between">
                 <div>
                     <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">{label}</p>

@@ -143,7 +143,27 @@ const getRecommendations = async (req, res) => {
     }
 };
 
+const Interaction = require('../models/Interaction');
+
+// @desc  Track a paywall hit or locked feature interaction
+// @route POST /api/analytics/track-interaction
+const trackInteraction = async (req, res) => {
+    try {
+        const { featureName, interactionType } = req.body;
+        const interaction = new Interaction({
+            userId: req.user._id,
+            featureName,
+            interactionType
+        });
+        await interaction.save();
+        res.status(201).json({ success: true });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getWeeklyReport,
-    getRecommendations
+    getRecommendations,
+    trackInteraction
 };

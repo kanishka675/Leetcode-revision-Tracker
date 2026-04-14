@@ -26,6 +26,8 @@ export default function ProblemManager() {
     const [submitting, setSubmitting] = useState(false);
     const [deleting, setDeleting] = useState(null);
     const [editingNotesProblem, setEditingNotesProblem] = useState(null);
+    const [showOtherInput, setShowOtherInput] = useState(false);
+    const [otherTopic, setOtherTopic] = useState('');
 
     const handleNotesSave = (updatedProblem) => {
         setProblems((prev) => 
@@ -66,12 +68,21 @@ export default function ProblemManager() {
     const handleAddProblem = async (e) => {
         e.preventDefault();
         if (!form.title.trim()) return toast.error('Title is required');
-        if (form.topics.length === 0) return toast.error('Select at least one topic');
+        
+        const finalTopics = [...form.topics];
+        if (showOtherInput && otherTopic.trim()) {
+            finalTopics.push(otherTopic.trim());
+        }
+
+        if (finalTopics.length === 0) return toast.error('Select at least one topic');
+
         setSubmitting(true);
         try {
-            await api.post('/problems', form);
+            await api.post('/problems', { ...form, topics: finalTopics });
             toast.success('Problem added! 🎉');
             setForm(defaultForm);
+            setShowOtherInput(false);
+            setOtherTopic('');
             setShowAddForm(false);
             fetchProblems();
         } catch (err) {
@@ -193,7 +204,34 @@ export default function ProblemManager() {
                                                     {topic}
                                                 </button>
                                             ))}
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowOtherInput(!showOtherInput)}
+                                                className={`px-2.5 py-1 rounded-full text-[10px] font-bold border transition-all ${showOtherInput
+                                                    ? 'bg-brand-500/40 text-white border-brand-400'
+                                                    : 'bg-brand-500/10 text-slate-500 border-brand-500/10 hover:border-brand-500/30'
+                                                    }`}
+                                            >
+                                                {showOtherInput ? '✓ ' : '+ '}Other
+                                            </button>
                                         </div>
+                                        {showOtherInput && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: 'auto' }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="mt-2 overflow-hidden"
+                                            >
+                                                <input
+                                                    type="text"
+                                                    className="input text-[11px] py-1.5 h-8"
+                                                    placeholder="Custom topic..."
+                                                    value={otherTopic}
+                                                    onChange={(e) => setOtherTopic(e.target.value)}
+                                                    autoFocus
+                                                />
+                                            </motion.div>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-300 mb-1.5">Quick Notes</label>

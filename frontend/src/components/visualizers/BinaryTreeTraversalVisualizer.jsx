@@ -2,8 +2,14 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import useAutoplay from '../../hooks/useAutoplay';
 import VisualizerControls from './VisualizerControls';
+import { useAuth } from '../../context/AuthContext';
+import PremiumPaywall from '../PremiumPaywall';
 
 export default function BinaryTreeTraversalVisualizer() {
+    const { user } = useAuth();
+    const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+    const isPremium = user?.isPremium || user?.isPaid || user?.email?.toLowerCase().trim() === ADMIN_EMAIL;
+    const [isPaywallOpen, setIsPaywallOpen] = useState(false);
     // Tree Structure: 
     //        1
     //      /   \
@@ -114,23 +120,44 @@ export default function BinaryTreeTraversalVisualizer() {
 
     return (
         <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 overflow-hidden">
+            <PremiumPaywall
+                isOpen={isPaywallOpen}
+                onClose={() => setIsPaywallOpen(false)}
+                featureName="Pre/Post Order Traversal"
+                description="Unlock Preorder and Postorder traversal visualizations with a Premium subscription."
+            />
+
             <div className="text-center space-y-2 mb-8">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Binary Tree Traversal</p>
                 
                 <div className="flex justify-center gap-4 my-4">
-                    {['preorder', 'inorder', 'postorder'].map(m => (
-                        <button
-                            key={m}
-                            onClick={() => { setMode(m); reset(); }}
-                            className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all border ${
-                                mode === m 
-                                    ? 'bg-[var(--viz-highlight-active-bg)] text-[var(--viz-highlight-active)] border-[var(--viz-highlight-active)]/50 shadow-lg shadow-brand-500/10' 
-                                    : 'bg-[var(--viz-bg-inactive)] text-[var(--text-secondary)] border-transparent hover:bg-[var(--viz-bg-hover)]'
-                            }`}
-                        >
-                            {m}
-                        </button>
-                    ))}
+                    {['preorder', 'inorder', 'postorder'].map(m => {
+                        const isLocked = !isPremium && m !== 'inorder';
+                        return (
+                            <button
+                                key={m}
+                                onClick={() => {
+                                    if (isLocked) {
+                                        setIsPaywallOpen(true);
+                                        return;
+                                    }
+                                    setMode(m);
+                                    reset();
+                                }}
+                                className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
+                                    mode === m 
+                                        ? 'bg-[var(--viz-highlight-active-bg)] text-[var(--viz-highlight-active)] border-[var(--viz-highlight-active)]/50 shadow-lg shadow-brand-500/10' 
+                                        : 'bg-[var(--viz-bg-inactive)] text-[var(--text-secondary)] border-transparent hover:bg-[var(--viz-bg-hover)]'
+                                }`}
+                            >
+                                <span>{m}</span>
+                                {isLocked && <span className="opacity-60">🔒</span>}
+                                {!isLocked && m === 'inorder' && !isPremium && (
+                                    <span className="text-[8px] font-black bg-emerald-500/20 text-emerald-400 px-1 rounded-full border border-emerald-500/30">FREE</span>
+                                )}
+                            </button>
+                        );
+                    })}
                 </div>
 
                 <p className="text-lg font-bold text-[var(--text-primary)] max-w-lg mx-auto min-h-[3rem]">{message}</p>

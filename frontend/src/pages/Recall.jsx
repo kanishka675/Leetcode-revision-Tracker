@@ -4,10 +4,18 @@ import { Link } from 'react-router-dom';
 import api from '../api/axiosInstance';
 import toast from 'react-hot-toast';
 import RecallInsights from '../components/RecallInsights';
+import { useAuth } from '../context/AuthContext';
+import PremiumPaywall from '../components/PremiumPaywall';
 
 export default function RecallPage() {
+    const { user } = useAuth();
     const [problems, setProblems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+
+    const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+    const isAdmin = user?.email?.toLowerCase().trim() === ADMIN_EMAIL;
+    const isPremium = isAdmin || user?.isPremium || user?.isPaid;
 
     useEffect(() => {
         fetchProblems();
@@ -34,6 +42,13 @@ export default function RecallPage() {
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+            <PremiumPaywall 
+                isOpen={isPaywallOpen} 
+                onClose={() => setIsPaywallOpen(false)} 
+                featureName="Unlimited Flashcards"
+                description="Free tier is limited to 2 flashcards for revision. Upgrade to Premium for your entire solved library."
+            />
+            
             <header className="space-y-2">
                 <h1 className="text-4xl font-black text-slate-100 tracking-tight">Algorithm <span className="text-brand-500">Recall</span></h1>
                 <p className="text-slate-400 text-lg max-w-2xl">
@@ -91,6 +106,19 @@ export default function RecallPage() {
                                 </div>
                             </motion.div>
                         ))}
+
+                        {/* Lock Reveal for Free Users */}
+                        {!isPremium && (
+                            <motion.div 
+                                onClick={() => setIsPaywallOpen(true)}
+                                className="card glass border-dashed border-slate-700 flex flex-col items-center justify-center p-8 cursor-pointer hover:bg-white/5 transition-all text-center group"
+                            >
+                                <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">🔒</div>
+                                <h3 className="text-lg font-bold text-slate-400">Unlock More Flashcards</h3>
+                                <p className="text-xs text-slate-500 mt-2">Free users can only practice with 2 problems at a time.</p>
+                                <button className="mt-4 text-xs font-black uppercase text-brand-400 group-hover:text-brand-300">Upgrade to Premium 💎</button>
+                            </motion.div>
+                        )}
                     </div>
             )}
         </div>

@@ -18,6 +18,7 @@ import api from '../api/axiosInstance';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import StatCard from '../components/StatCard';
+import PremiumPaywall from '../components/PremiumPaywall';
 
 // Register ChartJS components
 ChartJS.register(
@@ -39,8 +40,17 @@ export default function Dashboard() {
     const [weeklyStats, setWeeklyStats] = useState(null);
     const [reminders, setReminders] = useState({ count: 0, reminders: [] });
     const [loading, setLoading] = useState(true);
+    const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+    const [paywallFeature, setPaywallFeature] = useState('');
 
+    const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
+    const isPremium = user?.isPremium || user?.isPaid || user?.email?.toLowerCase().trim() === ADMIN_EMAIL;
     const isDark = theme === 'dark';
+
+    const triggerPaywall = (feature) => {
+        setPaywallFeature(feature);
+        setIsPaywallOpen(true);
+    };
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -182,6 +192,12 @@ export default function Dashboard() {
             variants={containerVariants}
             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8"
         >
+            <PremiumPaywall 
+                isOpen={isPaywallOpen} 
+                onClose={() => setIsPaywallOpen(false)} 
+                featureName={paywallFeature}
+            />
+
             {/* Greeting */}
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -190,40 +206,64 @@ export default function Dashboard() {
                     </h1>
                     <p className="text-slate-400 mt-2 text-lg">Here's your coding progress at a glance.</p>
                 </div>
+                {!isPremium && (
+                    <button 
+                        onClick={() => triggerPaywall('Advanced Insights')}
+                        className="bg-brand-600/10 text-brand-400 border border-brand-500/20 px-4 py-2 rounded-xl text-sm font-black hover:bg-brand-600/20 transition-all flex items-center gap-2"
+                    >
+                        <span>💎</span> Upgrade to Premium
+                    </button>
+                )}
             </motion.div>
 
             {/* Stats Summary */}
             <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard
-                    icon="🚀"
-                    label="Total Solved"
-                    value={stats?.totalSolved || 0}
-                    color="text-brand-400"
-                    bg="bg-brand-500/10"
-                    border="border-brand-500/20"
-                />
-                <StatCard
-                    icon="🔥"
-                    label="Due for Revision"
-                    value={stats?.dueToday || 0}
-                    color="text-yellow-400"
-                    bg="bg-yellow-500/10"
-                    border="border-yellow-500/20"
-                    extra={stats?.dueToday > 0 && (
-                        <Link to="/review" className="text-xs font-bold text-brand-400 hover:text-brand-300 mt-2 inline-block">
-                            REVIEW NOW →
-                        </Link>
+                <div className="relative group h-full">
+                    <StatCard
+                        icon="🚀"
+                        label="Total Solved"
+                        value={stats?.totalSolved || 0}
+                        color="text-brand-400"
+                        bg="bg-brand-500/10"
+                        border="border-brand-500/20"
+                    />
+                    <span className="absolute top-2 right-2 text-[10px] font-black bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">🟢 FREE</span>
+                </div>
+                <div className="relative group h-full">
+                    <StatCard
+                        icon="🔥"
+                        label="Due Today"
+                        value={stats?.dueToday || 0}
+                        color="text-yellow-400"
+                        bg="bg-yellow-500/10"
+                        border="border-yellow-500/20"
+                        extra={stats?.dueToday > 0 && (
+                            <Link to="/review" className="text-xs font-bold text-brand-400 hover:text-brand-300 mt-2 inline-block">
+                                REVIEW NOW →
+                            </Link>
+                        )}
+                    />
+                    <span className="absolute top-2 right-2 text-[10px] font-black bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">🟢 FREE</span>
+                </div>
+                <div className="relative group overflow-hidden cursor-pointer h-full" onClick={() => !isPremium && triggerPaywall('Mastery Analytics')}>
+                    <StatCard
+                        icon="🧠"
+                        label="Topics"
+                        value={topicLabels.length}
+                        color="text-purple-400"
+                        bg="bg-purple-500/10"
+                        border="border-purple-500/20"
+                    />
+                    {!isPremium && (
+                        <div className="absolute inset-0 bg-dark-900/40 backdrop-blur-[1px] flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span className="text-2xl">🔒</span>
+                        </div>
                     )}
-                />
-                <StatCard
-                    icon="🧠"
-                    label="Topics Mastered"
-                    value={topicLabels.length}
-                    color="text-purple-400"
-                    bg="bg-purple-500/10"
-                    border="border-purple-500/20"
-                />
-                <div className="card glass flex flex-col justify-center items-center text-center p-6 border-dashed border-dark-600">
+                    <span className={`absolute top-2 right-2 text-[10px] font-black px-2 py-0.5 rounded-full border ${isPremium ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-slate-500/20 text-slate-400 border-slate-500/30'}`}>
+                        {isPremium ? '💎 PREMIUM' : '🔒 PREMIUM'}
+                    </span>
+                </div>
+                <div className="card glass flex flex-col justify-center items-center text-center p-6 border-dashed border-dark-600 h-full">
                     <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">New Challenge</p>
                     <Link to="/manage" className="btn-primary w-full py-2 shadow-lg shadow-brand-600/20">
                         Add Problem
@@ -238,9 +278,12 @@ export default function Dashboard() {
                 </div>
                 <div className="relative z-10">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-bold text-slate-100 uppercase tracking-tight flex items-center gap-2">
-                            <span className="text-brand-400">📅</span> Daily Revisions
-                        </h2>
+                        <div className="flex items-center gap-3">
+                            <h2 className="text-lg font-bold text-slate-100 uppercase tracking-tight flex items-center gap-2">
+                                <span className="text-brand-400">📅</span> Daily Revisions
+                            </h2>
+                            <span className="text-[10px] font-black bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">🟢 FREE</span>
+                        </div>
                         <span className={`text-xs font-black px-3 py-1 rounded-full border ${reminders.count > 0 ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' : 'bg-brand-500/10 text-slate-500 border-brand-500/10'}`}>
                             {reminders.count} Tasks Today
                         </span>
@@ -274,11 +317,6 @@ export default function Dashboard() {
                                     </Link>
                                 </div>
                             ))}
-                            {reminders.count > 6 && (
-                                <Link to="/review" className="p-3 flex items-center justify-center text-xs font-bold text-brand-400 hover:bg-brand-500/5 rounded-xl border border-dashed border-brand-500/30">
-                                    + {reminders.count - 6} more reviews
-                                </Link>
-                            )}
                         </div>
                     ) : (
                         <div className="py-6 text-center">
@@ -288,16 +326,30 @@ export default function Dashboard() {
                 </div>
             </motion.div>
 
-            {/* Weekly Spotlight */}
-            <motion.div variants={itemVariants} className="card glass relative overflow-hidden">
+            {/* Weekly Spotlight - Premium Required Overlay */}
+            <motion.div 
+                variants={itemVariants} 
+                className={`card glass relative overflow-hidden group transition-all ${!isPremium ? 'cursor-pointer' : ''}`}
+                onClick={() => !isPremium && triggerPaywall('Progress Analytics')}
+            >
                 <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-brand-400 to-indigo-500"></div>
                 <div className="flex items-center justify-between mb-4 pl-4">
-                    <h2 className="text-lg font-bold text-slate-100 uppercase tracking-tight flex items-center gap-2">
-                        <span className="text-brand-400">⚡</span> Weekly Spotlight
-                    </h2>
-                    <span className="text-xs font-bold text-slate-500 bg-brand-500/5 px-3 py-1 rounded-full border border-brand-500/10">Last 7 Days</span>
+                    <div className="flex items-center gap-3">
+                        <h2 className="text-lg font-bold text-slate-100 uppercase tracking-tight flex items-center gap-2">
+                            <span className="text-brand-400">⚡</span> Weekly Spotlight
+                        </h2>
+                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${isPremium ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-slate-500/20 text-slate-400 border-slate-500/30'}`}>
+                            {isPremium ? '💎 PREMIUM' : '🔒 PREMIUM'}
+                        </span>
+                    </div>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pl-4">
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pl-4 relative">
+                    {!isPremium && (
+                        <div className="absolute inset-0 bg-dark-950/60 backdrop-blur-sm z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p className="text-brand-400 font-black text-sm tracking-widest uppercase">Click to Unlock Analytics</p>
+                        </div>
+                    )}
                     <div className="bg-brand-500/5 p-4 rounded-xl border border-brand-500/10">
                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Solved</p>
                         <p className="text-2xl font-black text-brand-500">{weeklyStats?.solved || 0}</p>
@@ -313,7 +365,7 @@ export default function Dashboard() {
                         </p>
                     </div>
                     <div className="bg-brand-500/5 p-4 rounded-xl border border-brand-500/10">
-                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Needs Practice</p>
+                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Weakest</p>
                         <p className="text-lg font-bold text-orange-400 truncate" title={weeklyStats?.weakestTopic || 'N/A'}>
                             {weeklyStats?.weakestTopic || 'N/A'}
                         </p>
@@ -324,11 +376,26 @@ export default function Dashboard() {
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Topic Distribution */}
-                <motion.div variants={itemVariants} className="lg:col-span-1 card glass space-y-6">
-                    <h2 className="text-lg font-bold text-slate-200 flex items-center gap-2">
-                        <span className="text-brand-400 text-xl">📊</span> Topic Mastery
-                    </h2>
+                <motion.div 
+                    variants={itemVariants} 
+                    className="lg:col-span-1 card glass space-y-6 relative group"
+                    onClick={() => !isPremium && triggerPaywall('Topic Mastery Charts')}
+                >
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-lg font-bold text-slate-200 flex items-center gap-2">
+                            <span className="text-brand-400 text-xl">📊</span> Topic Mastery
+                        </h2>
+                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${isPremium ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-slate-500/20 text-slate-400 border-slate-500/30'}`}>
+                            {isPremium ? '💎 PREMIUM' : '🔒 PREMIUM'}
+                        </span>
+                    </div>
                     <div className="h-[300px] relative">
+                         {!isPremium && (
+                            <div className="absolute inset-0 bg-dark-950/40 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="text-3xl mb-2">🔒</span>
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Detailed breakdown in Premium</p>
+                            </div>
+                        )}
                         {topicDataValues.every(v => v === 0) ? (
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
                                 <p className="text-sm italic">Add problems to see distribution</p>
@@ -340,13 +407,25 @@ export default function Dashboard() {
                 </motion.div>
 
                 {/* Difficulty Breakdown */}
-                <motion.div variants={itemVariants} className="lg:col-span-2 card glass space-y-6">
+                <motion.div 
+                    variants={itemVariants} 
+                    className="lg:col-span-2 card glass space-y-6 relative group"
+                    onClick={() => !isPremium && triggerPaywall('Difficulty Analytics')}
+                >
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold text-slate-200 flex items-center gap-2">
                             <span className="text-emerald-400 text-xl">📈</span> Difficulty Distribution
                         </h2>
+                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${isPremium ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-slate-500/20 text-slate-400 border-slate-500/30'}`}>
+                            {isPremium ? '💎 PREMIUM' : '🔒 PREMIUM'}
+                        </span>
                     </div>
-                    <div className="h-[300px]">
+                    <div className="h-[300px] relative">
+                        {!isPremium && (
+                            <div className="absolute inset-0 bg-dark-950/40 backdrop-blur-[1px] z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <p className="text-brand-400 font-black text-sm">🔒 UPGRADE FOR ANALYTICS</p>
+                            </div>
+                        )}
                         <Bar data={difficultyData} options={barOptions} />
                     </div>
                 </motion.div>
@@ -355,7 +434,10 @@ export default function Dashboard() {
             {/* Recently Added Table/List */}
             <motion.div variants={itemVariants} className="card glass overflow-hidden">
                 <div className="flex items-center justify-between mb-6 p-2">
-                    <h2 className="text-lg font-bold text-slate-200 uppercase tracking-tight">Recently Added Problems</h2>
+                    <div className="flex items-center gap-3">
+                        <h2 className="text-lg font-bold text-slate-200 uppercase tracking-tight">Recently Added Problems</h2>
+                        <span className="text-[10px] font-black bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">🟢 FREE</span>
+                    </div>
                     <Link to="/manage" className="text-brand-400 text-sm font-bold hover:text-brand-300">
                         View All →
                     </Link>

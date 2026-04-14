@@ -31,6 +31,14 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        dailyCodeExecutions: {
+            type: Number,
+            default: 0,
+        },
+        lastCodeExecutionDate: {
+            type: Date,
+            default: null,
+        },
         otp: String,
         otpExpiry: Date,
         resetPasswordToken: String,
