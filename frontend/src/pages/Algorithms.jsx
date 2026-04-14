@@ -59,6 +59,7 @@ export default function AlgorithmsPage() {
     const [loading, setLoading] = useState(true);
     const [expandedCategories, setExpandedCategories] = useState({});
     const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+    const [paywallFeature, setPaywallFeature] = useState('');
 
     const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'coderecallapp@gmail.com').toLowerCase().trim();
     const isAdmin = user?.email?.toLowerCase().trim() === ADMIN_EMAIL;
@@ -95,6 +96,7 @@ export default function AlgorithmsPage() {
     const handleSelectAlg = (alg) => {
         const isFree = FREE_ALGS.includes(alg.name);
         if (!isPremium && !isFree) {
+            setPaywallFeature(alg.title);
             setIsPaywallOpen(true);
             return;
         }
@@ -167,7 +169,7 @@ export default function AlgorithmsPage() {
             <PremiumPaywall 
                 isOpen={isPaywallOpen} 
                 onClose={() => setIsPaywallOpen(false)} 
-                featureName={selectedAlg?.title || "Premium Visualizers"}
+                featureName={paywallFeature || "Premium Visualizers"}
             />
             
             {/* Sidebar */}

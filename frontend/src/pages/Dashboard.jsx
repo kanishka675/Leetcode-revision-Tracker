@@ -255,8 +255,9 @@ export default function Dashboard() {
                         border="border-purple-500/20"
                     />
                     {!isPremium && (
-                        <div className="absolute inset-0 bg-dark-900/40 backdrop-blur-[1px] flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute inset-0 bg-dark-900/60 backdrop-blur-md flex flex-col items-center justify-center z-10">
                             <span className="text-2xl">🔒</span>
+                            <p className="text-[10px] font-bold text-slate-400 mt-1">PREMIUM</p>
                         </div>
                     )}
                     <span className={`absolute top-2 right-2 text-[10px] font-black px-2 py-0.5 rounded-full border ${isPremium ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-slate-500/20 text-slate-400 border-slate-500/30'}`}>
@@ -346,8 +347,9 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pl-4 relative">
                     {!isPremium && (
-                        <div className="absolute inset-0 bg-dark-950/60 backdrop-blur-sm z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <p className="text-brand-400 font-black text-sm tracking-widest uppercase">Click to Unlock Analytics</p>
+                        <div className="absolute inset-0 bg-dark-950/70 backdrop-blur-md z-20 flex flex-col items-center justify-center">
+                            <span className="text-3xl mb-2">🔒</span>
+                            <p className="text-brand-400 font-black text-sm tracking-widest uppercase">Unlock with Premium</p>
                         </div>
                     )}
                     <div className="bg-brand-500/5 p-4 rounded-xl border border-brand-500/10">
@@ -391,9 +393,9 @@ export default function Dashboard() {
                     </div>
                     <div className="h-[300px] relative">
                          {!isPremium && (
-                            <div className="absolute inset-0 bg-dark-950/40 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute inset-0 bg-dark-950/70 backdrop-blur-md z-20 flex flex-col items-center justify-center">
                                 <span className="text-3xl mb-2">🔒</span>
-                                <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Detailed breakdown in Premium</p>
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Upgrade for Topic Mastery</p>
                             </div>
                         )}
                         {topicDataValues.every(v => v === 0) ? (
@@ -422,8 +424,9 @@ export default function Dashboard() {
                     </div>
                     <div className="h-[300px] relative">
                         {!isPremium && (
-                            <div className="absolute inset-0 bg-dark-950/40 backdrop-blur-[1px] z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <p className="text-brand-400 font-black text-sm">🔒 UPGRADE FOR ANALYTICS</p>
+                            <div className="absolute inset-0 bg-dark-950/70 backdrop-blur-md z-20 flex flex-col items-center justify-center">
+                                <span className="text-3xl mb-2">🔒</span>
+                                <p className="text-brand-400 font-black text-sm">Upgrade for Difficulty Analytics</p>
                             </div>
                         )}
                         <Bar data={difficultyData} options={barOptions} />
